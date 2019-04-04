@@ -1,0 +1,36 @@
+version: "2.1"
+description: "Install and cache openjdk on machine executor"
+
+commands:
+  openjdk-8:
+    parameters:
+      cache_version:
+        type: string
+        default: "v1"
+    steps:
+      - run:
+          name: Prepare temp directory
+          command: mkdir /tmp/archives
+      - restore_cache:
+          keys:
+          - apt-cache-<< parameters.cache_version >>
+      - run:
+          name: Restore apt cache
+          command: sudo rsync -av /tmp/archives/ /var/cache/apt/archives/
+      - run:
+          name: Switch to US mirror
+          command: sudo sed -i 's/archive.ubuntu.com/us.archive.ubuntu.com/g' /etc/apt/sources.list
+      - run:
+          name: Install openjdk-8-jdk
+          command: |
+            sudo add-apt-repository ppa:openjdk-r/ppa
+            sudo apt update -q
+            sudo apt install -qy openjdk-8-jdk
+            sudo update-java-alternatives --set java-1.8.0-openjdk-amd64
+      - run: 
+          name: Prepare to save apt cache
+          command: rsync -av /var/cache/apt/archives/*.deb /tmp/archives/
+      - save_cache:
+          key: apt-cache-<< parameters.cache_version >>
+          paths:
+          - /tmp/archives
