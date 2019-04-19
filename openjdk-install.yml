@@ -2,18 +2,23 @@ version: "2.1"
 description: "Install and cache openjdk on machine executor"
 
 commands:
-  openjdk-8:
+  openjdk:
     parameters:
-      cache_version:
-        type: string
-        default: "v1"
+      version:
+        type: integer
+        default: 8
     steps:
       - run:
           name: Prepare temp directory
           command: mkdir /tmp/archives
+      - run:
+          name: Generate cache version
+          command: |
+            apt-cache policy openjdk-<< parameters.version >>-jdk | grep 'Candidate:' | cut -d' ' -f4 >> .openjdk_version
+            cat .openjdk_version
       - restore_cache:
           keys:
-          - apt-cache-<< parameters.cache_version >>
+          - apt-cache-{{ checksum ".openjdk_version" }}
       - run:
           name: Restore apt cache
           command: sudo rsync -av /tmp/archives/ /var/cache/apt/archives/
@@ -21,16 +26,16 @@ commands:
           name: Switch to US mirror
           command: sudo sed -i 's/archive.ubuntu.com/us.archive.ubuntu.com/g' /etc/apt/sources.list
       - run:
-          name: Install openjdk-8-jdk
+          name: Install openjdk-<< parameters.version >>-jdk
           command: |
             sudo add-apt-repository ppa:openjdk-r/ppa
             sudo apt update -q
-            sudo apt install -qy openjdk-8-jdk
-            sudo update-java-alternatives --set java-1.8.0-openjdk-amd64
-      - run: 
+            sudo apt install -qy openjdk-<< parameters.version >>-jdk
+            sudo update-java-alternatives --set java-1.<< parameters.version >>.0-openjdk-amd64
+      - run:
           name: Prepare to save apt cache
           command: rsync -av /var/cache/apt/archives/*.deb /tmp/archives/
       - save_cache:
-          key: apt-cache-<< parameters.cache_version >>
+          key: apt-cache-{{ checksum ".openjdk_version" }}
           paths:
           - /tmp/archives
