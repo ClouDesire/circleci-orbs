@@ -15,7 +15,12 @@ commands:
         type: string
         default: mvn
       steps:
+        description: Commands to execute between cache restore and save
         type: steps
+      force_download:
+        description: Wheter to preemptively download all dependencies
+        type: boolean
+        default: true
     steps:
       - run:
           name: Generate Cache Checksum
@@ -23,7 +28,7 @@ commands:
       - restore_cache:
           key: maven-{{ checksum "/tmp/maven_cache_seed" }}
       - when:
-          condition: << parameters.settings_file >>
+          condition: << parameters.force_download >>
           steps:
             - run:
                 name: Install Dependencies
