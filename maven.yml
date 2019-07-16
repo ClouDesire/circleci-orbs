@@ -1,0 +1,47 @@
+version: "2.1"
+description: "Maven common tasks"
+
+commands:
+
+  with_cache:
+    description: Run a set of steps with Maven dependencies cached.
+    parameters:
+      settings_file:
+        description: Specify a custom settings file to use (optional)
+        type: string
+        default: ~/.m2/settings.xml
+      mvn_path:
+        description: Specify a custom path to maven
+        type: string
+        default: mvn
+      steps:
+        type: steps
+    steps:
+      - run:
+          name: Generate Cache Checksum
+          command: find . -name 'pom.xml' -exec cat {} + | shasum | awk '{print $1}' > /tmp/maven_cache_seed
+      - restore_cache:
+          key: maven-{{ checksum "/tmp/maven_cache_seed" }}
+      - when:
+          condition: << parameters.settings_file >>
+          steps:
+            - run:
+                name: Install Dependencies
+                command: << parameters.mvn_path >> dependency:go-offline --settings << parameters.settings_file >>
+      - steps: << parameters.steps >>
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: maven-{{ checksum "/tmp/maven_cache_seed" }}
+
+  aggregate_test_results:
+    description: Aggregates test results in a multi-module maven project and store for the build.
+    steps:
+      - run:
+          name: Copy test results
+          when: always
+          command: |
+            mkdir -p /tmp/surefire/
+            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} /tmp/surefire/ \;
+      - store_test_results:
+          path: /tmp/surefire/
