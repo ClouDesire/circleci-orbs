@@ -14,7 +14,7 @@ commands:
       - run:
           name: Generate cache version
           command: |
-            apt-cache policy openjdk-<< parameters.version >>-jdk | grep 'Candidate:' | cut -d' ' -f4 >> .openjdk_version
+            apt-cache policy openjdk-<< parameters.version >>-jdk | grep 'Candidate:' | cut -d' ' -f4 > .openjdk_version
             cat .openjdk_version
       - restore_cache:
           keys:
