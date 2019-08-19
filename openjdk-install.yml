@@ -36,7 +36,7 @@ commands:
       - run:
           name: Install openjdk-<< parameters.version >>-jdk
           command: |
-            sudo apt install -y openjdk-<< parameters.version >>-jdk
+            sudo apt-get install -y openjdk-<< parameters.version >>-jdk
             sudo update-java-alternatives --set java-1.<< parameters.version >>.0-openjdk-amd64
       - run:
           name: Prepare to save apt cache
