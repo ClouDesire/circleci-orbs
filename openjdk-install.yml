@@ -7,10 +7,21 @@ commands:
       version:
         type: integer
         default: 8
+      cache_version:
+        type: integer
+        default: 1
     steps:
       - run:
-          name: Prepare temp directory
-          command: mkdir /tmp/archives
+          name: Workaround for running apt behind the scene
+          command: sudo killall -9 apt-get || true
+      - run:
+          name: Switch to US mirror
+          command: sudo sed -i 's/archive.ubuntu.com/us.archive.ubuntu.com/g' /etc/apt/sources.list
+      - run:
+          name: Add openjdk-r PPA
+          command: |
+            sudo add-apt-repository ppa:openjdk-r/ppa
+            sudo apt-get update
       - run:
           name: Generate cache version
           command: |
@@ -18,27 +29,22 @@ commands:
             cat .openjdk_version
       - restore_cache:
           keys:
-          - apt-cache-{{ checksum ".openjdk_version" }}
+          - apt-cache-{{ checksum ".openjdk_version" }}-v<< parameters.cache_version >>
+      - run:
+          name: Create temp directory if restore cache didn't
+          command: mkdir -p /tmp/archives
       - run:
           name: Restore apt cache
           command: sudo rsync -av /tmp/archives/ /var/cache/apt/archives/
       - run:
-          name: Switch to US mirror
-          command: sudo sed -i 's/archive.ubuntu.com/us.archive.ubuntu.com/g' /etc/apt/sources.list
-      - run:
-          name: Workaround for running apt behind the scene
-          command: sudo killall -9 apt-get || true
-      - run:
           name: Install openjdk-<< parameters.version >>-jdk
           command: |
-            sudo add-apt-repository ppa:openjdk-r/ppa
-            sudo apt update
-            sudo apt install -y openjdk-<< parameters.version >>-jdk
+            sudo apt-get install -y openjdk-<< parameters.version >>-jdk
             sudo update-java-alternatives --set java-1.<< parameters.version >>.0-openjdk-amd64
       - run:
           name: Prepare to save apt cache
           command: rsync -av /var/cache/apt/archives/*.deb /tmp/archives/
       - save_cache:
-          key: apt-cache-{{ checksum ".openjdk_version" }}
+          key: apt-cache-{{ checksum ".openjdk_version" }}-v<< parameters.cache_version >>
           paths:
           - /tmp/archives
