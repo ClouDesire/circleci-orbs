@@ -9,7 +9,7 @@ commands:
       settings_file:
         description: Specify a custom settings file to use (optional)
         type: string
-        default: false
+        default: ""
       mvn_path:
         description: Specify a custom path to maven
         type: string
