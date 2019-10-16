@@ -9,7 +9,7 @@ commands:
       settings_file:
         description: Specify a custom settings file to use (optional)
         type: string
-        default: ~/.m2/settings.xml
+        default: false
       mvn_path:
         description: Specify a custom path to maven
         type: string
@@ -32,7 +32,7 @@ commands:
           steps:
             - run:
                 name: Install Dependencies
-                command: << parameters.mvn_path >> dependency:go-offline --settings << parameters.settings_file >>
+                command: << parameters.mvn_path >> dependency:go-offline <<# parameters.settings_file >> --settings << parameters.settings_file >><</ parameters.settings_file >>
       - steps: << parameters.steps >>
       - save_cache:
           paths:
