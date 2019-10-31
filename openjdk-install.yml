@@ -15,8 +15,8 @@ commands:
           name: Workaround for running apt behind the scene
           command: sudo killall -9 apt-get || true
       - run:
-          name: Switch to US mirror
-          command: sudo sed -i 's/archive.ubuntu.com/us.archive.ubuntu.com/g' /etc/apt/sources.list
+          name: Switch to US mirror for faster performances
+          command: sudo sed -i 's/\/\/archive.ubuntu.com/\/\/us.archive.ubuntu.com/g' /etc/apt/sources.list
       - run:
           name: Add openjdk-r PPA
           command: |
