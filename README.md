@@ -1,6 +1,11 @@
 CircleCI ORBs
 =============
 
+## Orbs
+
+* [openjdk-install](https://circleci.com/orbs/registry/orb/cloudesire/openjdk-install)
+* [maven](https://circleci.com/orbs/registry/orb/cloudesire/maven)
+
 ## Developers
 
 Creates a new orb:
