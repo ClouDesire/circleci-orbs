@@ -32,7 +32,7 @@ commands:
           steps:
             - run:
                 name: Install Dependencies
-                command: << parameters.mvn_path >> dependency:go-offline <<# parameters.settings_file >> --settings << parameters.settings_file >><</ parameters.settings_file >>
+                command: << parameters.mvn_path >> dependency:go-offline dependency:resolve-plugins <<# parameters.settings_file >> --settings << parameters.settings_file >><</ parameters.settings_file >>
       - steps: << parameters.steps >>
       - save_cache:
           paths:
