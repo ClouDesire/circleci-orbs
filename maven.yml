@@ -27,6 +27,14 @@ commands:
           command: find . -name 'pom.xml' | sort | xargs cat > /tmp/maven_cache_seed
       - restore_cache:
           key: maven-{{ checksum "/tmp/maven_cache_seed" }}
+      - run:
+          name: Setup artifactory from ci-conf if present
+          command: |
+            FILE="$GIT_ROOT/ci-conf/mvn/settings.xml"
+            if [ -f "$FILE" ]; then
+              mkdir -v -p ~/.m2
+              cp -v $FILE ~/.m2
+            fi
       - when:
           condition: << parameters.force_download >>
           steps:
