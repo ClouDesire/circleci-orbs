@@ -32,8 +32,8 @@ commands:
           command: |
             FILE="$GIT_ROOT/ci-conf/mvn/settings.xml"
             if [ -f "$FILE" ]; then
-              mkdir -p ~/.m2
-              cp $FILE ~/.m2
+              mkdir -v -p ~/.m2
+              cp -v $FILE ~/.m2
             fi
       - when:
           condition: << parameters.force_download >>
