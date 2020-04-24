@@ -2,7 +2,7 @@ version: "2.1"
 description: "Custom executors"
 
 executors:
-  docker_java:
+  docker_java_8:
     docker:
       - image: circleci/openjdk:8u222-jdk-stretch
     environment:
