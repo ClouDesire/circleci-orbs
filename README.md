@@ -1,10 +1,11 @@
 CircleCI ORBs
 =============
 
-## Orbs
+## Published Orbs
 
 * [openjdk-install](https://circleci.com/orbs/registry/orb/cloudesire/openjdk-install)
 * [maven](https://circleci.com/orbs/registry/orb/cloudesire/maven)
+* [executors](https://circleci.com/orbs/registry/orb/cloudesire/executors)
 
 ## Developers
 
