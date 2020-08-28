@@ -1,0 +1,11 @@
+version: "2.1"
+description: "Custom executors"
+
+executors:
+  docker_java_8:
+    docker:
+      - image: cimg/openjdk:8.0.252
+    environment:
+      MAVEN_OPTS: "-Xmx2048m -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss.SSS"
+      GIT_ROOT: "/home/circleci"
+      BASE_BUILD_NUM: "0"
