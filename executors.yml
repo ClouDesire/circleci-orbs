@@ -3,8 +3,16 @@ description: "Custom executors"
 
 executors:
   docker_java_8:
+    parameters:
+      java_version:
+        type: string
+        default: 8.0.265
+      resource_class:
+        type: string
+        default: small
     docker:
-      - image: cimg/openjdk:8.0.252
+      - image: cimg/openjdk:<< parameters.java_version >>
+    resource_class: << parameters.resource_class >>
     environment:
       MAVEN_OPTS: "-Xmx2048m -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss.SSS"
       GIT_ROOT: "/home/circleci"
