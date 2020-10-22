@@ -12,6 +12,9 @@ executors:
         default: small
     docker:
       - image: cimg/openjdk:<< parameters.java_version >>
+        auth: 
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
     resource_class: << parameters.resource_class >>
     environment:
       MAVEN_OPTS: "-Xmx2048m -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss.SSS"
@@ -31,7 +34,13 @@ executors:
         default: small
     docker:
       - image: cimg/openjdk:<< parameters.java_version >>
+        auth: 
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
       - image: redis:<< parameters.redis_version >>
+        auth: 
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
     resource_class: << parameters.resource_class >>
     environment:
       MAVEN_OPTS: "-Xmx2048m -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss.SSS"
@@ -54,11 +63,17 @@ executors:
         default: small
     docker:
       - image: cimg/openjdk:<< parameters.java_version >>
+        auth: 
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
         environment:
           - POSTGRES_DB: << parameters.postgres_database >>
           - POSTGRES_USER: postgres
           - POSTGRES_PASSWORD: admin
       - image: postgres:<< parameters.postgres_version >>
+        auth: 
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD 
         environment:
           - POSTGRES_DB: << parameters.postgres_database >>
           - POSTGRES_USER: postgres
