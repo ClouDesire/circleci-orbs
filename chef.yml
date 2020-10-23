@@ -1,0 +1,18 @@
+version: "2.1"
+description: "Reusable snippets for opscode chef builds"
+
+executors:
+  chefdk:
+    parameters:
+      version:
+        type: string
+        default: 4.9.7
+    docker:
+      - image: chef/chefdk:<< parameters.version >>
+    resource_class: small
+    environment:
+      CHEF_LICENSE: accept-silent
+
+commands:
+  setup:
+    description: setup command
