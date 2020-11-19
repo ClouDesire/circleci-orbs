@@ -1,0 +1,19 @@
+description: >
+  This is a Java 8 executor with a postgresql db.
+chefdk:
+  parameters:
+    version:
+      type: string
+      default: 4.9.7
+    cookbook_branch:
+      type: string
+      default: master
+  docker:
+    - image: chef/chefdk:<< parameters.version >>
+      auth: 
+        username: $DOCKERHUB_USERNAME
+        password: $DOCKERHUB_PASSWORD
+  resource_class: << parameters.resource_class >>
+  environment:
+    CHEF_LICENSE: accept
+    COOKBOOK_BRANCH: << parameters.cookbook_branch >>

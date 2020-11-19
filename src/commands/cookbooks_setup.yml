@@ -1,0 +1,24 @@
+restore_berkshelf: &restore_berkshelf
+  restore_cache:
+    key: berkshelf
+
+restore_chefdk: &restore_chefdk
+  restore_cache:
+    key: chefdk
+
+description: "Setup steps"
+steps:
+  - checkout
+  - *restore_berkshelf
+  - *restore_chefdk
+  - common_checkout_ciconf
+  - run: cp ./ci-conf/cookbooks/cookbooks.rb .
+  - run: ./ci-conf/cookbooks/build.sh
+  - save_cache:
+      key: berkshelf
+      paths:
+        - ~/.berkshelf
+  - save_cache:
+      key: chefdk
+      paths:
+        - ~/.chefdk

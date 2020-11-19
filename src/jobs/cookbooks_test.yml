@@ -1,0 +1,15 @@
+description: >
+  Job to execute chef kitchen suites
+parameters:
+  suites:
+    type: string
+    default: ""
+  concurrency:
+    type: boolean
+    default: true
+executor: chefdk
+steps:
+  - setup
+  - kitchen_test:
+      suites: << parameters.suites >>
+      concurrency: << parameters.concurrency >>

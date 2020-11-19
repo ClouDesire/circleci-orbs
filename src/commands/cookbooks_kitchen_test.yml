@@ -1,0 +1,25 @@
+description: "Execute Kitchen Test Suites"
+parameters:
+  suites:
+    type: string
+    default: ""
+  concurrency:
+    type: boolean
+    default: true
+steps:
+  - run:
+      name: Run tests
+      command: ./ci-conf/cookbooks/test.sh << parameters.suites >> << parameters.concurrency >>
+  - store_test_results:
+      path: /tmp/results/
+  - store_artifacts:
+      path: .kitchen/logs
+      destination: kitchen-logs
+  - run:
+      name: Show debug output
+      command: chef exec kitchen list
+      when: on_fail
+  - run:
+      name: Clean resources
+      command: ./ci-conf/cookbooks/cleanup.sh << parameters.suites >> << parameters.concurrency >>
+      when: always
