@@ -8,7 +8,7 @@ parameters:
   concurrency:
     type: boolean
     default: true
-executor: 
+executor:
   name: chefdk
   resource_class: small
 steps:

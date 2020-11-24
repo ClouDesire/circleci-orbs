@@ -11,4 +11,3 @@ steps:
       command: |
         echo "Cloning branch << parameters.ciconf_branch >>"
         git clone -b << parameters.ciconf_branch >> git@github.com:ClouDesire/ci-conf.git ci-conf
-    
