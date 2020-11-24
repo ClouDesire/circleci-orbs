@@ -1,17 +1,18 @@
 description: "Execute Foodcritic Test"
+parameters:
+  projects:
+    type: string
+    default: "" 
+  cookbook_branch:
+    type: string
+    default: master
 steps:
-  - checkout_ciconf
   - run:
+      environment:
+        projects: <<parameters.projects>>
+        cookbook_branch: <<parameters.cookbook_branch>>
       name: Trigger upstream builds
-      command: |
-        if [ "${CIRCLE_BRANCH}" == "master" ]; then
-          PROJECT_NAME=cookbook-cd-appdeploy ./ci-conf/circleci/trigger_build.sh
-          PROJECT_NAME=cookbook-cd-nginx     ./ci-conf/circleci/trigger_build.sh
-          echo "Triggered master upstream builds"
-          exit 0
-        fi
-        if [ "${COOKBOOK_BRANCH}" != "master" ]; then
-          PROJECT_NAME=cookbook-cd-appdeploy BRANCH_NAME=${COOKBOOK_BRANCH} ./ci-conf/circleci/trigger_build.sh
-          PROJECT_NAME=cookbook-cd-nginx     BRANCH_NAME=${COOKBOOK_BRANCH} ./ci-conf/circleci/trigger_build.sh
-          echo "Triggered ${COOKBOOK_BRANCH} upstream builds"
-        fi
+      command: <<include(scripts/trigger_build.sh)>>
+        
+
+        
