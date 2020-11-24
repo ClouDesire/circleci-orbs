@@ -23,8 +23,9 @@ parameters:
 
 
 workflows:
-  # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.
-  # This workflow will run on every commit
+  when:
+    not: 
+      - equal: [ master, << pipeline.git.branch >> ]
   test-pack:
     jobs:
       - orb-tools/lint # Lint Yaml files
