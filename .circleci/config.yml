@@ -25,7 +25,7 @@ parameters:
 workflows:
   test-pack:
     when:
-      not: 
+      not:
         equal: [ master, << pipeline.git.branch >> ]
     jobs:
       - orb-tools/lint # Lint Yaml files
