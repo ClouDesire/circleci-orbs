@@ -11,6 +11,10 @@ orbs:
 # Pipeline Parameters
 ## These parameters are used internally by orb-tools. Skip to the Jobs section.
 parameters:
+  # Pipeline parameters
+  run-integration-tests:
+    type: boolean
+    default: false
   dev-orb-version:
     description: >
       The development version of the orb to test.
