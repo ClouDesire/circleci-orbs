@@ -28,6 +28,7 @@ parameters:
 
 workflows:
   lint-pack_publish-dev:
+    unless: << pipeline.parameters.run-integration-tests >>
     jobs:
       - orb-tools/lint # Lint Yaml files
       - orb-tools/pack # Pack orb source
