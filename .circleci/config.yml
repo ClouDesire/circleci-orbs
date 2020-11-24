@@ -61,13 +61,13 @@ workflows:
       # Publish development version(s) of the orb.
       - orb-tools/publish-dev:
           orb-name: cloudesire/cloudesire-common
-          context: circleci_orbs # A restricted context containing your private publishing credentials. Will only execute if approved by an authorized user.
+          context: orb-publish # A restricted context containing your private publishing credentials. Will only execute if approved by an authorized user.
           #requires: [hold-for-dev-publish]
       # Trigger an integration workflow to test the
       # dev:${CIRCLE_SHA1:0:7} version of your orb
       #- orb-tools/trigger-integration-tests-workflow:
           #name: trigger-integration-dev
-          #context: circleci_orbs
+          #context: orb-publish
           #requires:
           #  - orb-tools/publish-dev
 
@@ -88,7 +88,7 @@ workflows:
       # e.g. [semver:patch] will cause a patch version to be published.
       - orb-tools/dev-promote-prod-from-commit-subject:
           orb-name: cloudesire/cloudesire-common
-          context: circleci_orbs
+          context: orb-publish
           add-pr-comment: false
           fail-if-semver-not-indicated: true
           publish-version-tag: false
