@@ -1,3 +1,4 @@
+---
 version: 2.1
 
 orbs:
@@ -11,13 +12,16 @@ orbs:
 ## These parameters are used internally by orb-tools. Skip to the Jobs section.
 parameters:
   run-integration-tests:
-    description: An internal flag to prevent integration test from running before a development version has been created.
+    description: >
+     An internal flag to prevent integration test from running
+     before a development version has been created.
     type: boolean
     default: false
   dev-orb-version:
     description: >
       The development version of the orb to test.
-      This value is automatically adjusted by the "trigger-integration-tests-workflow" job to correspond with the specific version created by the commit and should not be edited.
+      This value is automatically adjusted by the "trigger-integration-tests-workflow" job to correspond
+      with the specific version created by the commit and should not be edited.
       A "dev:alpha" version must exist for the initial pipeline run.
     type: string
     default: "dev:alpha"
@@ -62,7 +66,9 @@ workflows:
       - orb-tools/publish-dev:
           orb-name: cloudesire/common
           context: orb-publish # A restricted context containing your private publishing credentials. Will only execute if approved by an authorized user.
-          #requires: [hold-for-dev-publish]
+          requires:
+            - orb-tools/lint
+            - orb-tools/pack
       # Trigger an integration workflow to test the
       # dev:${CIRCLE_SHA1:0:7} version of your orb
       #- orb-tools/trigger-integration-tests-workflow:

@@ -12,7 +12,7 @@ executors:
         default: small
     docker:
       - image: cimg/openjdk:<< parameters.java_version >>
-        auth: 
+        auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD
     resource_class: << parameters.resource_class >>
@@ -34,11 +34,11 @@ executors:
         default: small
     docker:
       - image: cimg/openjdk:<< parameters.java_version >>
-        auth: 
+        auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD
       - image: redis:<< parameters.redis_version >>
-        auth: 
+        auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD
     resource_class: << parameters.resource_class >>
@@ -63,7 +63,7 @@ executors:
         default: small
     docker:
       - image: cimg/openjdk:<< parameters.java_version >>
-        auth: 
+        auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD
         environment:
@@ -71,9 +71,9 @@ executors:
           - POSTGRES_USER: postgres
           - POSTGRES_PASSWORD: admin
       - image: postgres:<< parameters.postgres_version >>
-        auth: 
+        auth:
           username: $DOCKERHUB_USERNAME
-          password: $DOCKERHUB_PASSWORD 
+          password: $DOCKERHUB_PASSWORD
         environment:
           - POSTGRES_DB: << parameters.postgres_database >>
           - POSTGRES_USER: postgres

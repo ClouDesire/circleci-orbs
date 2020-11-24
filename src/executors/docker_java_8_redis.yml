@@ -1,27 +1,27 @@
+---
 description: >
   This is a Java 8 executor with Redis.
-docker_java_8_redis:
-  parameters:
-    java_version:
-      type: string
-      default: 8.0.265
-    redis_version:
-      type: string
-      default: 4-alpine
-    resource_class:
-      type: string
-      default: small
-  docker:
-    - image: cimg/openjdk:<< parameters.java_version >>
-      auth: 
-        username: $DOCKERHUB_USERNAME
-        password: $DOCKERHUB_PASSWORD
-    - image: redis:<< parameters.redis_version >>
-      auth: 
-        username: $DOCKERHUB_USERNAME
-        password: $DOCKERHUB_PASSWORD
-  resource_class: << parameters.resource_class >>
-  environment:
-    MAVEN_OPTS: "-Xmx2048m -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss.SSS"
-    GIT_ROOT: "/home/circleci"
-    BASE_BUILD_NUM: "0"
+parameters:
+  java_version:
+    type: string
+    default: 8.0.265
+  redis_version:
+    type: string
+    default: 4-alpine
+  resource_class:
+    type: string
+    default: small
+docker:
+  - image: cimg/openjdk:<< parameters.java_version >>
+    auth:
+      username: $DOCKERHUB_USERNAME
+      password: $DOCKERHUB_PASSWORD
+  - image: redis:<< parameters.redis_version >>
+    auth:
+      username: $DOCKERHUB_USERNAME
+      password: $DOCKERHUB_PASSWORD
+resource_class: << parameters.resource_class >>
+environment:
+  MAVEN_OPTS: "-Xmx2048m -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss.SSS"
+  GIT_ROOT: "/home/circleci"
+  BASE_BUILD_NUM: "0"

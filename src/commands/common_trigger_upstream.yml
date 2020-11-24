@@ -2,7 +2,7 @@ description: "Execute Foodcritic Test"
 parameters:
   projects:
     type: string
-    default: "" 
+    default: ""
   cookbook_branch:
     type: string
     default: master
@@ -13,6 +13,3 @@ steps:
         cookbook_branch: <<parameters.cookbook_branch>>
       name: Trigger upstream builds
       command: <<include(scripts/trigger_build.sh)>>
-        
-
-        

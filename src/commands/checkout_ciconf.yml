@@ -1,24 +1,14 @@
+---
 description: >
   Execute common git setup
 parameters:
   ciconf_branch:
     type: string
     default: master
-  ciconf:
-    type: boolean
-    default: true
-  clean_merge_master:
-    type: boolean
-    default: false
 steps:
-  - checkout
   - run:
       name: Checkout ci-conf
       command: |
         echo "Cloning branch << parameters.ciconf_branch >>"
         git clone -b << parameters.ciconf_branch >> git@github.com:ClouDesire/ci-conf.git ci-conf
-    when: << parameters.ciconf >>
-  - run:
-      name: Clean and merge master
-      command: ./ci-conf/circleci/merge-master.sh
-    when: << parameters.clean_merge_master >>
+    

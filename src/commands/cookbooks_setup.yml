@@ -1,17 +1,12 @@
-restore_berkshelf: &restore_berkshelf
-  restore_cache:
-    key: berkshelf
-
-restore_chefdk: &restore_chefdk
-  restore_cache:
-    key: chefdk
-
-description: "Setup steps"
+description: >
+  Command to setup cookbooks testing environment
 steps:
   - checkout
-  - *restore_berkshelf
-  - *restore_chefdk
-  - common_checkout_ciconf
+  - checkout_ciconf
+  - restore_cache:
+      key: berkshelf
+  - restore_cache:
+      key: chefdk
   - run: cp ./ci-conf/cookbooks/cookbooks.rb .
   - run: ./ci-conf/cookbooks/build.sh
   - save_cache:
