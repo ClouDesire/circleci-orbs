@@ -41,6 +41,8 @@ workflows:
   # It is meant to be triggered by the "trigger-integration-tests-workflow"
   # job, and run tests on <your orb>@dev:${CIRCLE_SHA1:0:7}.
   publish:
+    when:
+      equal: [ master, << pipeline.git.branch >> ]
     jobs:
       - orb-tools/lint # Lint Yaml files
       - orb-tools/pack # Pack orb source
@@ -50,6 +52,3 @@ workflows:
           add-pr-comment: false
           fail-if-semver-not-indicated: true
           publish-version-tag: false
-          filters:
-            branches:
-              only: master
