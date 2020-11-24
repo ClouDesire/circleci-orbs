@@ -26,7 +26,7 @@ workflows:
   test-pack:
     when:
       not: 
-        - equal: [ master, << pipeline.git.branch >> ]
+        equal: [ master, << pipeline.git.branch >> ]
     jobs:
       - orb-tools/lint # Lint Yaml files
       - orb-tools/pack # Pack orb source
