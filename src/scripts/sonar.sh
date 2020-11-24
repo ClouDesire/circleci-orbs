@@ -52,11 +52,11 @@ function detect_maven {
 }
 
 function install_sonar() {
-    SONAR_DIR=${CWD}
+    mkdir -p $SONAR_DIR
     wget -q "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/\
     sonar-scanner-cli-${SONAR_VERSION}-linux.zip"
     unzip -q sonar-scanner-cli-"${SONAR_VERSION}"-linux.zip
-    mv sonar-scanner-"${SONAR_VERSION}"-linux sonar-scanner
-    SONAR_BIN="$SONAR_DIR/sonar-scanner/bin/sonar-scanner"
+    mv sonar-scanner-"${SONAR_VERSION}"-linux $SONAR_DIR
+    SONAR_BIN="$SONAR_DIR/bin/sonar-scanner"
     echo Sonar available at "${SONAR_BIN}"
 }

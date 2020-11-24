@@ -3,9 +3,12 @@ parameters:
   sonar_version:
     type: string
     default: "3.0.3.778"
-  sonar_script_path:
+  sonar_dir:
     type: string
-    default: ""
+    default: "/tmp/cache/sonar-scanner"
+  cache_version:
+    type: string
+    default: 1
 steps:
   - restore_cache:
       keys:
@@ -13,8 +16,9 @@ steps:
   - run:
       environment:
         SONAR_VERSION: <<parameters.sonar_version>>
+        SONAR_DIR: << parameters.sonar_dir >>
       name: Execute sonar
       command: <<include(scripts/sonar.sh)>>
   - save_cache:
       key: v<<parameters.cache_version>>-sonarcloud-scanner-<< parameters.sonar_version >>
-      paths: /tmp/cache/scanner
+      paths: <<parameters.sonar_dir>>
