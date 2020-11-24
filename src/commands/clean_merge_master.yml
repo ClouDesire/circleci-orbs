@@ -1,0 +1,7 @@
+---
+description: >
+  Execute common git setup
+steps:
+  - run:
+      name: Clean and merge master
+      command: ./ci-conf/circleci/merge-master.sh

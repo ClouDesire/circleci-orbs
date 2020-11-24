@@ -1,0 +1,18 @@
+---
+description: >
+  Job to execute chef kitchen suites
+parameters:
+  suites:
+    type: string
+    default: ""
+  concurrency:
+    type: boolean
+    default: true
+executor:
+  name: chefdk
+  resource_class: small
+steps:
+  - checkout
+  - checkout_ciconf
+  #- kitchen_test:
+  #    suites: << parameters.suites >>

@@ -1,0 +1,6 @@
+description: "Execute Foodcritic Test"
+steps:
+  - run: chef exec foodcritic . | tee /tmp/foodcritic.log || true
+  - store_artifacts:
+      path: /tmp/foodcritic.log
+      destination: foodcritic.log

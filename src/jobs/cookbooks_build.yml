@@ -1,0 +1,8 @@
+---
+description: >
+  Job to setup cookbooks enviroment
+executor: chefdk
+steps:
+  - checkout
+  - checkout_ciconf
+  #- foodcritic_test
