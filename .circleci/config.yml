@@ -23,10 +23,7 @@ parameters:
 
 
 workflows:
-  test-pack:
-    when:
-      not:
-        equal: [ master, << pipeline.git.branch >> ]
+  lint-pack_publish-dev:
     jobs:
       - orb-tools/lint # Lint Yaml files
       - orb-tools/pack # Pack orb source
@@ -36,20 +33,32 @@ workflows:
           requires:
             - orb-tools/lint
             - orb-tools/pack
+      - orb-tools/trigger-integration-tests-workflow:
+          name: trigger_publish
+          context: orb-publishing
+          requires:
+            - orb-tools/publish-dev
+          filters:
+            branches:
+              only:
+                - master
 
   # This `integration-test_deploy` workflow will only run
   # when the run-integration-tests pipeline parameter is set to true.
   # It is meant to be triggered by the "trigger-integration-tests-workflow"
   # job, and run tests on <your orb>@dev:${CIRCLE_SHA1:0:7}.
   publish:
-    when:
-      equal: [ master, << pipeline.git.branch >> ]
+    when: << pipeline.parameters.run-integration-tests >>
     jobs:
-      - orb-tools/lint # Lint Yaml files
-      - orb-tools/pack # Pack orb source
       - orb-tools/dev-promote-prod-from-commit-subject:
           orb-name: cloudesire/common
           context: orb-publish
           add-pr-comment: false
           fail-if-semver-not-indicated: true
           publish-version-tag: false
+          filters:
+            branches:
+              only:
+                - master
+
+
