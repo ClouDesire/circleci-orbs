@@ -39,7 +39,7 @@ workflows:
             - orb-tools/pack
       - orb-tools/trigger-integration-tests-workflow:
           name: trigger_publish
-          context: orb-publishing
+          context: orb-publish
           requires:
             - orb-tools/publish-dev
           filters:
