@@ -2,7 +2,8 @@
 SONAR_VERSION=${SONAR_VERSION:-3.0.3.778}
 CWD=$(pwd)
 SONAR_OPTS="-Dsonar.host.url=${SONAR_HOST_URL} \
--Dsonar.login=${SONARQUBE_TOKEN} \
+-Dsonar.login=${SONAR_USERNAME} \
+-Dsonar.password=${SONAR_PASS} \
 -Dsonar.projectKey=${CIRCLE_PROJECT_REPONAME}"
 
 function run_sonar {
