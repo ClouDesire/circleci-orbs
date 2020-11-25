@@ -27,7 +27,7 @@ function run_sonar {
     fi
     
     # Run
-    echo "Running sonar"
+    echo "Running sonar-scanner"
     echo "SONAR_OPTS: ${SONAR_OPTS}"
     ${SONAR_BIN} ${SONAR_OPTS}
   else
@@ -45,25 +45,27 @@ function detect_maven {
     SONAR_BIN="mvn sonar:sonar"
     return
   fi
-
+  
+  echo ">> Not mvn detected, running standalone sonar-scanner"
   SONAR_OPTS="${SONAR_OPTS} -Dsonar.projectKey=${CIRCLE_PROJECT_REPONAME}"
   if [[ "${SONAR_OPTS}" != *"-Dsonar.sources"* ]]; then
     echo "ERROR: '-Dsonar.sources' must be set in SONAR_OPTS when running standalone"
     exit 3
   fi
-  
+   
+  echo ">> Installing standalone sonar-scanner"
   install_sonar
-
+  echo ">> Installed standalone sonar-scanner"
 }
 
 function install_sonar() {
   mkdir -p $SONAR_DIR
-  wget -q "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/\
-  sonar-scanner-cli-${SONAR_VERSION}-linux.zip"
+  echo "  >> Downloading sonar-scanner-cli sonar-scanner-cli-${SONAR_VERSION}-linux.zip"
+  wget -q "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/ sonar-scanner-cli-${SONAR_VERSION}-linux.zip"
   unzip -q sonar-scanner-cli-"${SONAR_VERSION}"-linux.zip
   mv sonar-scanner-"${SONAR_VERSION}"-linux $SONAR_DIR
   SONAR_BIN="$SONAR_DIR/bin/sonar-scanner"
-  echo Sonar available at "${SONAR_BIN}"
+  echo "  >> Sonar available at ${SONAR_BIN}"
 }
 
 run_sonar
