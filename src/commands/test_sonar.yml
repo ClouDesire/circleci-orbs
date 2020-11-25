@@ -8,6 +8,8 @@ parameters:
     default: "/tmp/cache/sonar-scanner"
   sonar_opts:
     type: string
+  sonar_sources:
+    type: string
   cache_version:
     type: integer
     default: 1
@@ -20,6 +22,7 @@ steps:
         SONAR_VERSION: <<parameters.sonar_version>>
         SONAR_DIR: << parameters.sonar_dir >>
         SONAR_OPTS: << parameters.sonar_opts >>
+        SONAR_SOURCES: << parameters.sonar_sources >>
       name: Execute sonar
       command: <<include(scripts/sonar.sh)>>
   - save_cache:
