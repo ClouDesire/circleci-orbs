@@ -9,8 +9,10 @@ parameters:
     default: "/tmp/cache/sonar-scanner"
   sonar_opts:
     type: string
+    default: ""
   sonar_sources:
     type: string
+    default: ""
   cache_version:
     type: integer
     default: 1
