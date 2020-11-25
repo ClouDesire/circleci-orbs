@@ -39,15 +39,22 @@ function detect_maven {
         SONAR_BIN="mvn sonar:sonar"
         return
     fi
-    
-    install_sonar
-    
+
+    SONAR_OPTS="${SONAR_OPTS} -Dsonar.projectKey=${CIRCLE_PROJECT_REPONAME}"
     if [ -n  "${SONAR_SOURCES}" ]; then
-        SONAR_OPTS="${SONAR_OPTS} -Dsonar.sources=${SONAR_SOURCES} -Dsonar.projectKey=${CIRCLE_PROJECT_REPONAME}"
+        SONAR_OPTS="${SONAR_OPTS} -Dsonar.sources=${SONAR_SOURCES}"
     else
         echo "SONAR_SOURCES must be set when running standalone"
         exit 3
     fi
+
+    if [[ -x "./npmrc" ]]; then
+        SONAR_BIN="npm run sonarscanner --"
+        return
+    fi
+    
+    install_sonar
+
 }
 
 function install_sonar() {
