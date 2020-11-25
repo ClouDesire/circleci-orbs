@@ -44,9 +44,7 @@ function detect_maven {
     fi
 
     SONAR_OPTS="${SONAR_OPTS} -Dsonar.projectKey=${CIRCLE_PROJECT_REPONAME}"
-    if [ -n  "${SONAR_SOURCES}" ]; then
-        SONAR_OPTS="${SONAR_OPTS} -Dsonar.sources=${SONAR_SOURCES}"
-    else
+    if [[ "${SONAR_SOURCES}" != *"-Dsonar.sources"* ]]; then
         echo "SONAR_SOURCES must be set when running standalone"
         exit 3
     fi
