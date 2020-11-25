@@ -60,3 +60,5 @@ function install_sonar() {
     SONAR_BIN="$SONAR_DIR/bin/sonar-scanner"
     echo Sonar available at "${SONAR_BIN}"
 }
+
+run_sonar
