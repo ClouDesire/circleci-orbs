@@ -21,4 +21,4 @@ steps:
       command: <<include(scripts/sonar.sh)>>
   - save_cache:
       key: v<<parameters.cache_version>>-sonar-scanner-<< parameters.sonar_version >>
-      paths: <<parameters.sonar_dir>>
+      paths: ~/.sonar
