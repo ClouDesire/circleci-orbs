@@ -6,19 +6,22 @@ parameters:
   sonar_dir:
     type: string
     default: "/tmp/cache/sonar-scanner"
+  sonar_opts:
+    type: string
   cache_version:
     type: integer
     default: 1
 steps:
   - restore_cache:
       keys:
-        - v<<parameters.cache_version>>-sonar-scanner-<< parameters.sonar_version >>
+        - sonarscanner-<< parameters.sonar_version >>_v<<parameters.cache_version>>
   - run:
       environment:
         SONAR_VERSION: <<parameters.sonar_version>>
         SONAR_DIR: << parameters.sonar_dir >>
+        SONAR_OPTS: << parameters.sonar_opts >>
       name: Execute sonar
       command: <<include(scripts/sonar.sh)>>
   - save_cache:
-      key: v<<parameters.cache_version>>-sonar-scanner-<< parameters.sonar_version >>
+      key: sonarscanner-<< parameters.sonar_version >>_v<<parameters.cache_version>>
       paths: ~/.sonar
