@@ -3,7 +3,7 @@ description: "Setup steps"
 parameters:
   sonar_version:
     type: string
-    default: "3.7.0.1746"
+    default: "4.2.0.1873"
   sonar_dir:
     type: string
     default: "/tmp/cache/sonar-scanner"

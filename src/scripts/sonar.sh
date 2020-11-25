@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-SONAR_VERSION=${SONAR_VERSION:-3.7.0.1746}
+SONAR_VERSION=${SONAR_VERSION:-4.2.0.1873}
 CWD=$(pwd)
 SONAR_OPTS="${SONAR_OPTS} -Dsonar.host.url=${SONAR_HOST_URL} \
 -Dsonar.login=${SONAR_USERNAME} \
@@ -61,7 +61,7 @@ function detect_maven {
 function install_sonar() {
   mkdir -p $SONAR_DIR
   echo "  >> Downloading sonar-scanner-cli sonar-scanner-cli-${SONAR_VERSION}-linux.zip"
-  wget -q "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/ sonar-scanner-cli-${SONAR_VERSION}-linux.zip"
+  wget -q "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_VERSION}-linux.zip"
   unzip -q sonar-scanner-cli-"${SONAR_VERSION}"-linux.zip
   mv sonar-scanner-"${SONAR_VERSION}"-linux $SONAR_DIR
   SONAR_BIN="$SONAR_DIR/bin/sonar-scanner"
