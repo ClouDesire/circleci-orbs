@@ -1,5 +1,4 @@
 ---
-version: 2.1
 description: "Setup steps"
 parameters:
   sonar_version:
