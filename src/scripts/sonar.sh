@@ -5,6 +5,9 @@ SONAR_OPTS="${SONAR_OPTS} -Dsonar.host.url=${SONAR_HOST_URL} \
 -Dsonar.login=${SONAR_USERNAME} \
 -Dsonar.password=${SONAR_PASS}"
 
+GIT_BASE_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+echo "Base branch is ${GIT_BASE_BRANCH}"
+
 function run_sonar {
     if [ -z "${NO_SONAR}" ]; then
         detect_maven
@@ -16,7 +19,7 @@ function run_sonar {
             echo "Configuring sonar for PR $PR_NUMBER"
             SONAR_OPTS="$SONAR_OPTS -Dsonar.pullrequest.key=${PR_NUMBER} \
             -Dsonar.pullrequest.branch=${CIRCLE_BRANCH} \
-            -Dsonar.pullrequest.base=master"
+            -Dsonar.pullrequest.base=${GIT_BASE_BRANCH}"
         else
             unset SONAR_GITHUB_TOKEN
         fi
@@ -46,11 +49,6 @@ function detect_maven {
     else
         echo "SONAR_SOURCES must be set when running standalone"
         exit 3
-    fi
-
-    if [[ -x "./npmrc" ]]; then
-        SONAR_BIN="npm run sonarscanner --"
-        return
     fi
     
     install_sonar
