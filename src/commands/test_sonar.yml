@@ -12,7 +12,7 @@ parameters:
 steps:
   - restore_cache:
       keys:
-        - v<<parameters.cache_version>>-sonarcloud-scanner-<< parameters.sonar_version >>
+        - v<<parameters.cache_version>>-sonar-scanner-<< parameters.sonar_version >>
   - run:
       environment:
         SONAR_VERSION: <<parameters.sonar_version>>
@@ -20,5 +20,5 @@ steps:
       name: Execute sonar
       command: <<include(scripts/sonar.sh)>>
   - save_cache:
-      key: v<<parameters.cache_version>>-sonarcloud-scanner-<< parameters.sonar_version >>
+      key: v<<parameters.cache_version>>-sonar-scanner-<< parameters.sonar_version >>
       paths: <<parameters.sonar_dir>>
