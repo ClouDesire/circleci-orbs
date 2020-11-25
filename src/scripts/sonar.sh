@@ -15,10 +15,9 @@ function run_sonar {
             PROJECT_NAME="${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}"
             
             echo "Configuring sonar for PR $PR_NUMBER"
-            SONAR_OPTS="$SONAR_OPTS -Dsonar.analysis.mode=preview \
-            -Dsonar.github.pullRequest=${PR_NUMBER} \
-            -Dsonar.github.oauth=${SONAR_GITHUB_TOKEN} \
-            -Dsonar.github.repository=${PROJECT_NAME}"
+            SONAR_OPTS="$SONAR_OPTS -Dsonar.pullrequest.key=${PR_NUMBER} \
+            -Dsonar.pullrequest.branch=${CIRCLE_BRANCH} \
+            -Dsonar.pullrequest.base=master"
         else
             unset SONAR_GITHUB_TOKEN
         fi
