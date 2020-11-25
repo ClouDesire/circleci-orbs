@@ -3,8 +3,7 @@ SONAR_VERSION=${SONAR_VERSION:-3.0.3.778}
 CWD=$(pwd)
 SONAR_OPTS="${SONAR_OPTS} -Dsonar.host.url=${SONAR_HOST_URL} \
 -Dsonar.login=${SONAR_USERNAME} \
--Dsonar.password=${SONAR_PASS} \
--Dsonar.projectKey=${CIRCLE_PROJECT_REPONAME}"
+-Dsonar.password=${SONAR_PASS}"
 
 function run_sonar {
     if [ -z "${NO_SONAR}" ]; then
@@ -44,7 +43,7 @@ function detect_maven {
     install_sonar
     
     if [ -n  "${SONAR_SOURCES}" ]; then
-        SONAR_OPTS="${SONAR_OPTS} -Dsonar.sources=${SONAR_SOURCES}"
+        SONAR_OPTS="${SONAR_OPTS} -Dsonar.sources=${SONAR_SOURCES} -Dsonar.projectKey=${CIRCLE_PROJECT_REPONAME}"
     else
         echo "SONAR_SOURCES must be set when running standalone"
         exit 3
