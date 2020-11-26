@@ -22,7 +22,7 @@ steps:
         - sonarcli-<< parameters.sonar_version >>_v<<parameters.cache_version>>
   - restore_cache:
       keys:
-        - sonarqubeserver-{{ checksum sonar_version.txt }}_v<<parameters.cache_version>>
+        - sonarqubeserver-{{ checksum "sonar_version.txt" }}_v<<parameters.cache_version>>
   - run:
       environment:
         SONAR_VERSION: <<parameters.sonar_version>>
@@ -31,7 +31,7 @@ steps:
       name: Execute sonar
       command: <<include(scripts/sonar.sh)>>
   - save_cache:
-      key: sonarqubeserver-{{ checksum sonar_version.txt }}_v<<parameters.cache_version>>
+      key: sonarqubeserver-{{ checksum "sonar_version.txt" }}_v<<parameters.cache_version>>
       paths: ~/.sonar
   - save_cache:
       key: sonarcli-<< parameters.sonar_version >>_v<<parameters.cache_version>>
