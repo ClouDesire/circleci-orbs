@@ -39,7 +39,7 @@ function detect_maven {
     return
   fi
   
-  echo ">> Not mvn detected, running standalone sonar-scanner"
+  echo ">> Maven not detected, running standalone sonar-scanner"
   SONAR_OPTS="${SONAR_OPTS} -Dsonar.projectKey=${CIRCLE_PROJECT_REPONAME}"
   if [[ "${SONAR_OPTS}" != *"-Dsonar.sources"* ]]; then
     echo "ERROR: '-Dsonar.sources' must be set in SONAR_OPTS when running standalone"
