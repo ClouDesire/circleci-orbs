@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-SONAR_VERSION=${SONAR_VERSION:-4.2.0.1873}
 CWD=$(pwd)
 SONAR_OPTS="${SONAR_OPTS} -Dsonar.host.url=${SONAR_HOST_URL} \
 -Dsonar.login=${SONAR_USERNAME} \

@@ -19,10 +19,10 @@ steps:
       command: <<include(scripts/sonar_get_server_version.sh)>>
   - restore_cache:
       keys:
-        - sonarcli-<< parameters.sonar_version >>_v<<parameters.cache_version>>
+        - sonarqubeserver-{{ checksum "sonar_version.txt" }}_v<<parameters.cache_version>>
   - restore_cache:
       keys:
-        - sonarqubeserver-{{ checksum "sonar_version.txt" }}_v<<parameters.cache_version>>
+        - sonarcli-<< parameters.sonar_version >>_v<<parameters.cache_version>>
   - run:
       environment:
         SONAR_VERSION: <<parameters.sonar_version>>
