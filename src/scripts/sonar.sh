@@ -1,62 +1,65 @@
 #!/usr/bin/env bash
-SONAR_VERSION=${SONAR_VERSION:-3.0.3.778}
 CWD=$(pwd)
-SONAR_OPTS="-Dsonar.host.url=${SONAR_HOST_URL} \
--Dsonar.login=${SONARQUBE_TOKEN} \
--Dsonar.projectKey=${CIRCLE_PROJECT_REPONAME}"
+SONAR_OPTS="${SONAR_OPTS} -Dsonar.host.url=${SONAR_HOST_URL} \
+-Dsonar.login=${SONAR_USERNAME} \
+-Dsonar.password=${SONAR_PASS}"
 
 function run_sonar {
-    if [ -z "${NO_SONAR}" ]; then
-        detect_maven
-        # Preview mode when running in a Pull Request
-        if [ -n  "${CI_PULL_REQUEST}" ]; then
-            PR_NUMBER=${CI_PULL_REQUEST##*/}
-            PROJECT_NAME="${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}"
-            
-            echo "Configuring sonar for PR $PR_NUMBER"
-            SONAR_OPTS="$SONAR_OPTS -Dsonar.analysis.mode=preview \
-            -Dsonar.github.pullRequest=${PR_NUMBER} \
-            -Dsonar.github.oauth=${SONAR_GITHUB_TOKEN} \
-            -Dsonar.github.repository=${PROJECT_NAME}"
-        else
-            unset SONAR_GITHUB_TOKEN
-        fi
-        
-        # Run
-        echo "Running sonar"
-        ${SONAR_BIN} ${SONAR_OPTS}
-    else
-        echo "Skipping sonar as requested"
+  if [ -z "${NO_SONAR}" ]; then
+    detect_maven
+    if [ -n  "${CI_PULL_REQUEST}" ]; then
+      PR_NUMBER=${CI_PULL_REQUEST##*/}
+      PROJECT_NAME="${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}"
+      GIT_BASE_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+  
+      echo ">> Configuring sonar for PR $PR_NUMBER"
+      echo ">> PR Base branch is ${GIT_BASE_BRANCH}"
+      
+      SONAR_OPTS="$SONAR_OPTS -Dsonar.pullrequest.key=${PR_NUMBER} \
+      -Dsonar.pullrequest.branch=${CIRCLE_BRANCH} \
+      -Dsonar.pullrequest.base=${GIT_BASE_BRANCH}"
     fi
+    
+    # Run
+    echo "Running sonar-scanner"
+    echo "SONAR_OPTS: ${SONAR_OPTS}"
+    ${SONAR_BIN} ${SONAR_OPTS}
+  fi
 }
 
 function detect_maven {
-    if [[ -x "./mvnw" ]]; then
-        SONAR_BIN="./mvnw sonar:sonar"
-        return
-    fi
-    
-    if hash mvn 2>/dev/null; then
-        SONAR_BIN="mvn sonar:sonar"
-        return
-    fi
-    
-    install_sonar
-    
-    if [ -n  "${SONAR_SOURCES}" ]; then
-        SONAR_OPTS="${SONAR_OPTS} -Dsonar.sources=${SONAR_SOURCES}"
-    else
-        echo "SONAR_SOURCES must be set when running standalone"
-        exit 3
-    fi
+  if [[ -x "./mvnw" ]]; then
+    SONAR_BIN="./mvnw sonar:sonar"
+    return
+  fi
+  
+  if hash mvn 2>/dev/null; then
+    SONAR_BIN="mvn sonar:sonar"
+    return
+  fi
+  
+  echo ">> Maven not detected, running standalone sonar-scanner"
+  SONAR_OPTS="${SONAR_OPTS} -Dsonar.projectKey=${CIRCLE_PROJECT_REPONAME}"
+  if [[ "${SONAR_OPTS}" != *"-Dsonar.sources"* ]]; then
+    echo "ERROR: '-Dsonar.sources' must be set in SONAR_OPTS when running standalone"
+    exit 3
+  fi
+   
+  echo ">> Installing standalone sonar-scanner"
+  install_sonar
+  echo ">> Installed standalone sonar-scanner"
 }
 
 function install_sonar() {
-    mkdir -p $SONAR_DIR
-    wget -q "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/\
-    sonar-scanner-cli-${SONAR_VERSION}-linux.zip"
-    unzip -q sonar-scanner-cli-"${SONAR_VERSION}"-linux.zip
-    mv sonar-scanner-"${SONAR_VERSION}"-linux $SONAR_DIR
-    SONAR_BIN="$SONAR_DIR/bin/sonar-scanner"
-    echo Sonar available at "${SONAR_BIN}"
+  mkdir "$SONAR_DIR" -p
+  echo "  >> Downloading sonar-scanner-cli sonar-scanner-cli-${SONAR_VERSION}-linux.zip"
+  wget -q "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_VERSION}-linux.zip"
+  unzip -q "sonar-scanner-cli-${SONAR_VERSION}-linux.zip"
+  echo "  >> Moving sonar-scanner-cli to ${SONAR_DIR}"
+  mv "sonar-scanner-${SONAR_VERSION}-linux" "${SONAR_DIR}"
+  SONAR_BIN="$SONAR_DIR/sonar-scanner-${SONAR_VERSION}-linux/bin/sonar-scanner"
+  echo "  >> Sonar available at ${SONAR_BIN}"
+  $SONAR_BIN --version
 }
+
+run_sonar
