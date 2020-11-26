@@ -44,10 +44,16 @@ function detect_maven {
     echo "ERROR: '-Dsonar.sources' must be set in SONAR_OPTS when running standalone"
     exit 3
   fi
-   
-  echo ">> Installing standalone sonar-scanner"
-  install_sonar
-  echo ">> Installed standalone sonar-scanner"
+
+
+  if [[ "$(ls -A \"$SONAR_DIR/sonar-scanner-${SONAR_VERSION}-linux\")" ]]; then
+    echo ">> sonar-scanner already installed"
+  elif
+      echo ">> Installing standalone sonar-scanner"
+      install_sonar
+      echo ">> Installed standalone sonar-scanner"
+  fi 
+  
 }
 
 function install_sonar() {
