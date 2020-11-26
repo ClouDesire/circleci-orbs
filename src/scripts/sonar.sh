@@ -52,7 +52,11 @@ function detect_maven {
       echo ">> Installing standalone sonar-scanner"
       install_sonar
       echo ">> Installed standalone sonar-scanner"
-  fi 
+  fi
+
+  SONAR_BIN="$SONAR_DIR/sonar-scanner-${SONAR_VERSION}-linux/bin/sonar-scanner"
+  echo "  >> Sonar available at ${SONAR_BIN}"
+  $SONAR_BIN --version
   
 }
 
@@ -62,10 +66,7 @@ function install_sonar() {
   wget -q "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_VERSION}-linux.zip"
   unzip -q "sonar-scanner-cli-${SONAR_VERSION}-linux.zip"
   echo "  >> Moving sonar-scanner-cli to ${SONAR_DIR}"
-  mv "sonar-scanner-${SONAR_VERSION}-linux" "${SONAR_DIR}"
-  SONAR_BIN="$SONAR_DIR/sonar-scanner-${SONAR_VERSION}-linux/bin/sonar-scanner"
-  echo "  >> Sonar available at ${SONAR_BIN}"
-  $SONAR_BIN --version
+  mv "sonar-scanner-${SONAR_VERSION}-linux" "${SONAR_DIR}"  
 }
 
 run_sonar
