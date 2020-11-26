@@ -15,7 +15,7 @@ parameters:
     default: 1
 steps:
   - run:
-      name: Get SonarQube Server Version
+      name: Generate sonar_version.txt
       command: <<include(scripts/sonar_get_server_version.sh)>>
   - restore_cache:
       keys:
