@@ -44,10 +44,20 @@ function detect_maven {
     echo "ERROR: '-Dsonar.sources' must be set in SONAR_OPTS when running standalone"
     exit 3
   fi
-   
-  echo ">> Installing standalone sonar-scanner"
-  install_sonar
-  echo ">> Installed standalone sonar-scanner"
+
+
+  if [[ "$(ls -A $SONAR_DIR/sonar-scanner-${SONAR_VERSION}-linux)" ]]; then
+    echo ">> sonar-scanner already installed"
+  else
+      echo ">> Installing standalone sonar-scanner"
+      install_sonar
+      echo ">> Installed standalone sonar-scanner"
+  fi
+
+  SONAR_BIN="$SONAR_DIR/sonar-scanner-${SONAR_VERSION}-linux/bin/sonar-scanner"
+  echo "  >> Sonar available at ${SONAR_BIN}"
+  $SONAR_BIN --version
+  
 }
 
 function install_sonar() {
@@ -56,10 +66,7 @@ function install_sonar() {
   wget -q "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_VERSION}-linux.zip"
   unzip -q "sonar-scanner-cli-${SONAR_VERSION}-linux.zip"
   echo "  >> Moving sonar-scanner-cli to ${SONAR_DIR}"
-  mv "sonar-scanner-${SONAR_VERSION}-linux" "${SONAR_DIR}"
-  SONAR_BIN="$SONAR_DIR/sonar-scanner-${SONAR_VERSION}-linux/bin/sonar-scanner"
-  echo "  >> Sonar available at ${SONAR_BIN}"
-  $SONAR_BIN --version
+  mv "sonar-scanner-${SONAR_VERSION}-linux" "${SONAR_DIR}"  
 }
 
 run_sonar
