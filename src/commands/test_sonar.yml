@@ -14,9 +14,12 @@ parameters:
     type: integer
     default: 1
 steps:
+  - run:
+      name: Get SonarQube Server Version
+      command: <<include(scripts/sonar_get_server_version.sh)>>
   - restore_cache:
       keys:
-        - sonarscanner-<< parameters.sonar_version >>_v<<parameters.cache_version>>
+        - sonarcli-<< parameters.sonar_version >>_sonarqube-{{ .Environment.SONAR_SERVER_VERSION }}_v<<parameters.cache_version>>
   - run:
       environment:
         SONAR_VERSION: <<parameters.sonar_version>>
@@ -25,5 +28,5 @@ steps:
       name: Execute sonar
       command: <<include(scripts/sonar.sh)>>
   - save_cache:
-      key: sonarscanner-<< parameters.sonar_version >>_v<<parameters.cache_version>>
+      key: sonarcli-<< parameters.sonar_version >>_sonarqube-{{ .Environment.SONAR_SERVER_VERSION }}_v<<parameters.cache_version>>
       paths: ~/.sonar
