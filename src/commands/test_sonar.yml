@@ -28,7 +28,7 @@ steps:
         SONAR_VERSION: <<parameters.sonar_version>>
         SONAR_DIR: << parameters.sonar_dir >>
         SONAR_OPTS: << parameters.sonar_opts >>
-      name: Execute sonar
+      name: Execute sonar scan
       command: <<include(scripts/sonar.sh)>>
   - save_cache:
       key: sonarqubeserver-{{ checksum "sonar_version.txt" }}_v<<parameters.cache_version>>
