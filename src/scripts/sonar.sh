@@ -10,7 +10,6 @@ echo "SONAR_OPTS: ${SONAR_OPTS}"
 function run_sonar {
   if [ -z "${NO_SONAR}" ]; then
     detect_maven
-    # Preview mode when running in a Pull Request
     if [ -n  "${CI_PULL_REQUEST}" ]; then
       PR_NUMBER=${CI_PULL_REQUEST##*/}
       PROJECT_NAME="${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}"
