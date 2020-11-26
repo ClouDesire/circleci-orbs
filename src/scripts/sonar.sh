@@ -5,8 +5,6 @@ SONAR_OPTS="${SONAR_OPTS} -Dsonar.host.url=${SONAR_HOST_URL} \
 -Dsonar.login=${SONAR_USERNAME} \
 -Dsonar.password=${SONAR_PASS}"
 
-echo "SONAR_OPTS: ${SONAR_OPTS}"
-
 function run_sonar {
   if [ -z "${NO_SONAR}" ]; then
     detect_maven
