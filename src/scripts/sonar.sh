@@ -48,7 +48,7 @@ function detect_maven {
 
   if [[ "$(ls -A \"$SONAR_DIR/sonar-scanner-${SONAR_VERSION}-linux\")" ]]; then
     echo ">> sonar-scanner already installed"
-  elif
+  else
       echo ">> Installing standalone sonar-scanner"
       install_sonar
       echo ">> Installed standalone sonar-scanner"
