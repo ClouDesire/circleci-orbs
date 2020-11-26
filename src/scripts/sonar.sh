@@ -21,16 +21,12 @@ function run_sonar {
       SONAR_OPTS="$SONAR_OPTS -Dsonar.pullrequest.key=${PR_NUMBER} \
       -Dsonar.pullrequest.branch=${CIRCLE_BRANCH} \
       -Dsonar.pullrequest.base=${GIT_BASE_BRANCH}"
-    else
-        unset SONAR_GITHUB_TOKEN
     fi
     
     # Run
     echo "Running sonar-scanner"
     echo "SONAR_OPTS: ${SONAR_OPTS}"
     ${SONAR_BIN} ${SONAR_OPTS}
-  else
-      echo "Skipping sonar as requested"
   fi
 }
 
