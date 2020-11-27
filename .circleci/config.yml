@@ -60,7 +60,7 @@ workflows:
           context: orb-publish
           add-pr-comment: false
           fail-if-semver-not-indicated: true
-          publish-version-tag: false
+          publish-version-tag: true
           filters:
             branches:
               only:
