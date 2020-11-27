@@ -27,7 +27,7 @@ parameters:
 
 
 workflows:
-  lint-pack_publish-dev:
+  build-and-deploy:
     unless: << pipeline.parameters.run-integration-tests >>
     jobs:
       - orb-tools/lint # Lint Yaml files
@@ -60,7 +60,7 @@ workflows:
           context: orb-publish
           add-pr-comment: false
           fail-if-semver-not-indicated: true
-          publish-version-tag: false
+          publish-version-tag: true
           filters:
             branches:
               only:
