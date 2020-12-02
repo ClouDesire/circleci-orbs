@@ -1,7 +1,7 @@
 ---
 description: Aggregates test results in a multi-module maven project and store for the build.
 parameters:
-  path:
+  maven_plugin:
     type: string
     default: surefire
 steps:
@@ -9,7 +9,7 @@ steps:
       name: Copy test results
       when: always
       command: |
-        mkdir -p /tmp/<< parameters.path >>/
-        find . -type f -regex ".*/target/<< parameters.path >>-reports/.*xml" -exec cp {} /tmp/<< parameters.path >>/ \;
+        mkdir -p /tmp/<< parameters.maven_plugin >>/
+        find . -type f -regex ".*/target/<< parameters.maven_plugin >>-reports/.*xml" -exec cp {} /tmp/<< parameters.maven_plugin >>/ \;
   - store_test_results:
-      path: /tmp/<< parameters.path >>/
+      path: /tmp/<< parameters.maven_plugin >>/
