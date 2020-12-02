@@ -69,4 +69,5 @@ function install_sonar() {
   mv "sonar-scanner-${SONAR_VERSION}-linux" "${SONAR_DIR}"  
 }
 
+cd $PROJECT_DIR
 run_sonar
