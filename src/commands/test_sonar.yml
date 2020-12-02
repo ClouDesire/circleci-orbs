@@ -1,6 +1,9 @@
 ---
 description: "Setup steps"
 parameters:
+  project_dir:
+    type: string
+    default: "."
   sonar_version:
     type: string
     default: "4.2.0.1873"
@@ -25,6 +28,7 @@ steps:
         - sonarcli-<< parameters.sonar_version >>_v<<parameters.cache_version>>
   - run:
       environment:
+        PROJECT_DIR: << parameters.project_dir >>
         SONAR_VERSION: <<parameters.sonar_version>>
         SONAR_DIR: << parameters.sonar_dir >>
         SONAR_OPTS: << parameters.sonar_opts >>
