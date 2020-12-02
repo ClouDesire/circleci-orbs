@@ -1,5 +1,5 @@
 ---
-description: Aggregates test results in a multi-module maven project and store for the build.
+description: Aggregates tests results in a multi-module maven project and store for the build.
 parameters:
   maven_plugin:
     type: string
