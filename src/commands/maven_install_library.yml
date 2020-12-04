@@ -2,17 +2,17 @@
 description: |
   Install a java library from a git repo
 parameters:
-  repo: 
+  url: 
     type: string
   branch:
     type: string
     default: master
   dir:
     type: string
-    default: "~/"
+    default: "/tmp"
 steps:
-  - checkout_repo:
-      repo: << parameters.repo >>
+  - git_checkout:
+      url: << parameters.url >>
       branch: << parameters.branch >>
       dir: << parameters.dir >>
   - run:
