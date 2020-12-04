@@ -10,11 +10,14 @@ parameters:
   dir:
     type: string
     default: "/tmp"
+  org:
+    type: string
 steps:
   - run:
       name: "Download << parameters.repo >> (branch: <<parameters.branch>>)"
       environment:
-        REPO_NAME: << parameters.repo >>
         REPO_BRANCH: << parameters.branch >>
         REPO_DIR: << parameters.dir >>
+        REPO_NAME: << parameters.repo >>
+        REPO_ORG: << paramters.org >>
       command: <<include(scripts/download_repo.sh)>>

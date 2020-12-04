@@ -2,7 +2,7 @@
 
 DownloadRepo() {
   echo "Cloning branch $REPO_BRANCH"
-  git clone -b $REPO_BRANCH git@github.com:ClouDesire/${REPO_NAME}.git ${REPO_DIR}/${REPO_NAME}
+  git clone -b $REPO_BRANCH git@github.com:${REPO_ORG}/${REPO_NAME}.git ${REPO_DIR}/${REPO_NAME}
 }
 
 # Will not run if sourced for bats-core tests.

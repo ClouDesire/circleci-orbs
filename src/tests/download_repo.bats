@@ -14,6 +14,7 @@ function teardown() {
     export REPO_NAME="circleci-orbs"
     export REPO_BRANCH="master"
     export REPO_DIR="/tmp"
+    export REPO_ORG="ClouDesire"
     # Capture the output of our "Greet" function
     DownloadRepo
     [ $(cd "${REPO_DIR}/${REPO_NAME}" && git branch --show-current) == "${REPO_BRANCH}" ]
