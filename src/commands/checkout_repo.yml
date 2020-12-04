@@ -1,0 +1,18 @@
+---
+description: >
+  Download repo and checkout a specific branch
+parameters:
+  repo: 
+    type: string
+  branch:
+    type: string
+    default: master
+  dir:
+    type: string
+    default: "~/"
+steps:
+  - run:
+      name: Download << parameters.repo >>
+      command: |
+        echo "Cloning branch << parameters.branch >>"
+        git clone -b << parameters.branch >> git@github.com:ClouDesire/<< parameters.repo >>.git << parameters.dir >>/<< parameters.repo >>
