@@ -9,10 +9,12 @@ parameters:
     default: master
   dir:
     type: string
-    default: "~/"
+    default: "~"
 steps:
   - run:
       name: Download << parameters.repo >>
-      command: |
-        echo "Cloning branch << parameters.branch >>"
-        git clone -b << parameters.branch >> git@github.com:ClouDesire/<< parameters.repo >>.git << parameters.dir >>/<< parameters.repo >>
+      environment:
+        REPO_NAME: << parameters.repo >>
+        REPO_BRANCH: << parameters.branch >>
+        REPO_DIR: << parameters.dir >> 
+      command: <<include(scripts/download_repo.sh)>>

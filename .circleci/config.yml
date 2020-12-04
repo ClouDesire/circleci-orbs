@@ -3,7 +3,7 @@ version: 2.1
 
 orbs:
   # Replace this with your own!
-  #common: cloudesire/common@<<pipeline.parameters.dev-orb-version>>
+  common: cloudesire/common@<<pipeline.parameters.dev-orb-version>>
   orb-tools: circleci/orb-tools@10.0
   bats: circleci/bats@1.0
   shellcheck: circleci/shellcheck@2.0
@@ -32,6 +32,8 @@ workflows:
     jobs:
       - orb-tools/lint # Lint Yaml files
       - orb-tools/pack # Pack orb source
+      - bats/run:
+          path: ./src/tests
       - orb-tools/publish-dev:
           orb-name: cloudesire/common
           context: orb-publish # A restricted context containing your private publishing credentials. Will only execute if approved by an authorized user.
