@@ -12,7 +12,7 @@ parameters:
     default: "/tmp"
 steps:
   - run:
-      name: Download << parameters.repo >>
+      name: "Download << parameters.repo >> (branch: <<parameters.branch>>)"
       environment:
         REPO_NAME: << parameters.repo >>
         REPO_BRANCH: << parameters.branch >>
