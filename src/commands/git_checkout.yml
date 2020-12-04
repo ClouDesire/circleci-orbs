@@ -18,4 +18,4 @@ steps:
         REPO_BRANCH: << parameters.branch >>
         REPO_DIR: << parameters.dir >>
         REPO_URL: << parameters.url >>
-      command: <<include(scripts/download_repo.sh)>>
+      command: <<include(scripts/git_checkout.sh)>>

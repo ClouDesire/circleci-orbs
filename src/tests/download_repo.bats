@@ -1,7 +1,7 @@
 # Runs prior to every test
 setup() {
   # Load our script file.
-  source ./src/scripts/download_repo.sh
+  source ./src/scripts/git_checkout.sh
 }
 
 function teardown() {
@@ -14,6 +14,6 @@ function teardown() {
     export REPO_BRANCH="master"
     export REPO_DIR="/tmp"
 
-    DownloadRepo
+    CheckoutRepo
     [ $(cd "${REPO_DIR}/${REPO_NAME}" && git branch --show-current) == "${REPO_BRANCH}" ]
 }
