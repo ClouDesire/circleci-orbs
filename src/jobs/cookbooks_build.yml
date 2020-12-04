@@ -4,5 +4,8 @@ description: >
 executor: chefdk
 steps:
   - checkout
-  - checkout_ciconf
+  - git_download_repo:
+      repo: ci-conf
+      branch: master
+      dir: "."
   #- foodcritic_test

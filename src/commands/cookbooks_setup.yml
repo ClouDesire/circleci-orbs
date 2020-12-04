@@ -2,7 +2,10 @@ description: >
   Command to setup cookbooks testing environment
 steps:
   - checkout
-  - checkout_ciconf
+  - git_download_repo:
+      repo: ci-conf
+      branch: master
+      dir: "."
   - restore_cache:
       key: berkshelf
   - restore_cache:

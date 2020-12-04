@@ -2,7 +2,7 @@
 description: >
   Download repo and checkout a specific branch
 parameters:
-  repo: 
+  repo:
     type: string
   branch:
     type: string
@@ -16,5 +16,5 @@ steps:
       environment:
         REPO_NAME: << parameters.repo >>
         REPO_BRANCH: << parameters.branch >>
-        REPO_DIR: << parameters.dir >> 
+        REPO_DIR: << parameters.dir >>
       command: <<include(scripts/download_repo.sh)>>

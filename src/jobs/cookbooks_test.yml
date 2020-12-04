@@ -13,6 +13,9 @@ executor:
   resource_class: small
 steps:
   - checkout
-  - checkout_ciconf
+  - git_download_repo:
+      repo: ci-conf
+      branch: master
+      dir: "."
   #- kitchen_test:
   #    suites: << parameters.suites >>
