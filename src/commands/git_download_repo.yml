@@ -2,7 +2,8 @@
 description: >
   Download repo and checkout a specific branch
 parameters:
-  repo:
+  url:
+    description: Repository url
     type: string
   branch:
     type: string
@@ -10,14 +11,11 @@ parameters:
   dir:
     type: string
     default: "/tmp"
-  org:
-    type: string
 steps:
   - run:
-      name: "Download << parameters.repo >> (branch: <<parameters.branch>>)"
+      name: "Download << parameters.url >> (branch: <<parameters.branch>>)"
       environment:
         REPO_BRANCH: << parameters.branch >>
         REPO_DIR: << parameters.dir >>
-        REPO_NAME: << parameters.repo >>
-        REPO_ORG: << paramters.org >>
+        REPO_URL: << parameters.url >>
       command: <<include(scripts/download_repo.sh)>>

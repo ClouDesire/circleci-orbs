@@ -5,7 +5,7 @@ executor: chefdk
 steps:
   - checkout
   - git_download_repo:
-      repo: ci-conf
+      url: "git@github.com:ClouDesire/ci-conf.git"
       branch: master
       dir: "."
   #- foodcritic_test

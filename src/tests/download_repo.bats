@@ -10,12 +10,10 @@ function teardown() {
 
 
 @test '1: Download Repo' {
-    # Mock environment variables or functions by exporting them (after the script has been sourced)
-    export REPO_NAME="circleci-orbs"
+    export REPO_URL="git@github.com:ClouDesire/ci-conf.git"
     export REPO_BRANCH="master"
     export REPO_DIR="/tmp"
-    export REPO_ORG="ClouDesire"
-    # Capture the output of our "Greet" function
+
     DownloadRepo
     [ $(cd "${REPO_DIR}/${REPO_NAME}" && git branch --show-current) == "${REPO_BRANCH}" ]
 }
