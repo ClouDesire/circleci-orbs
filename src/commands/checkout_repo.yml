@@ -9,7 +9,7 @@ parameters:
     default: master
   dir:
     type: string
-    default: "~"
+    default: "/tmp"
 steps:
   - run:
       name: Download << parameters.repo >>
