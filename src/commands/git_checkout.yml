@@ -1,0 +1,21 @@
+---
+description: >
+  Download repo and checkout a specific branch
+parameters:
+  url:
+    description: Repository url
+    type: string
+  branch:
+    type: string
+    default: master
+  dir:
+    type: string
+    default: "/tmp"
+steps:
+  - run:
+      name: "Download << parameters.url >> (branch: <<parameters.branch>>)"
+      environment:
+        REPO_BRANCH: << parameters.branch >>
+        REPO_DIR: << parameters.dir >>
+        REPO_URL: << parameters.url >>
+      command: <<include(scripts/git_checkout.sh)>>

@@ -4,5 +4,8 @@ description: >
 executor: chefdk
 steps:
   - checkout
-  - checkout_ciconf
+  - git_checkout:
+      url: "git@github.com:ClouDesire/ci-conf.git"
+      branch: master
+      dir: "."
   #- foodcritic_test
