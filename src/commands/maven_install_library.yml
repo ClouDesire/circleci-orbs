@@ -2,7 +2,7 @@
 description: |
   Install a java library from a git repo
 parameters:
-  url: 
+  url:
     type: string
   branch:
     type: string
@@ -16,7 +16,7 @@ steps:
       branch: << parameters.branch >>
       dir: << parameters.dir >>
   - run:
-      environment: 
+      environment:
         REPO_URL: << parameters.url >>
         REPO_BRANCH: << parameters.branch >>
         REPO_DIR: << parameters.dir >>
