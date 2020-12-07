@@ -20,4 +20,4 @@ steps:
         REPO_URL: << parameters.url >>
         REPO_BRANCH: << parameters.branch >>
         REPO_DIR: << parameters.dir >>
-      command: <<include(scripts/sonar_get_server_version.sh)>>
+      command: <<include(scripts/java_install_library.sh)>>
