@@ -13,6 +13,9 @@ executor:
   resource_class: small
 steps:
   - checkout
-  - checkout_ciconf
+  - git_checkout:
+      url: "git@github.com:ClouDesire/ci-conf.git"
+      branch: master
+      dir: "."
   #- kitchen_test:
   #    suites: << parameters.suites >>

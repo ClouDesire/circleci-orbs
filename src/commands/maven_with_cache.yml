@@ -1,20 +1,21 @@
+---
 description: Run a set of steps with Maven dependencies cached.
 parameters:
-  settings_file:
-    description: Specify a custom settings file to use (optional)
-    type: string
-    default: ""
-  mvn_path:
-    description: Specify a custom path to maven
-    type: string
-    default: mvn
-  steps:
-    description: Commands to execute between cache restore and save
-    type: steps
   force_download:
     description: Wheter to preemptively download all dependencies
     type: boolean
     default: true
+  mvn_path:
+    description: Specify a custom path to maven
+    type: string
+    default: mvn
+  settings_file:
+    description: Specify a path to a custom settings file to use
+    type: string
+    default: "$GIT_ROOT/ci-conf/mvn/settings.xml"
+  steps:
+    description: Commands to execute between cache restore and save
+    type: steps
 steps:
   - run:
       name: Generate Cache Checksum
@@ -24,7 +25,7 @@ steps:
   - run:
       name: Setup artifactory from ci-conf if present
       command: |
-        FILE="$GIT_ROOT/ci-conf/mvn/settings.xml"
+        FILE="<< parameters.settings_file >>"
         if [ -f "$FILE" ]; then
           mkdir -v -p ~/.m2
           cp -v $FILE ~/.m2
