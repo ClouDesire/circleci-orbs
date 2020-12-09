@@ -2,14 +2,23 @@
 description: |
   Install a java library from a git repo
 parameters:
-  url:
-    type: string
   branch:
     type: string
     default: master
   dir:
     type: string
     default: "/tmp"
+  maven_command:
+    type: string
+    default: "clean install"
+  maven_opts:
+    type: string
+    default: "-Dmaven.test.skip=true -Dmaven.javadoc.skip=true"
+  maven_path:
+    type: string
+    default: "./mvnw"
+  url:
+    type: string
 steps:
   - git_checkout:
       url: << parameters.url >>
@@ -17,7 +26,9 @@ steps:
       dir: << parameters.dir >>
   - run:
       environment:
+        MAVEN_COMMAND: << parameters.maven_command >>
+        MAVEN_OPTS: << parameters.maven_opts >>
+        MAVEN_PATH: << parameters.maven_path >>
+        REPO_DIR: << parameters.dir >> 
         REPO_URL: << parameters.url >>
-        REPO_BRANCH: << parameters.branch >>
-        REPO_DIR: << parameters.dir >>
       command: <<include(scripts/java_install_library.sh)>>
