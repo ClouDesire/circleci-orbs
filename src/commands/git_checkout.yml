@@ -1,6 +1,8 @@
 ---
 description: >
-  Download repo and checkout a specific branch
+  Download repo and checkout a specific branch.
+  This command requires GIT_EMAIL and GIT_USERNAME to be defined in the
+  CircleCI context used.
 parameters:
   url:
     description: Repository url
@@ -11,10 +13,6 @@ parameters:
   dir:
     type: string
     default: "/tmp"
-  git_email:
-    type: string
-  git_username:
-    type: string
   merge_master:
     type: boolean
     default: true
