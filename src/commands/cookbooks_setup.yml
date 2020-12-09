@@ -6,8 +6,8 @@ steps:
       url: "git@github.com:ClouDesire/ci-conf.git"
       branch: master
       dir: "."
-      email: circleci@cloudesire.com
-      username: CircleCI
+      git_email: circleci@cloudesire.com
+      git_username: CircleCI
   - restore_cache:
       key: berkshelf
   - restore_cache:
