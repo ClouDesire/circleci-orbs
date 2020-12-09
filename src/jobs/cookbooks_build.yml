@@ -8,4 +8,6 @@ steps:
       url: "git@github.com:ClouDesire/ci-conf.git"
       branch: master
       dir: "."
+      email: circleci@cloudesire.com
+      username: CircleCI
   #- foodcritic_test
