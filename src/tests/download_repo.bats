@@ -5,14 +5,28 @@ setup() {
 }
 
 function teardown() {
-  rm -rf ${REPO_DIR}/${REPO_NAME}
+  if [ -d "${REPO_DIR}" ]; then
+    rm -rf "${REPO_DIR}/${REPO_NAME}"
+  fi
 }
 
 
-@test '1: Download Repo' {
+@test '1: CheckoutRepo fails without GIT_USERNAME and GIT_EMAIL set' {
+  export REPO_URL="git@github.com:ClouDesire/ci-conf.git"
+  export REPO_BRANCH="master"
+  export REPO_DIR="/tmp/bats_tests/"
+
+  run CheckoutRepo
+  [ "$status" -eq 1 ]
+  [ "$output" = "ERROR: GIT_EMAIL and GIT_USERNAME environment variable are not set in the context" ]
+}
+
+@test '2: Download Repo' {
     export REPO_URL="git@github.com:ClouDesire/ci-conf.git"
     export REPO_BRANCH="master"
-    export REPO_DIR="/tmp"
+    export REPO_DIR="/tmp/bats_tests/"
+    export GIT_EMAIL="circleci@cloudesire.com"
+    export GIT_USERNAME="circleci"
 
     CheckoutRepo
     [ $(cd "${REPO_DIR}/${REPO_NAME}" && git branch --show-current) == "${REPO_BRANCH}" ]

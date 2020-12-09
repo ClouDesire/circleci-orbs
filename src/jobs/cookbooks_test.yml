@@ -15,8 +15,6 @@ steps:
   - checkout
   - git_checkout:
       url: "git@github.com:ClouDesire/ci-conf.git"
-      branch: master
-      git_email: circleci@cloudesire.com
-      git_username: CircleCI
+      dir: "."
   #- kitchen_test:
   #    suites: << parameters.suites >>

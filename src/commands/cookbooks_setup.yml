@@ -4,10 +4,7 @@ steps:
   - checkout
   - git_checkout:
       url: "git@github.com:ClouDesire/ci-conf.git"
-      branch: master
       dir: "."
-      git_email: circleci@cloudesire.com
-      git_username: CircleCI
   - restore_cache:
       key: berkshelf
   - restore_cache:

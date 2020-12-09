@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
 CheckoutRepo() {
+
+  if [ -z $GIT_EMAIL ] || [ -z $GIT_USERNAME ]; then
+    echo "ERROR: GIT_EMAIL and GIT_USERNAME environment variable are not set in the context"
+    return 1
+  fi
+
   git config --global user.email "${GIT_EMAIL}"
   git config --global user.name "${GIT_USERNAME}"
 
