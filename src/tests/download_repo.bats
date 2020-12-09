@@ -15,10 +15,9 @@ function teardown() {
   export REPO_URL="git@github.com:ClouDesire/ci-conf.git"
   export REPO_BRANCH="master"
   export REPO_DIR="/tmp/bats_tests/"
-
+  export MERGE_MASTER=1
   run CheckoutRepo
   [ "$status" -eq 1 ]
-  [ "$output" = "ERROR: GIT_EMAIL and GIT_USERNAME environment variable are not set in the context" ]
 }
 
 @test '2: Download Repo' {

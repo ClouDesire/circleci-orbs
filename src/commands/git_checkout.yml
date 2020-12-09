@@ -20,8 +20,6 @@ steps:
   - run:
       name: "Download << parameters.url >> (branch: <<parameters.branch>>)"
       environment:
-        GIT_EMAIL: $GIT_EMAIL
-        GIT_USERNAME: $GIT_USERNAME
         MERGE_MASTER: << parameters.merge_master >>
         REPO_BRANCH: << parameters.branch >>
         REPO_DIR: << parameters.dir >>

@@ -2,14 +2,6 @@
 
 CheckoutRepo() {
 
-  if [ -z $GIT_EMAIL ] || [ -z $GIT_USERNAME ]; then
-    echo "ERROR: GIT_EMAIL and GIT_USERNAME environment variable are not set in the context"
-    return 1
-  fi
-
-  git config --global user.email "${GIT_EMAIL}"
-  git config --global user.name "${GIT_USERNAME}"
-
   basename=$(basename $REPO_URL)
   REPO_NAME=${basename%.*}
   
@@ -17,9 +9,19 @@ CheckoutRepo() {
   git clone $REPO_URL --branch $REPO_BRANCH --single-branch "${REPO_DIR}/${REPO_NAME}"
 
   if [ $MERGE_MASTER -eq 1 ]; then
+    if [ -z $GIT_EMAIL ] || [ -z $GIT_USERNAME ]; then
+      echo "ERROR: GIT_EMAIL and GIT_USERNAME environment variable are not set in the context"
+      return 1
+    fi
+
+    cd "${REPO_DIR}/${REPO_NAME}"
+    git config user.email "${GIT_EMAIL}"
+    git config user.name "${GIT_USERNAME}"
+    
     set +e
     git checkout "$CIRCLE_BRANCH" && git merge origin/master
     set -e
+    
   fi
 }
 
