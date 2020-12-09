@@ -11,10 +11,20 @@ parameters:
   dir:
     type: string
     default: "/tmp"
+  git_email:
+    type: string
+  git_username:
+    type: string
+  merge_master:
+    type: boolean
+    default: true
 steps:
   - run:
       name: "Download << parameters.url >> (branch: <<parameters.branch>>)"
       environment:
+        GIT_EMAIL: << parameters.git_email >>
+        GIT_USERNAME: << parameters.git_username >>
+        MERGE_MASTER: << parameters.merge_master >>
         REPO_BRANCH: << parameters.branch >>
         REPO_DIR: << parameters.dir >>
         REPO_URL: << parameters.url >>
