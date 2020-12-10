@@ -12,7 +12,7 @@ parameters:
     type: string
     default: master
   dir:
-    description: Directory where to clone thr repository
+    description: Directory where to clone the repository
     type: string
     default: "/tmp"
   merge_master:
