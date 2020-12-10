@@ -8,12 +8,15 @@ parameters:
     description: Repository url
     type: string
   branch:
+    description: Branch to checkout
     type: string
     default: master
   dir:
+    description: Directory where to clone thr repository
     type: string
     default: "/tmp"
   merge_master:
+    description: Option to merge master/main into the branch to checkout
     type: boolean
     default: true
 steps:
