@@ -1,14 +1,30 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 CheckoutRepo() {
 
-  basename=$(basename $REPO_URL)
-  REPO_NAME=${basename%.*}
+  GITHUB_HEADER="Accept: application/vnd.github.v3+json"
+
+  GITHUB_ORG=$(echo $REPO_URL | awk -F : '{print $2}' | awk -F / '{print $1}')
+  REPO_NAME=$(echo $REPO_URL | awk -F : '{print $2}' | awk -F / '{print $2}' | awk -F . '{print $1}')
   
+  GITHUB_API_URL="https://api.github.com/repos/${GITHUB_ORG}/${REPO_NAME}"
+
+  if [ -z $REPO_BRANCH ]; then
+    echo "Checking branch on GitHub"
+    REPO_BRANCH=$(curl -sH $GITHUB_HEADER -u "${GITHUB_TOKEN}:x-oauth-basic" "${GITHUB_API_URL}/branches/${CIRCLE_BRANCH}" | jq -r '. | map(select(.name? == "${CIRCLE_BRANCH}"))[0] | .name')
+    if [ "${REPO_BRANCH}" == "null" ] || [ -z $REPO_BRANCH ]; then
+      echo "Using default branch"
+      REPO_BRANCH=$(curl -sH $GITHUB_HEADER -u "${GITHUB_TOKEN}:x-oauth-basic" "${GITHUB_API_URL}" | jq -r ".default_branch")
+      echo "DEFAULT_BRANCH = ${REPO_BRANCH}"
+    fi
+  fi
+
+
   echo "Cloning repo $REPO_URL on branch $REPO_BRANCH"
   git clone $REPO_URL --branch $REPO_BRANCH --single-branch "${REPO_DIR}/${REPO_NAME}"
 
-  if [ $MERGE_MASTER -eq 1 ]; then
+
+  if [ $MERGE_MASTER -eq 1 ] || [ ! -z $MERGE_MASTER ]; then
     if [ -z $GIT_EMAIL ] || [ -z $GIT_USERNAME ]; then
       echo "ERROR: GIT_EMAIL and GIT_USERNAME environment variables are not set in the context and they are required when merge master is enabled"
       return 1
@@ -18,11 +34,10 @@ CheckoutRepo() {
     git config user.email "${GIT_EMAIL}"
     git config user.name "${GIT_USERNAME}"
     
-    GIT_BASE_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+    GIT_DEFAULT_BRANCH=$(curl -sH $GITHUB_HEADER -u "${GITHUB_TOKEN}:x-oauth-basic" "${GITHUB_API_URL}" | jq -r ".default_branch")
     set +e
-    git checkout "$CIRCLE_BRANCH" && git merge origin/$GIT_BASE_BRANCH
+    git checkout "$REPO_BRANCH" && git merge origin/$GIT_DEFAULT_BRANCH
     set -e
-    
   fi
 }
 

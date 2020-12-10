@@ -8,9 +8,12 @@ parameters:
     description: Repository url
     type: string
   branch:
-    description: Branch to checkout
+    description: >
+      Branch to checkout. If not set, the script will first try to use
+      the same branch of the current pipeline. If nothing is found,
+      it uses the default base branch (master/main)
     type: string
-    default: master
+    default: ""
   dir:
     description: Directory where to clone the repository
     type: string
