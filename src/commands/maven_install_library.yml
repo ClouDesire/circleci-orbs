@@ -33,4 +33,4 @@ steps:
               MAVEN_PATH: << parameters.maven_path >>
               REPO_DIR: << parameters.repo_dir >>
               REPO_URL: << parameters.repo_url >>
-            command: <<include(scripts/java_install_library.sh)>>
+            command: <<include(scripts/maven_install_library.sh)>>
