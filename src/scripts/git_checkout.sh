@@ -8,8 +8,10 @@ CheckoutRepo() {
       REPO_BRANCH="${CIRCLE_BRANCH}"
     elif git ls-remote -h $REPO_URL | grep -q "refs/heads/master"; then
         REPO_BRANCH="master"
+        MERGE_MASTER=0
     elif git ls-remote -h $REPO_URL | grep -q "refs/heads/main"; then
           REPO_BRANCH="main"
+          MERGE_MASTER=0
     else
       echo "ERROR: impossible to find a remote branch that it is either CIRCLE_BRANCH, master or main"
       return 1
