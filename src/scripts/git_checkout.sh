@@ -10,7 +10,7 @@ CheckoutRepo() {
 
   if [ $MERGE_MASTER -eq 1 ]; then
     if [ -z $GIT_EMAIL ] || [ -z $GIT_USERNAME ]; then
-      echo "ERROR: GIT_EMAIL and GIT_USERNAME environment variable are not set in the context"
+      echo "ERROR: GIT_EMAIL and GIT_USERNAME environment variables are not set in the context and they are required when merge master is enabled"
       return 1
     fi
 
