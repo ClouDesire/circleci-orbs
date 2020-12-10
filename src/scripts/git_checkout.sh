@@ -2,15 +2,18 @@
 
 CheckoutRepo() {
  
-  if git ls-remote -h $REPO_URL | grep -q "${CIRCLE_BRANCH}"; then
-    REPO_BRANCH="${CIRCLE_BRANCH}"
-  elif git ls-remote -h $REPO_URL | grep -q "refs/heads/master"; then
-      REPO_BRANCH="master"
-  elif git ls-remote -h $REPO_URL | grep -q "refs/heads/main"; then
-        REPO_BRANCH="main"
-  else
-    echo "ERROR: impossible to find a remote branch that it is either CIRCLE_BRANCH, master or main"
-    return 1
+  
+  if [ -z $REPO_BRANCH ]; then
+    if git ls-remote -h $REPO_URL | grep -q "${CIRCLE_BRANCH}"; then
+      REPO_BRANCH="${CIRCLE_BRANCH}"
+    elif git ls-remote -h $REPO_URL | grep -q "refs/heads/master"; then
+        REPO_BRANCH="master"
+    elif git ls-remote -h $REPO_URL | grep -q "refs/heads/main"; then
+          REPO_BRANCH="main"
+    else
+      echo "ERROR: impossible to find a remote branch that it is either CIRCLE_BRANCH, master or main"
+      return 1
+    fi
   fi
 
   echo "Cloning repo $REPO_URL on branch $REPO_BRANCH"
