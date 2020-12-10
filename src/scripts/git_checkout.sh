@@ -18,8 +18,9 @@ CheckoutRepo() {
     git config user.email "${GIT_EMAIL}"
     git config user.name "${GIT_USERNAME}"
     
+    GIT_BASE_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
     set +e
-    git checkout "$CIRCLE_BRANCH" && git merge origin/master
+    git checkout "$CIRCLE_BRANCH" && git merge origin/$GIT_BASE_BRANCH
     set -e
     
   fi
