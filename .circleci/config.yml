@@ -32,6 +32,7 @@ workflows:
       - orb-tools/lint # Lint Yaml files
       - orb-tools/pack # Pack orb source
       - bats/run:
+          context: common-backend
           path: ./src/tests
       - orb-tools/publish-dev:
           orb-name: cloudesire/common
