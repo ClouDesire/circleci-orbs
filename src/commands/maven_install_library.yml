@@ -24,7 +24,6 @@ steps:
       steps:
         - git_checkout:
             url: << parameters.repo_url >>
-            branch: << pipeline.git.branch >>
             dir: << parameters.repo_dir >>
         - run:
             environment:
