@@ -32,5 +32,5 @@ steps:
         ORG: << parameters.org >>
         PARAMETERS: << parameters.params >>
         PROJECT_NAME: << parameters.project >>
-      name: Trig << parameters.project >> pipeline on branch << parameters.branch >>
+      name: Trigger << parameters.project >> pipeline on branch << parameters.branch >>
       command: <<include(scripts/circleci_trigger_pipeline.sh)>>
