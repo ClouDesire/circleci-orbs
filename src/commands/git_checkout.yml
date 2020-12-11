@@ -1,20 +1,32 @@
 ---
 description: >
-  Download repo and checkout a specific branch
+  Download repo and checkout a specific branch.
+  This command requires GIT_EMAIL and GIT_USERNAME to be defined in the
+  CircleCI context used.
 parameters:
   url:
     description: Repository url
     type: string
   branch:
+    description: >
+      Branch to checkout. If not set, the script will first try to use
+      the same branch of the current pipeline. If nothing is found,
+      it uses the default base branch (master/main)
     type: string
-    default: master
+    default: ""
   dir:
+    description: Directory where to clone the repository
     type: string
     default: "/tmp"
+  merge_master:
+    description: Option to merge master/main into the branch to checkout
+    type: boolean
+    default: true
 steps:
   - run:
       name: "Download << parameters.url >> (branch: <<parameters.branch>>)"
       environment:
+        MERGE_MASTER: << parameters.merge_master >>
         REPO_BRANCH: << parameters.branch >>
         REPO_DIR: << parameters.dir >>
         REPO_URL: << parameters.url >>
