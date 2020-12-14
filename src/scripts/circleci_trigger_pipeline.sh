@@ -29,7 +29,6 @@ else
   json_data='{ "parameters": '${PARAMETERS}', "branch": "'${BRANCH}'"}'
 fi
 
-URL="https://circleci.com/api/v2/project/gh/${ORG}/${PROJECT_NAME}/pipeline?circle-token=${CIRCLECI_TOKEN}"
 
 echo "Trigger info: "
 echo ">> Org: ${ORG}"
@@ -43,4 +42,4 @@ curl \
   --header "Content-Type: application/json" \
   --data "${json_data}" \
   --request POST \
-  "${URL}"
+  https://circleci.com/api/v2/project/gh/${ORG}/${PROJECT_NAME}/pipeline?circle-token="${CIRCLECI_TOKEN}"
