@@ -7,7 +7,7 @@ if [ -z "${PROJECT_NAME}" ]; then
   exit 1
 fi
 
-if [ -z "${ORG}" ];
+if [ -z "${ORG}" ]; then
   echo "ERROR: ORG must be set"
   exit 1
 fi
