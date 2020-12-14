@@ -2,7 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
-### [v0.1.0](https://github.com/ClouDesire/circleci-orbs/compare/v0.0.8...v0.1.0)
+#### [v0.1.1](https://github.com/ClouDesire/circleci-orbs/compare/v0.1.0...v0.1.1)
+> 14 December 2020
+
+- mvnw is not found in maven_install_library [`#39`](https://github.com/ClouDesire/circleci-orbs/issues/39)
+- variable REPO_NAME not set in git_checkout command [`#37`](https://github.com/ClouDesire/circleci-orbs/issues/37)
+
+#### [v0.1.0](https://github.com/ClouDesire/circleci-orbs/compare/v0.0.8...v0.1.0)
+
 > 14 December 2020
 
 - Add step to trigger a CircleCI pipeline [`#34`](https://github.com/ClouDesire/circleci-orbs/pull/34)
