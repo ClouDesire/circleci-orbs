@@ -26,7 +26,7 @@ parameters:
       Name of the CircleCI project to build
     type: string
 steps:
-  - run: 
+  - run:
       name: Setup git
       command: <<include(scripts/git_setup.sh)>>
   - run:
