@@ -7,7 +7,7 @@ if [ -z "${PROJECT_NAME}" ]; then
   exit 1
 fi
 
-if [ -z "${ORG}" ];
+if [ -z "${ORG}" ]; then
   echo "ERROR: ORG must be set"
   exit 1
 fi
@@ -29,6 +29,14 @@ else
   json_data='{ "parameters": '${PARAMETERS}', "branch": "'${BRANCH}'"}'
 fi
 
+
+echo "Trigger info: "
+echo ">> Org: ${ORG}"
+echo ">> Project: ${PROJECT_NAME}"
+echo ">> Branch: ${BRANCH}"
+echo ">> Parameters: ${PARAMETERS}"
+echo ">> Url: https://circleci.com/api/v2/project/gh/${ORG}/${PROJECT_NAME}/pipeline?circle-token=${CIRCLECI_TOKEN}"
+echo -e "\n"
 
 curl \
   --header "Content-Type: application/json" \
