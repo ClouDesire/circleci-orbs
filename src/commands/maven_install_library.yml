@@ -1,0 +1,34 @@
+---
+description: |
+  Install a java library from a git repo
+parameters:
+  maven_command:
+    type: string
+    default: "clean install"
+  maven_opts:
+    type: string
+    default: "-Dmaven.test.skip=true -Dmaven.javadoc.skip=true"
+  maven_path:
+    type: string
+    default: "./mvnw"
+  repo_branch:
+    type: string
+    default: ""
+  repo_dir:
+    type: string
+    default: "/tmp"
+  repo_url:
+    type: string
+steps:
+  - git_checkout:
+      branch: << parameters.repo_branch >>
+      dir: << parameters.repo_dir >>
+      url: << parameters.repo_url >>
+  - run:
+      environment:
+        MAVEN_COMMAND: << parameters.maven_command >>
+        MAVEN_OPTS: << parameters.maven_opts >>
+        MAVEN_PATH: << parameters.maven_path >>
+        REPO_DIR: << parameters.repo_dir >>
+        REPO_URL: << parameters.repo_url >>
+      command: <<include(scripts/maven_install_library.sh)>>
