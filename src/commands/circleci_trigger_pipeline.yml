@@ -26,11 +26,14 @@ parameters:
       Name of the CircleCI project to build
     type: string
 steps:
+  - run: 
+      name: Setup git
+      command: <<include(scripts/git_setup.sh)>>
   - run:
+      name: Trigger << parameters.project >> pipeline on branch << parameters.branch >>
       environment:
         BRANCH_NAME: << parameters.branch >>
         ORG: << parameters.org >>
         PARAMETERS: << parameters.params >>
         PROJECT_NAME: << parameters.project >>
-      name: Trigger << parameters.project >> pipeline on branch << parameters.branch >>
       command: <<include(scripts/circleci_trigger_pipeline.sh)>>
