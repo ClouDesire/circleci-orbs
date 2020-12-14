@@ -17,7 +17,10 @@ CheckoutRepo() {
       return 1
     fi
   fi
-
+  
+  basename=$(basename $REPO_URL)
+  REPO_NAME=${basename%.*}
+  
   echo "Cloning repo $REPO_URL on branch $REPO_BRANCH"
   git clone $REPO_URL --branch $REPO_BRANCH --single-branch "${REPO_DIR}/${REPO_NAME}"
 
