@@ -1,0 +1,36 @@
+---
+description: >
+  Trigger another pipeline in CircleCi
+parameters:
+  branch:
+    description: >
+      Branch on which the pipeline is triggered.
+      If not set, the script will first try to use the same branch
+      of the current pipeline. If nothing is found, it uses the
+      default base branch (master/main)
+    type: string
+    default: ""
+  org:
+    description: >
+      Name of the CircleCI org
+    type: string
+  params:
+    description: >
+      string in json format that contains all parameters which have
+      to be passed as payload to the CircleCI API.
+      ex. { "deploy": false }
+    type: string
+    default: ""
+  project:
+    description: >
+      Name of the CircleCI project to build
+    type: string
+steps:
+  - run:
+      environment:
+        BRANCH_NAME: << parameters.branch >>
+        ORG: << parameters.org >>
+        PARAMETERS: << parameters.params >>
+        PROJECT_NAME: << parameters.project >>
+      name: Trigger << parameters.project >> pipeline on branch << parameters.branch >>
+      command: <<include(scripts/circleci_trigger_pipeline.sh)>>
