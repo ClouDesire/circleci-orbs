@@ -25,6 +25,7 @@ steps:
       dir: << parameters.repo_dir >>
       url: << parameters.repo_url >>
   - run:
+      name: Install maven library from << parameters.repo_url >>
       environment:
         MAVEN_COMMAND: << parameters.maven_command >>
         MAVEN_OPTS: << parameters.maven_opts >>
