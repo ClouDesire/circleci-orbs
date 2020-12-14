@@ -1,4 +1,13 @@
 #!/bin/bash -e
+# Workaround old docker images with incorrect $HOME
+# check https://github.com/docker/docker/issues/2968 for details
+if [ "${HOME}" = "/" ]
+then
+  export HOME=$(getent passwd $(id -un) | cut -d: -f6)
+fi
+
+
+SSH_CONFIG_DIR="${HOME}/.ssh"
 echo Using SSH Config Dir $SSH_CONFIG_DIR
 
 mkdir -p $SSH_CONFIG_DIR
