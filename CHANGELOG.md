@@ -1,6 +1,6 @@
 ### Changelog
 
-All notable changes to this project will be documented in this file. Dates are displayed in UTC.
+All notable changes to this project will be documented in this file.
 
 #### [v0.1.1](https://github.com/ClouDesire/circleci-orbs/compare/v0.1.0...v0.1.1)
 > 14 December 2020
