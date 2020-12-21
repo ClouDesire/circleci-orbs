@@ -23,7 +23,7 @@ steps:
   - restore_cache:
       key: maven-{{ checksum "/tmp/maven_cache_seed" }}
   - run:
-      name: Setup artifactory from ci-conf if present
+      name: Setup custom settings.xml
       command: |
         FILE="<< parameters.settings_file >>"
         if [ -f "$FILE" ]; then
@@ -35,7 +35,7 @@ steps:
       steps:
         - run:
             name: Install Dependencies
-            command: << parameters.mvn_path >> dependency:go-offline <<# parameters.settings_file >> --settings << parameters.settings_file >><</ parameters.settings_file >>
+            command: << parameters.mvn_path >> dependency:go-offline
   - steps: << parameters.steps >>
   - save_cache:
       paths:
