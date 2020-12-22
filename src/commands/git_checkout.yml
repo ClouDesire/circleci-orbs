@@ -28,7 +28,7 @@ parameters:
     type: string
 steps:
   - run:
-      name: "Download << parameters.url >> (branch: <<parameters.branch>>)"
+      name: "Download repo << parameters.url >>"
       environment:
         MERGE_MASTER: << parameters.merge_master >>
         REPO_BRANCH: << parameters.branch >>
