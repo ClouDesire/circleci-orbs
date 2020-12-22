@@ -2,7 +2,6 @@
 
 CheckoutRepo() {
  
-  
   if [ -z $REPO_BRANCH ]; then
     if git ls-remote -h $REPO_URL | grep -q "${CIRCLE_BRANCH}"; then
       REPO_BRANCH="${CIRCLE_BRANCH}"
@@ -18,10 +17,19 @@ CheckoutRepo() {
     fi
   fi
   
+  if [ -z $REPO_DIR ]; then
+    REPO_DIR=${CIRCLE_WORKING_DIRECTORY}
+  fi
+
+
   basename=$(basename $REPO_URL)
   REPO_NAME=${basename%.*}
   
-  echo "Cloning repo $REPO_URL on branch $REPO_BRANCH"
+  echo ">> Cloning repo: "
+  echo "  >> Name: ${REPO_NAME}"
+  echo "  >> Url: ${REPO_URL}"
+  echo "  >> Branch: ${REPO_BRANCH}"
+  echo "  >> Base dir: ${REPO_DIR}"
   git clone $REPO_URL --branch $REPO_BRANCH --single-branch "${REPO_DIR}/${REPO_NAME}"
 
 
