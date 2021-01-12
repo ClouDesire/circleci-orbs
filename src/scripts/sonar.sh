@@ -33,7 +33,7 @@ function detect_maven {
     return
   fi
   
-  if hash mvn 2>/dev/null; then
+  if hash mvn 2>/dev/null && [ -f "${PROJECT_DIR}/pom.xml" ] ; then
     SONAR_BIN="mvn sonar:sonar"
     return
   fi
