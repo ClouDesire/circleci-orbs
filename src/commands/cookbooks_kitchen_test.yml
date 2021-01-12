@@ -20,7 +20,7 @@ steps:
         PARAM_KITCHEN_SUITES: << parameters.suites >>
         PARAM_KITCHEN_CONCURRENCY: << parameters.concurrency >>
         CONVERGE_NUMBER: << parameters.converge_number >>
-      command: ./ci-conf/cookbooks/test.sh
+      command: <<include(scripts/cookbooks_test.sh)>>
   - steps: << parameters.additional_steps >>
   - store_test_results:
       path: /tmp/results/
@@ -33,5 +33,8 @@ steps:
       when: on_fail
   - run:
       name: Clean resources
-      command: ./ci-conf/cookbooks/cleanup.sh << parameters.suites >> << parameters.concurrency >>
+      environment:
+        PARAM_KITCHEN_SUITES: << parameters.suites >>
+        PARAM_KITCHEN_CONCURRENCY: << parameters.concurrency >>
+      command: <<include(scripts/cookbooks_cleanup.sh)>>
       when: always

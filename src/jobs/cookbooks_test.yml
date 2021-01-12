@@ -22,9 +22,7 @@ steps:
   - checkout
   - git_checkout:
       url: "git@github.com:ClouDesire/ci-conf.git"
-      dir: "."
   - cookbook_kitchen_test:
       suites: << parameters.suites >>
       concurrency: << parameters.concurrency >>
       additional_steps: << parameters.additional_steps >>
-  
