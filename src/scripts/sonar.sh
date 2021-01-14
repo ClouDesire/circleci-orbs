@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-SONAR_MVN_VERSION="3.7.0.1746"
 SONAR_OPTS="${SONAR_OPTS} -Dsonar.host.url=${SONAR_HOST_URL} \
 -Dsonar.login=${SONAR_USERNAME} \
 -Dsonar.password=${SONAR_PASS}"
