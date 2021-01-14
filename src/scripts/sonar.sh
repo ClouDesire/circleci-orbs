@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+SONAR_MVN_VERSION="3.7.0.1746"
 SONAR_OPTS="${SONAR_OPTS} -Dsonar.host.url=${SONAR_HOST_URL} \
 -Dsonar.login=${SONAR_USERNAME} \
 -Dsonar.password=${SONAR_PASS}"
@@ -27,13 +28,15 @@ function run_sonar() {
 }
 
 function detect_maven() {
+  SONAR_MVN_COMMAND="org.sonarsource.scanner.maven:sonar-maven-plugin:$SONAR_MVN_VERSION:sonar"
+
   if [[ -x "./mvnw" ]]; then
-    SONAR_BIN="./mvnw sonar:sonar"
+    SONAR_BIN="./mvnw $SONAR_MVN_COMMAND"
     return
   fi
 
   if hash mvn 2>/dev/null && [ -f "pom.xml" ]; then
-    SONAR_BIN="mvn sonar:sonar"
+    SONAR_BIN="mvn $SONAR_MVN_COMMAND"
     return
   fi
 
