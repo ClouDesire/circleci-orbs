@@ -12,7 +12,6 @@ parameters:
   additional_steps:
     description: optional steps to execute after the default test execution
     type: steps
-    default: ""
 steps:
   - run:
       name: Run tests
