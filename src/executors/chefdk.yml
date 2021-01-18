@@ -4,12 +4,9 @@ parameters:
   version:
     type: string
     default: 4.9.7
-  cookbook_branch:
-    type: string
-    default: master
   resource_class:
     type: string
-    default: master
+    default: small
   chef_license:
     type: string
     default: accept
@@ -21,4 +18,3 @@ docker:
 resource_class: << parameters.resource_class >>
 environment:
   CHEF_LICENSE: << parameters.chef_license >>
-  COOKBOOK_BRANCH: << parameters.cookbook_branch >>

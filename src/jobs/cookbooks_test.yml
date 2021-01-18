@@ -16,11 +16,11 @@ parameters:
     default: 1
 executor:
   name: chefdk
-  resource_class: small
 steps:
   - checkout
   - git_checkout:
       url: "git@github.com:ClouDesire/ci-conf.git"
+  - cookbooks_setup
   - cookbooks_kitchen_test:
       suites: << parameters.suites >>
       concurrency: << parameters.concurrency >>

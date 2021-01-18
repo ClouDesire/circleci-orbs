@@ -8,4 +8,3 @@ steps:
       url: "git@github.com:ClouDesire/ci-conf.git"
   - cookbooks_setup
   - cookbooks_foodcritic_test
-  #- foodcritic_test
