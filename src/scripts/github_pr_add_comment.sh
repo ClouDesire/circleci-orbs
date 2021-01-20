@@ -5,5 +5,5 @@ pr_comment_url=$(curl -s --location --request GET "https://api.github.com/repos/
 echo ">> PR url: ${pr_comment_url}"
 
 curl --location --request POST "$pr_comment_url" \
---header 'Authorization: token ${GITHUB_TOKEN}' \
+--header "Authorization: token ${GITHUB_TOKEN}" \
 --data-raw "{\"body\": \"$(eval echo ${PR_COMMENT})\"}"
