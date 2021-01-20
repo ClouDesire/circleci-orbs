@@ -50,6 +50,7 @@ workflows:
             - orb-tools/lint
             - orb-tools/pack
       - add-pr-comment:
+          context: common-backend
           comment: "New beta version published: cloudesire/common@dev:\\${CIRCLE_SHA1:0:7}"
           requires:
             - orb-tools/publish-dev
