@@ -11,5 +11,4 @@ fi
 
 curl --location --request POST "$pr_comment_url" \
 --header 'Authorization: Bearer ${GITHUB_TOKEN}' \
---data-raw '{"body": "${PR_COMMENT}"}'
-
+--data-raw "{\"body\": \"$(eval echo ${PR_COMMENT})\"}"
