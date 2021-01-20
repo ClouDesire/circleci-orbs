@@ -40,7 +40,7 @@ workflows:
             - orb-tools/lint
             - orb-tools/pack
       - common/github_pr_add_comment:
-          comment: "New beta version published: cloudesire/common@dev:${CIRCLE_SHA1:0:7}"
+          comment: "New beta version published: cloudesire/common@dev:\\${CIRCLE_SHA1:0:7}"
       - orb-tools/trigger-integration-tests-workflow:
           name: trigger_publish
           context: orb-publish
