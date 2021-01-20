@@ -23,7 +23,17 @@ parameters:
     type: string
     default: "dev:alpha"
 
-
+jobs:
+  add-pr-comment:
+    docker:
+      - image: cimg/base:2021.01
+    resource_class: small
+    parameters:
+      comment:
+        type: string
+    steps:
+      - common/github_pr_add_comment:
+          comment: << parameters.comment >>
 
 workflows:
   build-and-deploy:
@@ -39,7 +49,7 @@ workflows:
           requires:
             - orb-tools/lint
             - orb-tools/pack
-      - common/github_pr_add_comment:
+      - add-pr-comment:
           comment: "New beta version published: cloudesire/common@dev:\\${CIRCLE_SHA1:0:7}"
       - orb-tools/trigger-integration-tests-workflow:
           name: trigger_publish
