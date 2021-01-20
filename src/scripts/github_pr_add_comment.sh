@@ -6,7 +6,7 @@ pr_response=$(curl --location --request GET "https://api.github.com/repos/$CIRCL
 if [ $(echo $pr_response | jq length) -eq 0 ]; then
   echo "No PR found to update"
 else
-  pr_comment_url=$(echo $pr_response | jq -r ".[]._links.comments.href")
+  pr_comment_url=$(echo $pr_response | jq -r "._links.comments.href")
 fi
 
 curl --location --request POST "$pr_comment_url" \
