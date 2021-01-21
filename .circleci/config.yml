@@ -43,6 +43,7 @@ workflows:
       - orb-tools/pack # Pack orb source
       - bats/run:
           path: ./src/tests
+          context: common-backend
       - orb-tools/publish-dev:
           orb-name: cloudesire/common
           context: orb-publish # A restricted context containing your private publishing credentials. Will only execute if approved by an authorized user.
