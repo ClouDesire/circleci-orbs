@@ -12,7 +12,7 @@ function teardown() {
 }
 
 
-@test '1: CheckoutRepo fails without GIT_USERNAME and GIT_EMAIL set' {
+@test 'CheckoutRepo fails without GIT_USERNAME and GIT_EMAIL set' {
   export REPO_URL="git@github.com:ClouDesire/ci-conf.git"
   export REPO_BRANCH="master"
   export REPO_DIR="/tmp/bats_tests"
@@ -21,7 +21,7 @@ function teardown() {
   [ "$status" -eq 1 ]
 }
 
-@test '2: Download repo' {
+@test 'Download repo' {
   export REPO_URL="git@github.com:ClouDesire/ci-conf.git"
   export REPO_DIR="/tmp/bats_tests"
   export GIT_EMAIL="circleci@cloudesire.com"
@@ -31,7 +31,7 @@ function teardown() {
   [ $(cd "${REPO_DIR}/${REPO_NAME}" && git branch --show-current) == "${REPO_BRANCH}" ]
 }
 
-@test '3: Download repo with custom branch' {
+@test 'Download repo with custom branch' {
   export REPO_URL="git@github.com:ClouDesire/ci-conf.git"
   export REPO_BRANCH="master"
   export REPO_DIR="/tmp/bats_tests"

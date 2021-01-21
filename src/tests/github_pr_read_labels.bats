@@ -6,7 +6,7 @@ setup() {
 }
 
 
-@test '1: ReadPRLabels exports labels correctly' {
+@test 'ReadPRLabels exports labels correctly' {
   export CIRCLE_PROJECT_USERNAME="ClouDesire"
   export CIRCLE_PROJECT_REPONAME="circleci-orbs"
   export PR_NUMBER="55"
