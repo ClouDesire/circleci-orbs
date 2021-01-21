@@ -17,6 +17,8 @@ function teardown() {
   export REPO_BRANCH="master"
   export REPO_DIR="/tmp/bats_tests"
   export MERGE_MASTER=1
+  unset GIT_USERNAME
+  unset GIT_EMAIL
   run CheckoutRepo
   [ "$status" -eq 1 ]
 }
