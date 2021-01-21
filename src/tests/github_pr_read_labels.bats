@@ -9,7 +9,7 @@ setup() {
 @test 'ReadPRLabels exports labels correctly' {
   export CIRCLE_PROJECT_USERNAME="ClouDesire"
   export CIRCLE_PROJECT_REPONAME="circleci-orbs"
-  export PR_NUMBER="55"
+  export CIRCLE_PULL_REQUEST="https://github.com/ClouDesire/circleci-orbs/pull/55"
   export BASH_ENV="/tmp/bash_env.sh"
   ReadPRLabels
   [[ "${GITHUB_PR_LABELS}" == *"test-label"* ]]
