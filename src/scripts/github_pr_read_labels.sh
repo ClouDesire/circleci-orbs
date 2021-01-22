@@ -8,7 +8,13 @@ ReadPRLabels() {
   labels=$(curl -s --location --request GET "https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pulls/${CIRCLE_PULL_REQUEST##*/}" --header "Authorization: token ${GITHUB_TOKEN}" | jq -r 'select(.labels != null) | .labels | map(.name) | join(",")')
 
   echo ">> Labels: ${labels}"
-  echo "export GITHUB_PR_LABELS='${labels}'" >> "$BASH_ENV"
+  IFS=',' read -a labels_array <<< "$1"
+  for label in "${labels_array[@]}"; do
+    label=${label//-/_}
+    echo "  >> Adding GH_PR_LABEL_${label^^} to BASH_ENV"
+    echo "export GH_PR_LABEL_${label^^}=true" >> "$BASH_ENV"
+  done
+  
   source "${BASH_ENV}"
 }
 
