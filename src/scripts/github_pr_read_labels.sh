@@ -5,11 +5,11 @@ ReadPRLabels() {
   echo ">> Repo: ${CIRCLE_PROJECT_REPONAME}"
   echo ">> PR Link: ${CIRCLE_PULL_REQUEST}"
   echo ">> PR #: ${CIRCLE_PULL_REQUEST##*/}"
-  labels=$(curl -s --location --request GET "https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/issues/${CIRCLE_PULL_REQUEST##*/}" --header "Authorization: token ${GITHUB_TOKEN}" | jq -r 'select(.labels != null) | .labels | map(.name) | join(",")')
+  labels=$(curl -s --location --request GET "https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pulls/${CIRCLE_PULL_REQUEST##*/}" --header "Authorization: token ${GITHUB_TOKEN}" | jq -r 'select(.labels != null) | .labels | map(.name) | join(",")')
 
   echo ">> Labels: ${labels}"
-  echo "export GITHUB_PR_LABELS='${labels}'" >> "$BASH_ENV"
-  source "${BASH_ENV}"
+  echo "export GITHUB_PR_LABELS='${labels}'" >> "$ENV_FILE"
+  source "${ENV_FILE}"
 }
 
 # Will not run if sourced for bats-core tests.
