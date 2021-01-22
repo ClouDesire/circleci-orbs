@@ -8,8 +8,8 @@ ReadPRLabels() {
   labels=$(curl -s --location --request GET "https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pulls/${CIRCLE_PULL_REQUEST##*/}" --header "Authorization: token ${GITHUB_TOKEN}" | jq -r 'select(.labels != null) | .labels | map(.name) | join(",")')
 
   echo ">> Labels: ${labels}"
-  echo "export GITHUB_PR_LABELS='${labels}'" >> "$ENV_FILE"
-  source "${ENV_FILE}"
+  echo "export GITHUB_PR_LABELS='${labels}'" >> "$BASH_ENV"
+  source "${BASH_ENV}"
 }
 
 # Will not run if sourced for bats-core tests.

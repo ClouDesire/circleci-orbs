@@ -2,12 +2,7 @@
 description: >
   Read PR labels using the GitHub API. It exports all the labels
   assigned to a PR as a string with a comma as delimiter.
-parameters:
-  env_file:
-    type: string
 steps:
   - run:
       name: "Import PR labels"
-      environment:
-        ENV_FILE: "<< parameters.env_file >>"
       command: <<include(scripts/github_pr_read_labels.sh)>>

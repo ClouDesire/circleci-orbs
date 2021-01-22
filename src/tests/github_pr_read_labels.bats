@@ -6,8 +6,8 @@ setup() {
 }
 
 function teardown() {
-  if [ -f "${ENV_FILE}" ]; then
-    rm -f "${ENV_FILE}"
+  if [ -f "${BASH_ENV}" ]; then
+    rm -f "${BASH_ENV}"
   fi
 }
 
@@ -16,9 +16,9 @@ function teardown() {
   export CIRCLE_PROJECT_USERNAME="ClouDesire"
   export CIRCLE_PROJECT_REPONAME="circleci-orbs"
   export CIRCLE_PULL_REQUEST="https://github.com/ClouDesire/circleci-orbs/pull/55"
-  export ENV_FILE="/tmp/.pipeline_env"
+  export BASH_ENV="/tmp/.pipeline_env"
   run ReadPRLabels
-  source "${ENV_FILE}"
+  source "${BASH_ENV}"
   echo "${GITHUB_PR_LABELS}"
   [[ "${GITHUB_PR_LABELS}" == *"test-label"* ]]
 }
