@@ -55,6 +55,10 @@ workflows:
           comment: "New orb beta version published: \\`cloudesire/common@dev:${CIRCLE_SHA1:0:7}\\`"
           requires:
             - orb-tools/publish-dev
+          filters:
+            branches:
+              ignore:
+                - master
       - orb-tools/trigger-integration-tests-workflow:
           name: trigger_publish
           context: orb-publish
