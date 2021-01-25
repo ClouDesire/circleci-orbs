@@ -79,7 +79,7 @@ workflows:
       - orb-tools/dev-promote-prod-from-commit-subject:
           orb-name: cloudesire/common
           context: orb-publish
-          add-pr-comment: true
+          add-pr-comment: false
           fail-if-semver-not-indicated: true
           publish-version-tag: true
           filters:
