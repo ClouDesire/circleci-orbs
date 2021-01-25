@@ -1,0 +1,8 @@
+---
+description: >
+  Read PR labels using the GitHub API. It exports all the labels
+  assigned to a PR as a string with a comma as delimiter.
+steps:
+  - run:
+      name: "Import PR labels"
+      command: <<include(scripts/github_pr_read_labels.sh)>>
