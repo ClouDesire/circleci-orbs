@@ -12,9 +12,6 @@ parameters:
     default: accept
 docker:
   - image: chef/chefdk:<< parameters.version >>
-    auth:
-      username: $DOCKERHUB_USERNAME
-      password: $DOCKERHUB_PASSWORD
 resource_class: << parameters.resource_class >>
 environment:
   CHEF_LICENSE: << parameters.chef_license >>
