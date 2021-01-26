@@ -31,7 +31,11 @@ CheckoutRepo() {
   echo "  >> Branch: ${REPO_BRANCH}"
   echo "  >> Base dir: ${REPO_DIR}"
   git clone $REPO_URL --branch $REPO_BRANCH --single-branch "${REPO_DIR}/${REPO_NAME}"
+  
 
+  TMP_REPO_NAME=${REPO_NAME//-/_}
+  echo "export=GIT_${TMP_REPO_NAME^^}_DIR=${REPO_DIR}" >> "${BASH_ENV}"
+  source ${BASH_ENV}
 
   if [ $MERGE_MASTER -eq 1 ] || [ ! -z $MERGE_MASTER ]; then
     if [ -z $GIT_EMAIL ] || [ -z $GIT_USERNAME ]; then
