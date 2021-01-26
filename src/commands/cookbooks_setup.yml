@@ -5,7 +5,7 @@ steps:
       key: berkshelf
   - restore_cache:
       key: chefdk
-  - run: 
+  - run:
       name: Copy cookbook.rb
       command: |
         echo "ci-conf dir: ${GIT_CI_CONF_DIR}"
