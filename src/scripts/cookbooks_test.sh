@@ -1,8 +1,4 @@
 #!/bin/bash -e
-export KITCHEN_LOG_OVERWRITE=false
-export PARAM_KITCHEN_SUITES=$1
-export PARAM_KITCHEN_CONCURRENCY=$2
-export CONVERGE_NUMBER=$3
 
 if [ "$PARAM_KITCHEN_CONCURRENCY" == "false" ]; then
     export KITCHEN_CONCURRENCY=""
