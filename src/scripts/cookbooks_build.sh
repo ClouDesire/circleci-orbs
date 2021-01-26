@@ -41,20 +41,20 @@ CWD=$(eval echo "$CIRCLE_WORKING_DIRECTORY")
 
 echo ">> Configure test-kitchen"
 mkdir -p "$HOME/.kitchen"
-cp "${GIT_CI_CONF_DIR}/kitchen.yml" "$HOME/.kitchen/config.yml"
+cp "${GIT_CI_CONF_DIR}/cookbooks/kitchen.yml" "$HOME/.kitchen/config.yml"
 
 echo ">> Configure credentials for test-kitchen"
 sed -i "s/cloudesire_openstack_username/$OS_USERNAME/" "$HOME/.kitchen/config.yml"
 sed -i "s/cloudesire_openstack_api_key/$OS_PASSWORD/" "$HOME/.kitchen/config.yml"
 
 echo ">> Use default chefignore"
-cp "${GIT_CI_CONF_DIR}/chefignore" "$CWD"
+cp "${GIT_CI_CONF_DIR}/cookbooks/chefignore" "$CWD"
 
 echo ">> Use default Berksfile with upstream dependencies"
-cp "${GIT_CI_CONF_DIR}/Berksfile" "$CWD"
+cp "${GIT_CI_CONF_DIR}/cookbooks/Berksfile" "$CWD"
 
 echo ">> Copy array of cookbooks to manage"
-cp "${GIT_CI_CONF_DIR}/cookbooks.rb" "$CWD"
+cp "${GIT_CI_CONF_DIR}/cookbooks/cookbooks.rb" "$CWD"
 
 echo ">> Go back to project directory"
 cd "$CWD"
