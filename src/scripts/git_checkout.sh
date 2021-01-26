@@ -17,6 +17,7 @@ CheckoutRepo() {
     fi
   fi
   
+
   if [ -z $REPO_DIR ]; then
     REPO_DIR=${CIRCLE_WORKING_DIRECTORY}
   fi
@@ -30,8 +31,10 @@ CheckoutRepo() {
   echo "  >> Url: ${REPO_URL}"
   echo "  >> Branch: ${REPO_BRANCH}"
   echo "  >> Base dir: ${REPO_DIR}"
-  git clone $REPO_URL --branch $REPO_BRANCH --single-branch "${REPO_DIR}/${REPO_NAME}"
   
+  cd "${REPO_DIR}"
+  git clone $REPO_URL --branch $REPO_BRANCH --single-branch "${REPO_NAME}"
+
   TMP_REPO_NAME=${REPO_NAME//-/_}
   echo "Adding GIT_${TMP_REPO_NAME^^}_DIR='${REPO_DIR}/${REPO_NAME}' to bash env"
   echo "export GIT_${TMP_REPO_NAME^^}_DIR='${REPO_DIR}/${REPO_NAME}'" >> "${BASH_ENV}"
