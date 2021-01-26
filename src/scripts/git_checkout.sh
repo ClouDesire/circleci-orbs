@@ -22,6 +22,7 @@ CheckoutRepo() {
     REPO_DIR=${CIRCLE_WORKING_DIRECTORY}
   fi
 
+  mkdir -p "${REPO_DIR}"
 
   basename=$(basename $REPO_URL)
   REPO_NAME=${basename%.*}
