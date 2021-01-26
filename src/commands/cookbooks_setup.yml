@@ -5,7 +5,11 @@ steps:
       key: berkshelf
   - restore_cache:
       key: chefdk
-  - run: cp ${GIT_CI_CONF_DIR}/ci-conf/cookbooks/cookbooks.rb .
+  - run: 
+      name: Copy cookbook.rb
+      command: |
+        echo "ci-conf dir: ${GIT_CI_CONF_DIR}"
+        cp ${GIT_CI_CONF_DIR}/ci-conf/cookbooks/cookbooks.rb .
   - run:
       name: Build cookbooks
       command: <<include(scripts/cookbooks_build.sh)>>
