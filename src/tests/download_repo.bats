@@ -28,7 +28,7 @@ function teardown() {
   export REPO_DIR="/tmp/bats_tests"
   export GIT_EMAIL="circleci@cloudesire.com"
   export GIT_USERNAME="circleci"
-
+  
   CheckoutRepo
   [ $(cd "${REPO_DIR}/${REPO_NAME}" && git branch --show-current) == "${REPO_BRANCH}" ]
 }

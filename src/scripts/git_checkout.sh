@@ -19,10 +19,10 @@ CheckoutRepo() {
   
 
   if [ -z $REPO_DIR ]; then
-    REPO_DIR=${CIRCLE_WORKING_DIRECTORY}
+    REPO_DIR="${HOME}/project"
+  else
+    mkdir -p "${REPO_DIR}"
   fi
-
-  mkdir -p "${REPO_DIR}"
 
   basename=$(basename $REPO_URL)
   REPO_NAME=${basename%.*}

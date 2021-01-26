@@ -15,8 +15,7 @@ parameters:
   dir:
     description: >
       Directory where to clone the repository. If not set, the script
-      uses the CIRCLE_WORKING_DIRECTORY environment variable as
-      the default directory.
+      uses "${HOME}/project" as the default directory.
     type: string
     default: ""
   merge_master:
