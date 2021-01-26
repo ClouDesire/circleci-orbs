@@ -23,7 +23,17 @@ parameters:
     type: string
     default: "dev:alpha"
 
-
+jobs:
+  add-pr-comment:
+    docker:
+      - image: cimg/base:2021.01
+    resource_class: small
+    parameters:
+      comment:
+        type: string
+    steps:
+      - common/github_pr_add_comment:
+          comment: << parameters.comment >>
 
 workflows:
   build-and-deploy:
@@ -33,12 +43,22 @@ workflows:
       - orb-tools/pack # Pack orb source
       - bats/run:
           path: ./src/tests
+          context: common-backend
       - orb-tools/publish-dev:
           orb-name: cloudesire/common
           context: orb-publish # A restricted context containing your private publishing credentials. Will only execute if approved by an authorized user.
           requires:
             - orb-tools/lint
             - orb-tools/pack
+      - add-pr-comment:
+          context: common-backend
+          comment: "New orb beta version published: \\`cloudesire/common@dev:${CIRCLE_SHA1:0:7}\\`"
+          requires:
+            - orb-tools/publish-dev
+          filters:
+            branches:
+              ignore:
+                - master
       - orb-tools/trigger-integration-tests-workflow:
           name: trigger_publish
           context: orb-publish

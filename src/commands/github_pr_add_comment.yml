@@ -1,0 +1,13 @@
+---
+description: >
+  Add a comment to a PR
+parameters:
+  comment:
+    description: Comment to add
+    type: string
+steps:
+  - run:
+      name: "Add comment to PR"
+      environment:
+        PR_COMMENT: << parameters.comment >>
+      command: <<include(scripts/github_pr_add_comment.sh)>>

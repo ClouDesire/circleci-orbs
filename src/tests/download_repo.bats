@@ -1,3 +1,4 @@
+#!/usr/bin/env bats
 # Runs prior to every test
 setup() {
   # Load our script file.
@@ -11,32 +12,34 @@ function teardown() {
 }
 
 
-@test '1: CheckoutRepo fails without GIT_USERNAME and GIT_EMAIL set' {
+@test 'CheckoutRepo fails without GIT_USERNAME and GIT_EMAIL set' {
   export REPO_URL="git@github.com:ClouDesire/ci-conf.git"
   export REPO_BRANCH="master"
   export REPO_DIR="/tmp/bats_tests"
   export MERGE_MASTER=1
+  unset GIT_USERNAME
+  unset GIT_EMAIL
   run CheckoutRepo
   [ "$status" -eq 1 ]
 }
 
-@test '2: Download repo' {
-    export REPO_URL="git@github.com:ClouDesire/ci-conf.git"
-    export REPO_DIR="/tmp/bats_tests"
-    export GIT_EMAIL="circleci@cloudesire.com"
-    export GIT_USERNAME="circleci"
+@test 'Download repo' {
+  export REPO_URL="git@github.com:ClouDesire/ci-conf.git"
+  export REPO_DIR="/tmp/bats_tests"
+  export GIT_EMAIL="circleci@cloudesire.com"
+  export GIT_USERNAME="circleci"
 
-    CheckoutRepo
-    [ $(cd "${REPO_DIR}/${REPO_NAME}" && git branch --show-current) == "${REPO_BRANCH}" ]
+  CheckoutRepo
+  [ $(cd "${REPO_DIR}/${REPO_NAME}" && git branch --show-current) == "${REPO_BRANCH}" ]
 }
 
-@test '2: Download repo with custom branch' {
-    export REPO_URL="git@github.com:ClouDesire/ci-conf.git"
-    export REPO_BRANCH="master"
-    export REPO_DIR="/tmp/bats_tests"
-    export GIT_EMAIL="circleci@cloudesire.com"
-    export GIT_USERNAME="circleci"
+@test 'Download repo with custom branch' {
+  export REPO_URL="git@github.com:ClouDesire/ci-conf.git"
+  export REPO_BRANCH="master"
+  export REPO_DIR="/tmp/bats_tests"
+  export GIT_EMAIL="circleci@cloudesire.com"
+  export GIT_USERNAME="circleci"
 
-    CheckoutRepo
-    [ $(cd "${REPO_DIR}/${REPO_NAME}" && git branch --show-current) == "${REPO_BRANCH}" ]
+  CheckoutRepo
+  [ $(cd "${REPO_DIR}/${REPO_NAME}" && git branch --show-current) == "${REPO_BRANCH}" ]
 }
