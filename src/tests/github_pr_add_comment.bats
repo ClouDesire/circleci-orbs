@@ -11,7 +11,7 @@ function teardown() {
   fi
 }
 
-@test 'ReadPRLabels exit on branch master' {
+@test 'AddPRComment exit on branch master' {
   export CIRCLE_BRANCH="master"
   
   run AddPRComment
@@ -20,7 +20,7 @@ function teardown() {
 }
 
 
-@test 'ReadPRLabels exit on branch main' {
+@test 'AddPRComment exit on branch main' {
   export CIRCLE_BRANCH="main"
   
   run AddPRComment
