@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ "${CIRCLE_BRANCH}" == "master" ]] || [[ "${CIRCLE_BRANCH}" == "main" ]]; then
+if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "main" ]; then
   echo "Not in a PR branch. Exiting..."
   exit 0
 fi

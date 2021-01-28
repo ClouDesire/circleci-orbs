@@ -1,7 +1,7 @@
 #!/bin/bash
 ReadPRLabels() {
 
-  if [[ "${CIRCLE_BRANCH}" == "master" ]] || [[ "${CIRCLE_BRANCH}" == "main" ]]; then
+  if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "main" ]; then
     echo "Not in a PR branch. Exiting..."
     exit 0
   fi
@@ -14,7 +14,7 @@ ReadPRLabels() {
 
   echo ">> Labels: ${labels}"
 
-  if [[ "${labels}" == "" ]] || [[ "${labels}" == null ]]; then
+  if [ "${labels}" == "" ] || [ "${labels}" == null ]; then
     echo ">> Not labels found"
     exit 0
   else
