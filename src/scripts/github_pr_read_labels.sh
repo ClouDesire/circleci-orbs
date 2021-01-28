@@ -1,6 +1,11 @@
 #!/bin/bash
 ReadPRLabels() {
 
+  if [[ "${CIRCLE_BRANCH}" == "master"]] || [[ "${CIRLE_BRANCH}" == "main" ]]; then
+    echo "Not in a PR branch. Exiting..."
+    exit 0
+  fi
+
   echo ">> Org: ${CIRCLE_PROJECT_USERNAME}"
   echo ">> Repo: ${CIRCLE_PROJECT_REPONAME}"
   echo ">> PR Link: ${CIRCLE_PULL_REQUEST}"
