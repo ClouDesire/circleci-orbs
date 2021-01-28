@@ -15,7 +15,7 @@ parameters:
 steps:
   - run:
       name: Run tests
-      enviroment:
+      environment:
         PARAM_KITCHEN_SUITES: << parameters.suites >>
         PARAM_KITCHEN_CONCURRENCY: << parameters.concurrency >>
         CONVERGE_NUMBER: << parameters.converge_number >>
