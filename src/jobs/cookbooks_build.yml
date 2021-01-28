@@ -6,5 +6,5 @@ steps:
   - checkout
   - git_checkout:
       url: "git@github.com:ClouDesire/ci-conf.git"
-      dir: "."
-  #- foodcritic_test
+  - cookbooks_setup
+  - cookbooks_foodcritic_test

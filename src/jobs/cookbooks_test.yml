@@ -2,19 +2,27 @@
 description: >
   Job to execute chef kitchen suites
 parameters:
+  additional_steps:
+    description: optional steps to execute after the default test execution
+    type: steps
+    default: []
   suites:
     type: string
     default: ""
   concurrency:
     type: boolean
     default: true
+  converge_number:
+    type: integer
+    default: 1
 executor:
   name: chefdk
-  resource_class: small
 steps:
   - checkout
   - git_checkout:
       url: "git@github.com:ClouDesire/ci-conf.git"
-      dir: "."
-  #- kitchen_test:
-  #    suites: << parameters.suites >>
+  - cookbooks_setup
+  - cookbooks_kitchen_test:
+      suites: << parameters.suites >>
+      concurrency: << parameters.concurrency >>
+      additional_steps: << parameters.additional_steps >>

@@ -1,16 +1,18 @@
 description: >
   Command to setup cookbooks testing environment
 steps:
-  - checkout
-  - git_checkout:
-      url: "git@github.com:ClouDesire/ci-conf.git"
-      dir: "."
   - restore_cache:
       key: berkshelf
   - restore_cache:
       key: chefdk
-  - run: cp ./ci-conf/cookbooks/cookbooks.rb .
-  - run: ./ci-conf/cookbooks/build.sh
+  - run:
+      name: Copy cookbook.rb
+      command: |
+        echo "ci-conf repo dir: ${GIT_CI_CONF_DIR}"
+        cp ${GIT_CI_CONF_DIR}/cookbooks/cookbooks.rb .
+  - run:
+      name: Build cookbooks
+      command: <<include(scripts/cookbooks_build.sh)>>
   - save_cache:
       key: berkshelf
       paths:

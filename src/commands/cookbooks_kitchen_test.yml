@@ -6,10 +6,21 @@ parameters:
   concurrency:
     type: boolean
     default: true
+  converge_number:
+    type: integer
+    default: 1
+  additional_steps:
+    description: optional steps to execute after the default test execution
+    type: steps
 steps:
   - run:
       name: Run tests
-      command: ./ci-conf/cookbooks/test.sh << parameters.suites >> << parameters.concurrency >>
+      enviroment:
+        PARAM_KITCHEN_SUITES: << parameters.suites >>
+        PARAM_KITCHEN_CONCURRENCY: << parameters.concurrency >>
+        CONVERGE_NUMBER: << parameters.converge_number >>
+      command: <<include(scripts/cookbooks_test.sh)>>
+  - steps: << parameters.additional_steps >>
   - store_test_results:
       path: /tmp/results/
   - store_artifacts:
@@ -21,5 +32,8 @@ steps:
       when: on_fail
   - run:
       name: Clean resources
-      command: ./ci-conf/cookbooks/cleanup.sh << parameters.suites >> << parameters.concurrency >>
+      environment:
+        PARAM_KITCHEN_SUITES: << parameters.suites >>
+        PARAM_KITCHEN_CONCURRENCY: << parameters.concurrency >>
+      command: <<include(scripts/cookbooks_cleanup.sh)>>
       when: always
