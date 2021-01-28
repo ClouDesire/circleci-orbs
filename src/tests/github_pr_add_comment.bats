@@ -2,7 +2,7 @@
 # Runs prior to every test
 setup() {
   # Load our script file.
-  source ./src/scripts/github_pr_read_labels.sh
+  source ./src/scripts/github_pr_add_comment.sh
 }
 
 function teardown() {
@@ -11,30 +11,19 @@ function teardown() {
   fi
 }
 
-
-@test 'ReadPRLabels exports labels correctly' {
-  export CIRCLE_PROJECT_USERNAME="ClouDesire"
-  export CIRCLE_PROJECT_REPONAME="circleci-orbs"
-  export CIRCLE_PULL_REQUEST="https://github.com/ClouDesire/circleci-orbs/pull/55"
-  export BASH_ENV="/tmp/.pipeline_env"
-  ReadPRLabels
-  echo "$GH_PR_LABEL_TEST_LABEL"
-  [[ $GH_PR_LABEL_TEST_LABEL ]]
-}
-
-
 @test 'ReadPRLabels exit on branch master' {
   export CIRCLE_BRANCH="master"
   
-  run ReadPRLabels
+  run AddPRComment
   [ "$status" -eq 0 ]
   [ "$output" = "Not in a PR branch. Exiting..." ]
 }
 
+
 @test 'ReadPRLabels exit on branch main' {
   export CIRCLE_BRANCH="main"
   
-  run ReadPRLabels
+  run AddPRComment
   [ "$status" -eq 0 ]
   [ "$output" = "Not in a PR branch. Exiting..." ]
 }
