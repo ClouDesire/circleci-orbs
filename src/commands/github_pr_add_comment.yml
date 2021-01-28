@@ -6,8 +6,13 @@ parameters:
     description: Comment to add
     type: string
 steps:
-  - run:
-      name: "Add comment to PR"
-      environment:
-        PR_COMMENT: << parameters.comment >>
-      command: <<include(scripts/github_pr_add_comment.sh)>>
+  - when:
+      condition:
+        not:
+          equal: [ "<< pipeline.git.branch >>", "master" ]
+      steps:
+        - run:
+            name: "Add comment to PR"
+            environment:
+              PR_COMMENT: << parameters.comment >>
+            command: <<include(scripts/github_pr_add_comment.sh)>>

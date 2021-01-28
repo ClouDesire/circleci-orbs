@@ -8,14 +8,19 @@ ReadPRLabels() {
   labels=$(curl -s --location --request GET "https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pulls/${CIRCLE_PULL_REQUEST##*/}" --header "Authorization: token ${GITHUB_TOKEN}" | jq -r 'select(.labels != null) | .labels | map(.name) | join(",")')
 
   echo ">> Labels: ${labels}"
-  IFS=',' read -a labels_array <<< "$labels"
-  for label in "${labels_array[@]}"; do
-    label=${label//-/_}
-    echo "  >> Adding GH_PR_LABEL_${label^^} to BASH_ENV"
-    echo "export GH_PR_LABEL_${label^^}=true" >> "$BASH_ENV"
-  done
-  
-  source "$BASH_ENV"
+
+  if [[ "${labels}" == "" ]] || [[ "${labels}" == null ]]; then
+    echo ">> Not labels found"
+    exit 0
+  else
+    IFS=',' read -a labels_array <<< "$labels"
+    for label in "${labels_array[@]}"; do
+      label=${label//-/_}
+      echo "  >> Adding GH_PR_LABEL_${label^^} to BASH_ENV"
+      echo "export GH_PR_LABEL_${label^^}=true" >> "$BASH_ENV"
+    done
+    source "$BASH_ENV"
+  fi
 }
 
 # Will not run if sourced for bats-core tests.
