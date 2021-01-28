@@ -1,15 +1,15 @@
-#!/usr/bin/env bats
+#!/bin/bash
 # Runs prior to every test
 setup() {
   # Load our script file.
   source ./src/scripts/github_pr_read_labels.sh
 }
 
-#function teardown() {
-#  if [ -f "${BASH_ENV}" ]; then
-#    rm -f "${BASH_ENV}"
-#  fi
-#}
+function teardown() {
+  if [ -f "${BASH_ENV}" ]; then
+    rm -f "${BASH_ENV}"
+  fi
+}
 
 
 @test 'ReadPRLabels exports labels correctly' {

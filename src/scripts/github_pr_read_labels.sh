@@ -1,7 +1,7 @@
 #!/bin/bash
 ReadPRLabels() {
 
-  if [[ "${CIRCLE_BRANCH}" == "master"]] || [[ "${CIRLE_BRANCH}" == "main" ]]; then
+  if [[ "${CIRCLE_BRANCH}" == "master" ]] || [[ "${CIRCLE_BRANCH}" == "main" ]]; then
     echo "Not in a PR branch. Exiting..."
     exit 0
   fi
@@ -21,10 +21,11 @@ ReadPRLabels() {
     IFS=',' read -a labels_array <<< "$labels"
     for label in "${labels_array[@]}"; do
       label=${label//-/_}
-      echo "  >> Adding GH_PR_LABEL_${label^^} to BASH_ENV"
-      echo "export GH_PR_LABEL_${label^^}=true" >> "$BASH_ENV"
+      label=$(echo ${label} | tr '[:lower:]' '[:upper:]')
+      echo "  >> Adding GH_PR_LABEL_${label} to BASH_ENV"
+      echo "export GH_PR_LABEL_${label}=true" >> "${BASH_ENV}"
     done
-    source "$BASH_ENV"
+    source "${BASH_ENV}"
   fi
 }
 
