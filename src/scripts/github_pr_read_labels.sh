@@ -10,14 +10,13 @@ ReadPRLabels() {
   echo ">> Repo: ${CIRCLE_PROJECT_REPONAME}"
   echo ">> PR Link: ${CIRCLE_PULL_REQUEST}"
   echo ">> PR #: ${CIRCLE_PULL_REQUEST##*/}"
+  echo "\n"
   labels=$(curl -s --location --request GET "https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pulls/${CIRCLE_PULL_REQUEST##*/}" --header "Authorization: token ${GITHUB_TOKEN}" | jq -r 'select(.labels != null) | .labels | map(.name) | join(",")')
 
-  echo ">> Labels: ${labels}"
-
-  if [ "${labels}" == "" ] || [ "${labels}" == null ]; then
-    echo ">> Not labels found"
+  if [ "${labels}" == "" ]; then
     exit 0
   else
+    echo ">> Labels: ${labels}"
     IFS=',' read -a labels_array <<< "$labels"
     for label in "${labels_array[@]}"; do
       label=${label//-/_}
