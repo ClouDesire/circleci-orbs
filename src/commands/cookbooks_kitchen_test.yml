@@ -13,7 +13,7 @@ parameters:
     description: optional steps to execute after the default test execution
     type: steps
   repeat_suites:
-    description: list of kitchen suites (divided by a comma) to converge after the first converge. 
+    description: list of kitchen suites (divided by a comma) to converge after the first converge
     type: string
     default: ""
 steps:
