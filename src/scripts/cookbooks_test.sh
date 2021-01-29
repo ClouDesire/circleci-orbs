@@ -33,6 +33,9 @@ else
 
   if [ -z $PARAM_KITCHEN_SUITES_REPEAT ] || [ $PARAM_KITCHEN_SUITES_REPEAT == "" ]; then
     PARAM_KITCHEN_SUITES_REPEAT="$(echo -e "${PARAM_KITCHEN_SUITES_REPEAT}" | tr -d '[:space:]')"
+
+    echo "Repeat converge for ${PARAM_KITCHEN_SUITES_REPEAT}"
+    
     PARAM_KITCHEN_SUITES_REPEAT=${PARAM_KITCHEN_SUITES_REPEAT//,/|}
     chef exec kitchen converge "($PARAM_KITCHEN_SUITES_REPEAT)"
   fi
