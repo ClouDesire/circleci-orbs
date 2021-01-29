@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bats
 # Runs prior to every test
 setup() {
   # Load our script file.

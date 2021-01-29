@@ -14,6 +14,7 @@ ReadPRLabels() {
   labels=$(curl -s --location --request GET "https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pulls/${CIRCLE_PULL_REQUEST##*/}" --header "Authorization: token ${GITHUB_TOKEN}" | jq -r 'select(.labels != null) | .labels | map(.name) | join(",")')
 
   if [ "${labels}" == "" ]; then
+    echo "PR ${CIRCLE_PULL_REQUEST} does not have labels."
     exit 0
   else
     echo ">> Labels: ${labels}"
