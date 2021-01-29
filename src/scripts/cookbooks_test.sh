@@ -32,7 +32,7 @@ else
   echo ">> KERNEL_UPGRADE_ACTION => ${KERNEL_UPGRADE_ACTION}"
   chef exec kitchen converge "($PARAM_KITCHEN_SUITES)" $KITCHEN_CONCURRENCY
 
-  if [ -z $PARAM_KITCHEN_REPEAT_SUITES ] || [ $PARAM_KITCHEN_REPEAT_SUITES == "" ]; then
+  if [ ! -z $PARAM_KITCHEN_REPEAT_SUITES ]; then
     PARAM_KITCHEN_REPEAT_SUITES="$(echo -e "${PARAM_KITCHEN_REPEAT_SUITES}" | tr -d '[:space:]')"
 
     echo "Repeat converge for ${PARAM_KITCHEN_REPEAT_SUITES}"
