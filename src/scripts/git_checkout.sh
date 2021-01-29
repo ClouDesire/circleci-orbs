@@ -40,10 +40,11 @@ CheckoutRepo() {
   cd "${REPO_DIR}"
   git clone $REPO_URL --branch $REPO_BRANCH --single-branch "${REPO_NAME}"
 
-  TMP_REPO_NAME=${REPO_NAME//-/_}
-  echo "Adding GIT_${TMP_REPO_NAME^^}_DIR='${REPO_DIR}/${REPO_NAME}' to bash env"
-  echo "export GIT_${TMP_REPO_NAME^^}_DIR='${REPO_DIR}/${REPO_NAME}'" >> "${BASH_ENV}"
-  source ${BASH_ENV}
+  TMP_REPO_NAME="${REPO_NAME//-/_}"
+  TMP_REPO_NAME=$(echo ${TMP_REPO_NAME} | tr '[:lower:]' '[:upper:]')
+  echo "Adding GIT_${TMP_REPO_NAME}_DIR='${REPO_DIR}/${REPO_NAME}' to bash env"
+  echo "export GIT_${TMP_REPO_NAME}_DIR='${REPO_DIR}/${REPO_NAME}'" >> "${BASH_ENV}"
+  source "${BASH_ENV}"
 
   if [ $MERGE_MASTER -eq 1 ] || [ ! -z $MERGE_MASTER ]; then
     if [ -z $GIT_EMAIL ] || [ -z $GIT_USERNAME ]; then
