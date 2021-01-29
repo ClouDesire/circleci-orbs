@@ -12,12 +12,17 @@ parameters:
   additional_steps:
     description: optional steps to execute after the default test execution
     type: steps
+  repeat_suites:
+    description: list of kitchen suites (divided by a comma) to converge after the first converge
+    type: string
+    default: ""
 steps:
   - run:
       name: Run tests
       environment:
         PARAM_KITCHEN_SUITES: << parameters.suites >>
         PARAM_KITCHEN_CONCURRENCY: << parameters.concurrency >>
+        PARAM_KITCHEN_REPEAT_SUITES: << parameters.repeat_suites >>
         CONVERGE_NUMBER: << parameters.converge_number >>
       command: <<include(scripts/cookbooks_test.sh)>>
   - steps: << parameters.additional_steps >>

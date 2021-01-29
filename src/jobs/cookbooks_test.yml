@@ -15,6 +15,10 @@ parameters:
   converge_number:
     type: integer
     default: 1
+  repeat_suites:
+    description: list of kitchen suites (divided by a comma) to converge after the first converge
+    type: string
+    default: ""
 executor:
   name: chefdk
 steps:
@@ -26,3 +30,4 @@ steps:
       suites: << parameters.suites >>
       concurrency: << parameters.concurrency >>
       additional_steps: << parameters.additional_steps >>
+      repeat_suites: << parameters.repeat_suites >>
