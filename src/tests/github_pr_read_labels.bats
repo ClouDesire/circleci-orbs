@@ -17,8 +17,8 @@ function teardown() {
   export CIRCLE_PROJECT_REPONAME="circleci-orbs"
   export CIRCLE_PULL_REQUEST="https://github.com/ClouDesire/circleci-orbs/pull/55"
   export BASH_ENV="/tmp/.pipeline_env"
-  ReadPRLabels
-  echo "$GH_PR_LABEL_TEST_LABEL"
+  run ReadPRLabels
+  source "${BASH_ENV}"
   [[ $GH_PR_LABEL_TEST_LABEL ]]
 }
 
