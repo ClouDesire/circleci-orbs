@@ -27,6 +27,7 @@ else
 
   echo ">> Kitchen Concurrency => $PARAM_KITCHEN_CONCURRENCY"
   echo ">> Kitchen Suites => $PARAM_KITCHEN_SUITES"
+  echo ">> Kitchen Suites to repeat: $PARAM_KITCHEN_REPEAT_SUITES"
   export KERNEL_UPGRADE_ACTION="reboot"
   echo ">> KERNEL_UPGRADE_ACTION => ${KERNEL_UPGRADE_ACTION}"
   chef exec kitchen converge "($PARAM_KITCHEN_SUITES)" $KITCHEN_CONCURRENCY
