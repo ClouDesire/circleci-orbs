@@ -31,4 +31,3 @@ steps:
       concurrency: << parameters.concurrency >>
       additional_steps: << parameters.additional_steps >>
       repeat_suites: << parameters.repeat_suites >>
-      
