@@ -18,7 +18,11 @@ CheckoutRepo() {
   fi
 
   if [ -z $REPO_DIR ]; then
-    REPO_DIR="${HOME}"
+    if [[ "$HOME" == *"circleci"* ]]; then
+      REPO_DIR="${HOME}"
+    else
+      REPO_DIR="${HOME}/project"
+    fi
   else
     mkdir -p "${REPO_DIR}"
   fi
