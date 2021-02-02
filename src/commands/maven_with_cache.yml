@@ -29,6 +29,8 @@ steps:
         if [ -f "$FILE" ]; then
           mkdir -v -p ~/.m2
           cp -v $FILE ~/.m2
+        else
+          echo $FILE not found
         fi
   - when:
       condition: << parameters.force_download >>
