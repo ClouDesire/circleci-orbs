@@ -15,7 +15,7 @@ parameters:
   dir:
     description: >
       Directory where to clone the repository. If not set, the script
-      uses "${HOME}/project" as the default directory.
+      uses "${HOME}" as the default base directory.
     type: string
     default: ""
   merge_master:
