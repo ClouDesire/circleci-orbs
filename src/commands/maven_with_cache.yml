@@ -12,7 +12,7 @@ parameters:
   settings_file:
     description: Specify a path to a custom settings file to use
     type: string
-    default: "$REPO_DIR/ci-conf/mvn/settings.xml"
+    default: "$GIT_CI_CONF_DIR/mvn/settings.xml"
   steps:
     description: Commands to execute between cache restore and save
     type: steps
