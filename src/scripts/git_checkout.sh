@@ -33,7 +33,7 @@ CheckoutRepo() {
   echo "  >> Base dir: ${REPO_DIR}"
 
   cd "${REPO_DIR}"
-  git clone $REPO_URL --branch $REPO_BRANCH --single-branch "${REPO_NAME}"
+  git clone $REPO_URL --branch $REPO_BRANCH "${REPO_NAME}"
 
   TMP_REPO_NAME="${REPO_NAME//-/_}"
   TMP_REPO_NAME=$(echo ${TMP_REPO_NAME} | tr '[:lower:]' '[:upper:]')
