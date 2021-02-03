@@ -12,7 +12,7 @@ parameters:
   settings_file:
     description: Specify a path to a custom settings file to use
     type: string
-    default: "$GIT_ROOT/ci-conf/mvn/settings.xml"
+    default: "$GIT_CI_CONF_DIR/mvn/settings.xml"
   steps:
     description: Commands to execute between cache restore and save
     type: steps
@@ -29,6 +29,8 @@ steps:
         if [ -f "$FILE" ]; then
           mkdir -v -p ~/.m2
           cp -v $FILE ~/.m2
+        else
+          echo $FILE not found
         fi
   - when:
       condition: << parameters.force_download >>
