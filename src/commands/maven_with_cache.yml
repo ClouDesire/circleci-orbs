@@ -18,10 +18,17 @@ parameters:
     type: steps
 steps:
   - run:
-      name: Generate Cache Checksum
-      command: find . -name 'pom.xml' | sort | xargs cat > /tmp/maven_cache_seed
+      name: Merge all pom.xml for cache checksum
+      command: |
+        if [ ! -f pomsum ]; then
+          find ./ -name pom.xml -exec cat {} >> pomsum \;
+        fi
   - restore_cache:
-      key: maven-{{ checksum "/tmp/maven_cache_seed" }}
+      keys:
+        - m2-{{ .Branch }}-{{ checksum "pomsum" }}
+        - m2-{{ .Branch }}-
+        - m2-master
+        - m2-
   - run:
       name: Setup custom settings.xml
       command: |
@@ -40,6 +47,7 @@ steps:
             command: << parameters.mvn_path >> dependency:go-offline
   - steps: << parameters.steps >>
   - save_cache:
+      key: m2-{{ .Branch }}-{{ checksum "pomsum" }}
       paths:
-        - ~/.m2
-      key: maven-{{ checksum "/tmp/maven_cache_seed" }}
+        - ~/.m2/repository
+        - ~/.m2/wrapper
