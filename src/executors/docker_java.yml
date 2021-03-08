@@ -1,6 +1,6 @@
 ---
 description: >
-  This is a Java executor. The Java version is passed as a parameter. 
+  This is a Java executor. The Java version is passed as a parameter.
   Default Java version is 8.0.265
 parameters:
   java_version:
