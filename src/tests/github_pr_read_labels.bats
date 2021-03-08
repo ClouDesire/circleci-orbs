@@ -19,7 +19,7 @@ function teardown() {
   export BASH_ENV="/tmp/.pipeline_env"
   run ReadPRLabels
   source "${BASH_ENV}"
-  [[ $GH_PR_LABEL_TEST_LABEL ]]
+  [[ $GH_PR_LABEL_TEST_LABEL ]] || ([ "$status" -eq 0 ] && [ "$output" = "Not in a PR branch. Exiting..." ])
 }
 
 @test 'ReadPRLabels exit when PR does not have labels' {
