@@ -9,7 +9,7 @@ parameters:
   resource_class:
     type: string
     default: small
-  jvm_max_mem_allocation: 
+  jvm_max_mem_allocation:
     type: string
     default: 2048m
 docker:
