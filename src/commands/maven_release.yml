@@ -1,0 +1,13 @@
+---
+description: >
+  Execute release of a maven project.
+parameters:
+  project_dir:
+    type: string
+    default: .
+steps:
+  - run:
+      name: "Release project"
+      environment:
+        PROJECT_DIR: << parameters.project_dir >>
+      command: <<include(scripts/maven_release.sh)>>

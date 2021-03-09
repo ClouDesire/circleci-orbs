@@ -1,0 +1,9 @@
+---
+description: >
+  Job to execute the release of a Maven Package
+parameters:
+executor:
+  name: docker_java
+steps:
+  - checkout
+
