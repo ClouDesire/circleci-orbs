@@ -119,6 +119,14 @@ workflows:
                         "text": "Github PR"
                       },
                       "url": "${CIRCLE_PULL_REQUEST}"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Orb page"
+                      },
+                      "url": "https://circleci.com/developer/orbs/orb/cloudesire/common"
                     }
                   ]
                 }
