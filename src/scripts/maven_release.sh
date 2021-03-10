@@ -7,7 +7,7 @@ MavenRelease() {
   cd $PROJECT_DIR
 
   echo "Releasing $VERSION" 
-  ./mvnw deploy -Dmaven.test.skip=true
+  #./mvnw deploy -Dmaven.test.skip=true
 
 
   IFS='.' read -a semver <<< "$NEW_VERSION"
