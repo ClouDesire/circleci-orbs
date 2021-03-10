@@ -101,10 +101,6 @@ workflows:
           requires:
             - orb-tools/lint
             - orb-tools/pack
-      - notify-slack:
-          requires:
-            - orb-tools/publish-dev
-          context: common-backend
       - add-pr-comment:
           context: common-backend
           comment: "New orb beta version published: \\`cloudesire/common@dev:${CIRCLE_SHA1:0:7}\\`"
