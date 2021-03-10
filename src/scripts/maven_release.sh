@@ -8,9 +8,10 @@ MavenRelease() {
   echo "Releasing $VERSION" 
   #./mvnw deploy -Dmaven.test.skip=true
   #./mvnw scm:tag -Dtag=v${VERSION}
-
-  git config user.email "${GIT_EMAIL}"
-  git config user.name "${GIT_USERNAME}"
+  echo "${GIT_EMAIL}"
+  echo "${GIT_USERNAME}"
+  git config --global user.email "${GIT_EMAIL}"
+  git config --global user.name "${GIT_USERNAME}"
 
 
   IFS='.' read -a semver <<< "$VERSION"
