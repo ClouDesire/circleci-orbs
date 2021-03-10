@@ -9,6 +9,10 @@ MavenRelease() {
   #./mvnw deploy -Dmaven.test.skip=true
   #./mvnw scm:tag -Dtag=v${VERSION}
 
+  git config user.email "${GIT_EMAIL}"
+  git config user.name "${GIT_USERNAME}"
+
+
   IFS='.' read -a semver <<< "$VERSION"
   NEW_VERSION="${semver[0]}.${semver[1]}.$((${semver[2]} + 1))"
   echo "Updating pom.xml version to $NEW_VERSION"
