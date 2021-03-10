@@ -31,7 +31,7 @@ steps:
       settings_file: <<parameters.settings_file>>
       ssh_fingerprint: <<parameters.ssh_fingerprint>>
   - when:
-      condition: [ << parameters.notify_slack >> ]
+      condition: << parameters.notify_slack >>
       steps:
         - slack/notify:
             channel: "dev"
