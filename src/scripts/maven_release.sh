@@ -5,9 +5,12 @@ MavenRelease() {
 
   cd "$PROJECT_DIR"
 
-  echo "Releasing $VERSION" 
-  #./mvnw deploy -Dmaven.test.skip=true
+  echo "Releasing $VERSION"
+  ./mvnw versions:set -DnewVersion="${VERSION}"
+  ./mvnw deploy -Dmaven.test.skip=true
+
   #./mvnw scm:tag -Dtag=v${VERSION}
+  
   echo "${GIT_EMAIL}"
   echo "${GIT_USERNAME}"
   git config --global user.email "${GIT_EMAIL}"
