@@ -6,7 +6,7 @@ MavenRelease() {
   cd "$PROJECT_DIR"
 
   echo "Releasing $VERSION"
-  ./mvnw versions:set -DnewVersion="${VERSION}"
+  ./mvnw versions:set -DnewVersion="${VERSION}" -DgenerateBackupPoms=false
   ./mvnw deploy -Dmaven.test.skip=true
 
   #./mvnw scm:tag -Dtag=v${VERSION}
