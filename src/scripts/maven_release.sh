@@ -1,12 +1,12 @@
 #!/bin/bash
 
 MavenRelease() {
-  VERSION="${CIRCLE_BRANCH//release-}"
-
+  RELEASE_VERSION="${CIRCLE_BRANCH//release-}"
+  echo "export MAVEN_RELEASE_VERSION=${RELEASE_VERSION}" >> "${BASH_ENV}"
   cd "$PROJECT_DIR"
 
-  echo "Releasing $VERSION"
-  ./mvnw versions:set -DnewVersion="${VERSION}" -DgenerateBackupPoms=false
+  echo "Releasing $RELEASE_VERSION"
+  ./mvnw versions:set -DnewVersion="${RELEASE_VERSION}" -DgenerateBackupPoms=false
   ./mvnw deploy -Dmaven.test.skip=true
 
   #./mvnw scm:tag -Dtag=v${VERSION}
@@ -17,7 +17,7 @@ MavenRelease() {
   git config --global user.name "${GIT_USERNAME}"
 
 
-  IFS='.' read -a semver <<< "$VERSION"
+  IFS='.' read -a semver <<< "$RELEASE_VERSION"
   NEW_VERSION="${semver[0]}.${semver[1]}.$((${semver[2]} + 1))"
   echo "Updating pom.xml version to $NEW_VERSION"
   ./mvnw versions:set -DnewVersion="${NEW_VERSION}-SNAPSHOT" scm:checkin -Dmessage="[skip ci] Preparing for next iteration - version set to ${NEW_VERSION}-SNAPSHOT" -DgenerateBackupPoms=false

@@ -33,3 +33,40 @@ steps:
       environment:
         PROJECT_DIR: << parameters.project_dir >>
       command: <<include(scripts/maven_release.sh)>>
+  - slack/notify:
+      channel: "dev"
+      custom: |
+        {
+          "text": ":rocket: `${CIRCLE_PROJECT_REPONAME}`: `v${RELEASE_VERSION}` released",
+          "blocks": [
+            {
+              "type": "section",
+              "text": {
+                "type": "mrkdwn",
+                "text": ":rocket: `${RELEASE_VERSION}`: `v${CIRCLE_PROJECT_REPONAME}` released"
+              }
+            },
+            {
+              "type": "actions",
+              "elements": [
+                {
+                  "type": "button",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "CircleCI Build"
+                  },
+                  "url": "${CIRCLE_BUILD_URL}"
+                },
+                {
+                  "type": "button",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "Github PR"
+                  },
+                  "url": "${CIRCLE_PULL_REQUEST}"
+                }
+              ]
+            }
+          ]
+        }
+      event: pass
