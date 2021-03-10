@@ -6,10 +6,10 @@ MavenRelease() {
   cd "$PROJECT_DIR"
 
   echo "Releasing $RELEASE_VERSION"
-  ./mvnw versions:set -DnewVersion="${RELEASE_VERSION}" -DgenerateBackupPoms=false
-  ./mvnw deploy -Dmaven.test.skip=true
+  ${MVN_PATH} versions:set -DnewVersion="${RELEASE_VERSION}" -DgenerateBackupPoms=false
+  ${MVN_PATH} deploy -Dmaven.test.skip=true
 
-  #./mvnw scm:tag -Dtag=v${VERSION}
+  #${MVN_PATH} scm:tag -Dtag=v${VERSION}
   
   echo "${GIT_EMAIL}"
   echo "${GIT_USERNAME}"
@@ -20,7 +20,7 @@ MavenRelease() {
   IFS='.' read -a semver <<< "$RELEASE_VERSION"
   NEW_VERSION="${semver[0]}.${semver[1]}.$((${semver[2]} + 1))"
   echo "Updating pom.xml version to $NEW_VERSION"
-  ./mvnw versions:set -DnewVersion="${NEW_VERSION}-SNAPSHOT" scm:checkin -Dmessage="[skip ci] Preparing for next iteration - version set to ${NEW_VERSION}-SNAPSHOT" -DgenerateBackupPoms=false
+  ${MVN_PATH} versions:set -DnewVersion="${NEW_VERSION}-SNAPSHOT" scm:checkin -Dmessage="[skip ci] Preparing for next iteration - version set to ${NEW_VERSION}-SNAPSHOT" -DgenerateBackupPoms=false
 
 }
 

@@ -2,9 +2,71 @@
 description: >
   Job to execute the release of a Maven Package
 parameters:
+  mvn_path:
+    description: Specify a custom path to maven
+    type: string
+    default: mvn
+  notify_slack:
+    type: boolean
+    default: true
+  project_dir:
+    type: string
+    default: .
+  settings_file:
+    description: Specify a path to a custom settings file to use
+    type: string
+    default: "$GIT_CI_CONF_DIR/mvn/settings.xml"
+  ssh_fingerprint:
+    type: string
+    default: 08:24:83:a8:59:c5:7d:d5:de:b3:15:bf:1a:50:0e:ca
 executor:
   name: docker_java
 steps:
   - checkout
-  - maven_release
-
+  - git_checkout:
+      url: "git@github.com:ClouDesire/ci-conf.git"
+  - maven_release:
+      mvn_path: <<parameters.mvn_path>>
+      project_dir: <<parameters.project_dir>>
+      settings_file: <<parameters.settings_file>>
+      ssh_fingerprint: <<parameters.ssh_fingerprint>>
+  - when:
+      condition: [ << parameters.notify_slack >> ]
+      steps:
+        - slack/notify:
+            channel: "dev"
+            custom: |
+              {
+                "text": ":rocket: `${CIRCLE_PROJECT_REPONAME}`: `v${RELEASE_VERSION}` released",
+                "blocks": [
+                  {
+                    "type": "section",
+                    "text": {
+                      "type": "mrkdwn",
+                      "text": ":rocket: `${RELEASE_VERSION}`: `v${CIRCLE_PROJECT_REPONAME}` released"
+                    }
+                  },
+                  {
+                    "type": "actions",
+                    "elements": [
+                      {
+                        "type": "button",
+                        "text": {
+                          "type": "plain_text",
+                          "text": "CircleCI Build"
+                        },
+                        "url": "${CIRCLE_BUILD_URL}"
+                      },
+                      {
+                        "type": "button",
+                        "text": {
+                          "type": "plain_text",
+                          "text": "Github PR"
+                        },
+                        "url": "${CIRCLE_PULL_REQUEST}"
+                      }
+                    ]
+                  }
+                ]
+              }
+            event: pass

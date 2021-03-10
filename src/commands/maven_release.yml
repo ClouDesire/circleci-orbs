@@ -1,7 +1,11 @@
 ---
 description: >
-  Execute release of a maven project.
+  Command to execute release of a maven project.
 parameters:
+  mvn_path:
+    description: Specify a custom path to maven
+    type: string
+    default: mvn
   project_dir:
     type: string
     default: .
@@ -16,8 +20,6 @@ steps:
   - add_ssh_keys:
       fingerprints:
         - "<< parameters.ssh_fingerprint >>"
-  - git_checkout:
-      url: "git@github.com:ClouDesire/ci-conf.git"
   - run:
       name: Setup custom settings.xml
       command: |
@@ -31,42 +33,6 @@ steps:
   - run:
       name: "Release project"
       environment:
+        MVN_PATH: "<< parameters.mvn_path >>"
         PROJECT_DIR: << parameters.project_dir >>
       command: <<include(scripts/maven_release.sh)>>
-  - slack/notify:
-      channel: "dev"
-      custom: |
-        {
-          "text": ":rocket: `${CIRCLE_PROJECT_REPONAME}`: `v${RELEASE_VERSION}` released",
-          "blocks": [
-            {
-              "type": "section",
-              "text": {
-                "type": "mrkdwn",
-                "text": ":rocket: `${RELEASE_VERSION}`: `v${CIRCLE_PROJECT_REPONAME}` released"
-              }
-            },
-            {
-              "type": "actions",
-              "elements": [
-                {
-                  "type": "button",
-                  "text": {
-                    "type": "plain_text",
-                    "text": "CircleCI Build"
-                  },
-                  "url": "${CIRCLE_BUILD_URL}"
-                },
-                {
-                  "type": "button",
-                  "text": {
-                    "type": "plain_text",
-                    "text": "Github PR"
-                  },
-                  "url": "${CIRCLE_PULL_REQUEST}"
-                }
-              ]
-            }
-          ]
-        }
-      event: pass
