@@ -139,4 +139,6 @@ workflows:
                 - master
       - notify-slack:
           context: common-backend
+          requires:
+            - orb-tools/dev-promote-prod-from-commit-subject
 
