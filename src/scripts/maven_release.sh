@@ -1,12 +1,11 @@
 #!/bin/bash
 
 MavenRelease() {
-  VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
   NEW_VERSION=$(echo ${CIRCLE_BRANCH//release-})
 
   cd $PROJECT_DIR
 
-  echo "Releasing $VERSION" 
+  echo "Releasing $NEW_VERSION" 
   #./mvnw deploy -Dmaven.test.skip=true
 
 
