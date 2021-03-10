@@ -6,6 +6,7 @@ orbs:
   orb-tools: circleci/orb-tools@10.0
   bats: circleci/bats@1.0
   shellcheck: circleci/shellcheck@2.0
+  slack: circleci/slack@4.2.0
 
 # Pipeline Parameters
 ## These parameters are used internally by orb-tools. Skip to the Jobs section.
@@ -34,6 +35,56 @@ jobs:
     steps:
       - common/github_pr_add_comment:
           comment: << parameters.comment >>
+  notify-slack:
+    docker:
+      - image: cimg/base:2021.01
+    resource_class: small
+    steps:
+      - slack/notify:
+          channel: "dev"
+          custom: |
+            {
+              "text": ":rocket: New version of `common orb` have been released",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": ":rocket: New version of `common orb` have been released"
+                  }
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "CircleCI Build"
+                      },
+                      "url": "${CIRCLE_BUILD_URL}"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Github PR"
+                      },
+                      "url": "${CIRCLE_PULL_REQUEST}"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Orb page"
+                      },
+                      "url": "https://circleci.com/developer/orbs/orb/cloudesire/common"
+                    }
+                  ]
+                }
+              ]
+            }
+          event: pass
 
 workflows:
   build-and-deploy:
@@ -86,4 +137,8 @@ workflows:
             branches:
               only:
                 - master
+      - notify-slack:
+          context: common-backend
+          requires:
+            - orb-tools/dev-promote-prod-from-commit-subject
 
