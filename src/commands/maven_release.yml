@@ -2,10 +2,16 @@
 description: >
   Execute release of a maven project.
 parameters:
+  ssh_fingerprint:
+    type: string
+    default: 08:24:83:a8:59:c5:7d:d5:de:b3:15:bf:1a:50:0e:ca
   project_dir:
     type: string
     default: .
 steps:
+  - add_ssh_keys:
+      fingerprints:
+        - "<< parameters.ssh_fingerprint >>"
   - run:
       name: "Release project"
       environment:
