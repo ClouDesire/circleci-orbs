@@ -1,6 +1,11 @@
 #!/bin/bash
 
 MavenRelease() {
+  
+  git config --global user.email "${GIT_EMAIL}"
+  git config --global user.name "${GIT_USERNAME}"
+
+
   RELEASE_VERSION="${CIRCLE_BRANCH//release-}"
   echo "export MAVEN_RELEASE_VERSION=${RELEASE_VERSION}" >> "${BASH_ENV}"
   cd "$PROJECT_DIR"
@@ -8,15 +13,8 @@ MavenRelease() {
   echo "Releasing $RELEASE_VERSION"
   ${MVN_PATH} versions:set -DnewVersion="${RELEASE_VERSION}" -DgenerateBackupPoms=false
   ${MVN_PATH} deploy -Dmaven.test.skip=true
-
   ${MVN_PATH} scm:tag -Dtag="v${RELEASE_VERSION}"
   
-  echo "${GIT_EMAIL}"
-  echo "${GIT_USERNAME}"
-  git config --global user.email "${GIT_EMAIL}"
-  git config --global user.name "${GIT_USERNAME}"
-
-
   IFS='.' read -a semver <<< "$RELEASE_VERSION"
   NEW_VERSION="${semver[0]}.${semver[1]}.$((${semver[2]} + 1))"
   echo "Updating pom.xml version to $NEW_VERSION"
