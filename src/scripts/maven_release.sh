@@ -13,7 +13,6 @@ MavenRelease() {
   echo "Releasing $RELEASE_VERSION"
   ${MVN_PATH} versions:set -DnewVersion="${RELEASE_VERSION}" -DgenerateBackupPoms=false
   ${MVN_PATH} deploy -Dmaven.test.skip=true
-  ${MVN_PATH} scm:tag -Dtag="v${RELEASE_VERSION}"
   
   IFS='.' read -a semver <<< "$RELEASE_VERSION"
   NEW_VERSION="${semver[0]}.${semver[1]}.$((${semver[2]} + 1))"
