@@ -35,9 +35,9 @@ steps:
       fingerprints:
         - "<< parameters.ssh_fingerprint >>"
   - when:
-      condition: 
+      condition:
         not:
-          equal: [ "", <<parameters.mvn_settings_repo>> ] 
+          equal: [ "", <<parameters.mvn_settings_repo>> ]
       steps:
         - git_checkout:
             url: <<parameters.mvn_settings_repo>>
