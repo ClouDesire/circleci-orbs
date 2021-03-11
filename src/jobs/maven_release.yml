@@ -2,10 +2,18 @@
 description: >
   Job to execute the release of a Maven Package
 parameters:
+  force_download:
+    description: Wheter to preemptively download all dependencies
+    type: boolean
+    default: true
   mvn_path:
     description: Specify a custom path to maven
     type: string
     default: mvn
+  mvn_settings_repo:
+    description:
+    type: string
+    default: ""
   notify_slack:
     type: boolean
     default: true
@@ -26,13 +34,24 @@ steps:
   - add_ssh_keys:
       fingerprints:
         - "<< parameters.ssh_fingerprint >>"
-  - git_checkout:
-      url: "git@github.com:ClouDesire/ci-conf.git"
-  - maven_release:
+  - when:
+      condition: 
+        not:
+          equal: [ "", <<parameters.mvn_settings_repo>> ] 
+      steps:
+        - git_checkout:
+            url: <<parameters.mvn_settings_repo>>
+  - maven_with_cache:
+      force_download: <<parameters.force_download>>
       mvn_path: <<parameters.mvn_path>>
-      project_dir: <<parameters.project_dir>>
-      settings_file: <<parameters.settings_file>>
-      ssh_fingerprint: <<parameters.ssh_fingerprint>>
+      settings_file: "<< parameters.settings_file >>"
+      steps:
+        - run:
+            name: "Release project"
+            environment:
+              MVN_PATH: "<< parameters.mvn_path >>"
+              PROJECT_DIR: << parameters.project_dir >>
+            command: <<include(scripts/maven_release.sh)>>
   - when:
       condition: << parameters.notify_slack >>
       steps:
