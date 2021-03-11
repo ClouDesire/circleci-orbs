@@ -9,7 +9,7 @@ MavenRelease() {
   ${MVN_PATH} versions:set -DnewVersion="${RELEASE_VERSION}" -DgenerateBackupPoms=false
   ${MVN_PATH} deploy -Dmaven.test.skip=true
 
-  #${MVN_PATH} scm:tag -Dtag=v${VERSION}
+  ${MVN_PATH} scm:tag -Dtag="v${RELEASE_VERSION}"
   
   echo "${GIT_EMAIL}"
   echo "${GIT_USERNAME}"
