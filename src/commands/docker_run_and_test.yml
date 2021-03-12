@@ -1,0 +1,42 @@
+---
+version: 2.1
+description: >
+  Command to run and test a docker container
+parameters:
+  container_name: 
+    type: string
+  container_port_range:
+    type: string
+    default: "80:80"
+  container_env_vars_file:
+    type: string
+    default: "./docker_env_file.list"
+  container_check_url:
+    type: string
+    default: http://localhost:8080/actuator/health
+  container_check_sleep_time:
+    type: string
+    default: 1
+  docker_registry:
+    type: string
+    default: docker.io
+steps:
+  - run:
+      name: Execute container
+      command: |
+        docker run -d --name <<parameters.container_name>> -p '<<parameters.container_port_range>>' \
+        --env-file <<parameters.container_env_vars_file>> \
+        <<parameters.docker_registry>>/<<parameters.container_name>>
+  - run:
+      name: Wait startup
+      command: |
+        for i in $(seq 1 30); do 
+          if [ $i -gt 1 ] && sleep <<parameters.container_check_sleep_time>>; then
+            curl -sSf <<parameters.container_check_url>> && s=0 && break || s=$?; 
+          fi
+        done; 
+        (exit $s)
+  - run:
+      name: Print container logs
+      when: on_fail
+      command: docker logs <<parameters.container_name>>
