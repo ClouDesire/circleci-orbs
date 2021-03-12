@@ -12,7 +12,7 @@ MavenRelease() {
   cd "$PROJECT_DIR"
 
   echo "Releasing $RELEASE_VERSION"
-  ${MVN_PATH} versions:set -DnewVersion="${RELEASE_VERSION}" -DgenerateBackupPoms=false
+  #${MVN_PATH} versions:set -DnewVersion="${RELEASE_VERSION}" -DgenerateBackupPoms=false
   ${MVN_PATH} deploy -Dmaven.test.skip=true
   
   IFS='.' read -a semver <<< "$RELEASE_VERSION"
