@@ -1,9 +1,8 @@
 ---
-version: 2.1
 description: >
   Command to run and test a docker container
 parameters:
-  container_name: 
+  container_name:
     type: string
   container_port_range:
     type: string
@@ -30,11 +29,11 @@ steps:
   - run:
       name: Wait startup
       command: |
-        for i in $(seq 1 30); do 
+        for i in $(seq 1 30); do
           if [ $i -gt 1 ] && sleep <<parameters.container_check_sleep_time>>; then
-            curl -sSf <<parameters.container_check_url>> && s=0 && break || s=$?; 
+            curl -sSf <<parameters.container_check_url>> && s=0 && break || s=$?;
           fi
-        done; 
+        done;
         (exit $s)
   - run:
       name: Print container logs
