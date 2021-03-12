@@ -59,13 +59,13 @@ steps:
             channel: "dev"
             custom: |
               {
-                "text": ":rocket: `${CIRCLE_PROJECT_REPONAME}`: `v${MAVEN_RELEASE_VERSION}` released",
+                "text": ":rocket: ${CIRCLE_PROJECT_REPONAME} v${MAVEN_RELEASE_VERSION} released",
                 "blocks": [
                   {
                     "type": "section",
                     "text": {
                       "type": "mrkdwn",
-                      "text": ":rocket: `${CIRCLE_PROJECT_REPONAME}`: `v${MAVEN_RELEASE_VERSION}` released"
+                      "text": ":rocket: ${CIRCLE_PROJECT_REPONAME} `v${MAVEN_RELEASE_VERSION}` released"
                     }
                   },
                   {
