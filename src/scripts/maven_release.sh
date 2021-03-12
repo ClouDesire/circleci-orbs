@@ -5,14 +5,12 @@ MavenRelease() {
   git config --global user.email "${GIT_EMAIL}"
   git config --global user.name "${GIT_USERNAME}"
 
-  
-  #RELEASE_VERSION="${CIRCLE_BRANCH//release-}"
   RELEASE_VERSION=$(${MVN_PATH} help:evaluate -Dexpression=project.version -q -DforceStdout)
   echo "export MAVEN_RELEASE_VERSION=${RELEASE_VERSION}" >> "${BASH_ENV}"
+  
   cd "$PROJECT_DIR"
 
   echo "Releasing $RELEASE_VERSION"
-  #${MVN_PATH} versions:set -DnewVersion="${RELEASE_VERSION}" -DgenerateBackupPoms=false
   ${MVN_PATH} deploy -Dmaven.test.skip=true
   
   IFS='.' read -a semver <<< "$RELEASE_VERSION"
