@@ -34,7 +34,7 @@ executor:
   name: docker_java
 steps:
   - attach_workspace:
-      at: << parameter.workspace >>
+      at: << parameters.workspace >>
   - add_ssh_keys:
       fingerprints:
         - "<< parameters.ssh_fingerprint >>"
