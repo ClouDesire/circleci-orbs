@@ -27,20 +27,17 @@ parameters:
   ssh_fingerprint:
     type: string
     default: 08:24:83:a8:59:c5:7d:d5:de:b3:15:bf:1a:50:0e:ca
+  workspace:
+    type: string
+    default: "."
 executor:
   name: docker_java
 steps:
-  - checkout
+  - attach_workspace:
+      at: << parameter.workspace >>
   - add_ssh_keys:
       fingerprints:
         - "<< parameters.ssh_fingerprint >>"
-  - when:
-      condition:
-        not:
-          equal: [ "", <<parameters.mvn_settings_repo>> ]
-      steps:
-        - git_checkout:
-            url: <<parameters.mvn_settings_repo>>
   - maven_with_cache:
       force_download: <<parameters.force_download>>
       mvn_path: <<parameters.mvn_path>>
