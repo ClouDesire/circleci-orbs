@@ -1,0 +1,91 @@
+---
+description: >
+  Job to execute the release of a Maven Package
+parameters:
+  force_download:
+    description: Wheter to preemptively download all dependencies
+    type: boolean
+    default: true
+  mvn_path:
+    description: Specify a custom path to maven
+    type: string
+    default: mvn
+  mvn_settings_repo:
+    description:
+    type: string
+    default: ""
+  notify_slack:
+    type: boolean
+    default: true
+  project_dir:
+    type: string
+    default: .
+  settings_file:
+    description: Specify a path to a custom settings file to use
+    type: string
+    default: "$GIT_CI_CONF_DIR/mvn/settings.xml"
+  ssh_fingerprint:
+    type: string
+    default: 08:24:83:a8:59:c5:7d:d5:de:b3:15:bf:1a:50:0e:ca
+  workspace:
+    type: string
+    default: "."
+executor:
+  name: docker_java
+steps:
+  - attach_workspace:
+      at: << parameters.workspace >>
+  - add_ssh_keys:
+      fingerprints:
+        - "<< parameters.ssh_fingerprint >>"
+  - maven_with_cache:
+      force_download: <<parameters.force_download>>
+      mvn_path: <<parameters.mvn_path>>
+      settings_file: "<< parameters.settings_file >>"
+      steps:
+        - run:
+            name: "Release project"
+            environment:
+              MVN_PATH: "<< parameters.mvn_path >>"
+              PROJECT_DIR: << parameters.project_dir >>
+            command: <<include(scripts/maven_release.sh)>>
+  - when:
+      condition: << parameters.notify_slack >>
+      steps:
+        - slack/notify:
+            channel: "dev"
+            custom: |
+              {
+                "text": ":rocket: ${CIRCLE_PROJECT_REPONAME} v${MAVEN_RELEASE_VERSION} released",
+                "blocks": [
+                  {
+                    "type": "section",
+                    "text": {
+                      "type": "mrkdwn",
+                      "text": ":rocket: ${CIRCLE_PROJECT_REPONAME} `v${MAVEN_RELEASE_VERSION}` released"
+                    }
+                  },
+                  {
+                    "type": "actions",
+                    "elements": [
+                      {
+                        "type": "button",
+                        "text": {
+                          "type": "plain_text",
+                          "text": "CircleCI Build"
+                        },
+                        "url": "${CIRCLE_BUILD_URL}"
+                      },
+                      {
+                        "type": "button",
+                        "text": {
+                          "type": "plain_text",
+                          "text": "Github PR"
+                        },
+                        "url": "${CIRCLE_PULL_REQUEST}"
+                      }
+                    ]
+                  }
+                ]
+              }
+            event: pass
