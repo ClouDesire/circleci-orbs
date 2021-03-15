@@ -34,7 +34,7 @@ steps:
             curl -sSf <<parameters.container_check_url>> && s=0 && break || s=$?;
           fi
         done;
-        (exit $s)
+        exit $s
   - run:
       name: Print container logs
       when: on_fail
