@@ -33,6 +33,7 @@ parameters:
 executor:
   name: docker_java
 steps:
+  - checkout
   - attach_workspace:
       at: << parameters.workspace >>
   - add_ssh_keys:
