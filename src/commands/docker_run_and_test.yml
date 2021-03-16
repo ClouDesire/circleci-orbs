@@ -6,7 +6,7 @@ parameters:
     type: string
   container_port_range:
     type: string
-    default: "80:80"
+    default: "8080:8080"
   container_env_vars_file:
     type: string
     default: "./docker_env_file.list"
@@ -15,7 +15,7 @@ parameters:
     default: http://localhost:8080/actuator/health
   container_check_sleep_time:
     type: integer
-    default: 1
+    default: 60
   docker_registry:
     type: string
     default: docker.io
