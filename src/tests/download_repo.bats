@@ -13,7 +13,7 @@ function teardown() {
 
 
 @test 'CheckoutRepo fails without GIT_USERNAME and GIT_EMAIL set' {
-  export REPO_URL="git@github.com:ClouDesire/ci-conf.git"
+  export REPO_URL="https://$GITHUB_TOKEN:x-oauth-basic@github.com/ClouDesire/ci-conf.git"
   export REPO_BRANCH="master"
   export REPO_DIR="/tmp/bats_tests"
   export BASH_ENV="/tmp/.pipeline_env"
@@ -25,7 +25,7 @@ function teardown() {
 }
 
 @test 'Download repo' {
-  export REPO_URL="git@github.com:ClouDesire/ci-conf.git"
+  export REPO_URL="https://$GITHUB_TOKEN:x-oauth-basic@github.com/ClouDesire/ci-conf.git"
   export REPO_DIR="/tmp/bats_tests"
   export GIT_EMAIL="circleci@cloudesire.com"
   export GIT_USERNAME="circleci"
@@ -39,7 +39,7 @@ function teardown() {
 }
 
 @test 'Download repo with custom branch' {
-  export REPO_URL="git@github.com:ClouDesire/ci-conf.git"
+  export REPO_URL="https://$GITHUB_TOKEN:x-oauth-basic@github.com/ClouDesire/ci-conf.git"
   export REPO_BRANCH="master"
   export REPO_DIR="/tmp/bats_tests"
   export GIT_EMAIL="circleci@cloudesire.com"
