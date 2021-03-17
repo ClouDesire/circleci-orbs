@@ -2,8 +2,14 @@
 
 CheckoutRepo() {
 
+  if [[ "$REPO_URL" == git@github.com* ]]; then
+    REPO_URL=${REPO_URL#"git@github.com:"}
+    REPO_URL="https://$GITHUB_TOKEN:x-oauth-basic@github.com/${REPO_URL}"
+  fi
+
+
   if [ -z $REPO_BRANCH ]; then
-    if git ls-remote -h $REPO_URL | grep -q "${CIRCLE_BRANCH}"; then
+    if git ls-remote -h $REPO_URL | grep -q "refs/heads/${CIRCLE_BRANCH}"; then
       REPO_BRANCH="${CIRCLE_BRANCH}"
     elif git ls-remote -h $REPO_URL | grep -q "refs/heads/master"; then
       REPO_BRANCH="master"
@@ -38,8 +44,10 @@ CheckoutRepo() {
   TMP_REPO_NAME="${REPO_NAME//-/_}"
   TMP_REPO_NAME=$(echo ${TMP_REPO_NAME} | tr '[:lower:]' '[:upper:]')
   echo "Adding GIT_${TMP_REPO_NAME}_DIR='${REPO_DIR}/${REPO_NAME}' to bash env"
-  echo "export GIT_${TMP_REPO_NAME}_DIR='${REPO_DIR}/${REPO_NAME}'" >>"${BASH_ENV}"
+  echo "export GIT_${TMP_REPO_NAME}_DIR='${REPO_DIR}/${REPO_NAME}'" >> "${HOME}/cloudesire.env"
+  echo "export GIT_${TMP_REPO_NAME}_DIR='${REPO_DIR}/${REPO_NAME}'" >> "${BASH_ENV}"
   source "${BASH_ENV}"
+
 
   if [ $MERGE_MASTER -eq 1 ] || [ ! -z $MERGE_MASTER ]; then
     if [ -z $GIT_EMAIL ] || [ -z $GIT_USERNAME ]; then
