@@ -47,7 +47,7 @@ CheckoutRepo() {
   echo "export GIT_${TMP_REPO_NAME}_DIR='${REPO_DIR}/${REPO_NAME}'" >> "${HOME}/cloudesire.env"
   echo "export GIT_${TMP_REPO_NAME}_DIR='${REPO_DIR}/${REPO_NAME}'" >> "${BASH_ENV}"
   source "${BASH_ENV}"
-  source "${HOME}/cloudesire.env"
+
 
   if [ $MERGE_MASTER -eq 1 ] || [ ! -z $MERGE_MASTER ]; then
     if [ -z $GIT_EMAIL ] || [ -z $GIT_USERNAME ]; then
