@@ -12,6 +12,8 @@ function teardown() {
 }
 
 
+
+
 @test 'CheckoutRepo fails without GIT_USERNAME and GIT_EMAIL set' {
   export REPO_URL="https://$GITHUB_TOKEN:x-oauth-basic@github.com/ClouDesire/ci-conf.git"
   export REPO_BRANCH="master"
@@ -45,6 +47,21 @@ function teardown() {
   export GIT_EMAIL="circleci@cloudesire.com"
   export GIT_USERNAME="circleci"
   export BASH_ENV="/tmp/.pipeline_env"
+
+  CheckoutRepo
+  [ $(cd "${REPO_DIR}/${REPO_NAME}" && git branch --show-current) == "${REPO_BRANCH}" ]
+}
+
+
+@test 'Download repo with not HTTP url' {
+  export REPO_URL="git@github.com:ClouDesire/ci-conf.git"
+  export REPO_DIR="/tmp/bats_tests"
+  export GIT_EMAIL="circleci@cloudesire.com"
+  export GIT_USERNAME="circleci"
+  export BASH_ENV="/tmp/.pipeline_env"
+  if [ -z "${CIRCLE_BRANCH}" ]; then 
+    export CIRCLE_BRANCH="master"
+  fi
 
   CheckoutRepo
   [ $(cd "${REPO_DIR}/${REPO_NAME}" && git branch --show-current) == "${REPO_BRANCH}" ]

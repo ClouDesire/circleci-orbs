@@ -2,6 +2,12 @@
 
 CheckoutRepo() {
 
+  if [[ "$REPO_URL" == git@github.com* ]]; then
+    REPO_URL=${REPO_URL#"git@github.com:"}
+    REPO_URL="https://$GITHUB_TOKEN:x-oauth-basic@github.com/${REPO_URL}"
+  fi
+
+
   if [ -z $REPO_BRANCH ]; then
     if git ls-remote -h $REPO_URL | grep -q "refs/heads/${CIRCLE_BRANCH}"; then
       REPO_BRANCH="${CIRCLE_BRANCH}"
