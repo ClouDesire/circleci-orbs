@@ -5,6 +5,10 @@ parameters:
     description: Wheter to preemptively download all dependencies
     type: boolean
     default: true
+  cache_key:
+    description: .m2 cache key
+    type: string
+    default: ""
   mvn_path:
     description: Specify a custom path to maven
     type: string
@@ -28,7 +32,7 @@ steps:
         - m2-{{ .Branch }}-{{ checksum "pomsum" }}
         - m2-{{ .Branch }}-
         - m2-master
-        - m2-
+        - m2-<<parameters.cache_key>>
   - run:
       name: Setup custom settings.xml
       command: |
