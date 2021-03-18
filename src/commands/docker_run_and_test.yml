@@ -19,13 +19,19 @@ parameters:
   docker_registry:
     type: string
     default: docker.io
+  docker_cmd_additional_options:
+    type: string
+    default: ""
 steps:
   - run:
       name: Execute container
       command: |
-        docker run -d --name <<parameters.container_name>> -p '<<parameters.container_port_range>>' \
-        --env-file <<parameters.container_env_vars_file>> \
-        <<parameters.docker_registry>>/<<parameters.container_name>>
+        DOCKER_CMD_OPTIONS=<<parameters.docker_cmd_additional_options>>
+        if [ -f "<<parameters.container_env_vars_file>>" ]; then
+          DOCKER_CMD_OPTIONS="$DOCKER_CMD_OPTIONS --env-file <<parameters.container_env_vars_file>>"
+        fi
+
+        docker run -d --name <<parameters.container_name>> -p '<<parameters.container_port_range>>' "${DOCKER_CMD_OPTIONS}" <<parameters.docker_registry>>/<<parameters.container_name>>
   - run:
       name: Wait startup
       command: |
