@@ -32,12 +32,12 @@ steps:
         CONTAINER_PORT_RANGE: "<<parameters.container_port_range>>"
         DOCKER_CMD_OPTIONS: <<parameters.docker_cmd_additional_options>>
         DOCKER_REGISTRY: <<parameters.docker_registry>>
-      command: |
+      command: | #!/bin/bash
         if [ -f "${CONTAINER_ENV_VARS_FILE}" ]; then
           DOCKER_CMD_OPTIONS="$DOCKER_CMD_OPTIONS --env-file ${CONTAINER_ENV_VARS_FILE}"
         fi
 
-        if [ $CONTAINER_NAME == "" ]; then
+        if [ "${CONTAINER_NAME}" == "" ]; then
           CONTAINER_NAME="$CIRCLE_PROJECT_REPONAME"
         fi
 
@@ -48,10 +48,10 @@ steps:
       enviroment:
         CONTAINER_CHECK_URL: <<parameters.container_check_url>>
         CONTAINER_CHECK_SLEEP_TIME: << parameters.container_check_sleep_time>>
-      command: |
+      command: | #!/bin/bash
         for i in $(seq 1 30); do
           if [ $i -gt 1 ] && sleep ${CONTAINER_CHECK_SLEEP_TIME}; then
-            curl -sSf 4{CONTAINER_CHECK_URL} && s=0 && break || s=$?;
+            curl -sSf "${CONTAINER_CHECK_URL}" && s=0 && break || s=$?;
           fi
         done;
         exit $s
@@ -60,8 +60,8 @@ steps:
       when: on_fail
       enviroment:
         CONTAINER_NAME: <<parameters.container_name>>
-      command: |
-        if [ $CONTAINER_NAME == "" ]; then
+      command: | #!/bin/bash
+        if [ "${CONTAINER_NAME}" == "" ]; then
           CONTAINER_NAME="$CIRCLE_PROJECT_REPONAME"
         fi
 
