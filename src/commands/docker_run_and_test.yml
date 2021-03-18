@@ -32,32 +32,15 @@ steps:
         CONTAINER_PORT_RANGE: "<<parameters.container_port_range>>"
         DOCKER_CMD_OPTIONS: <<parameters.docker_cmd_additional_options>>
         DOCKER_REGISTRY: <<parameters.docker_registry>>
-      command: |
-        if [ -f "${CONTAINER_ENV_VARS_FILE}" ]; then
-          DOCKER_CMD_OPTIONS="$DOCKER_CMD_OPTIONS --env-file ${CONTAINER_ENV_VARS_FILE}"
-        fi
-
-        if [ "${CONTAINER_NAME}" == "" ]; then
-          CONTAINER_NAME="$CIRCLE_PROJECT_REPONAME"
-        fi
-        echo "Container name: ${CONTAINER_NAME}"
-        echo "Container port range: ${CONTAINER_PORT_RANGE}"
-        echo "Docker options: ${DOCKER_CMD_OPTIONS}"
-        echo "Container registry: ${DOCKER_REGISTRY}/${CONTAINER_NAME}"
-        docker run -d --name "${CONTAINER_NAME}" -p "${CONTAINER_PORT_RANGE}" ${DOCKER_CMD_OPTIONS} "${DOCKER_REGISTRY}/${CONTAINER_NAME}"
-
+      command: <<include(scripts/docker_run.sh)>>
+        
   - run:
       name: Wait startup
       environment:
-        CONTAINER_CHECK_URL: <<parameters.container_check_url>>
-        CONTAINER_CHECK_SLEEP_TIME: << parameters.container_check_sleep_time>>
-      command: |
-        for i in $(seq 1 30); do
-          if [ $i -gt 1 ] && sleep ${CONTAINER_CHECK_SLEEP_TIME}; then
-            curl -sSf "${CONTAINER_CHECK_URL}" && s=0 && break || s=$?;
-          fi
-        done;
-        exit $s
+        CHECK_URL: <<parameters.container_check_url>>
+        CHECK_SLEEP_TIME: << parameters.container_check_sleep_time>>
+      command: <<include(scripts/utility_check_url.sh)>>
+        
   - run:
       name: Print container logs
       when: on_fail
