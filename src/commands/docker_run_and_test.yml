@@ -26,7 +26,7 @@ parameters:
 steps:
   - run:
       name: Execute container
-      enviroment:
+      environment:
         CONTAINER_ENV_VARS_FILE: "<<parameters.container_env_vars_file>>"
         CONTAINER_NAME: <<parameters.container_name>>
         CONTAINER_PORT_RANGE: "<<parameters.container_port_range>>"
@@ -48,7 +48,7 @@ steps:
 
   - run:
       name: Wait startup
-      enviroment:
+      environment:
         CONTAINER_CHECK_URL: <<parameters.container_check_url>>
         CONTAINER_CHECK_SLEEP_TIME: << parameters.container_check_sleep_time>>
       command: |
