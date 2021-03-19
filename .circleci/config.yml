@@ -60,6 +60,14 @@ jobs:
                       "type": "button",
                       "text": {
                         "type": "plain_text",
+                        "text": "CircleCI Build"
+                      },
+                      "url": "${CIRCLE_BUILD_URL}"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
                         "text": "Orb page"
                       },
                       "url": "https://circleci.com/developer/orbs/orb/cloudesire/common"
