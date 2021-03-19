@@ -3,9 +3,8 @@
 if [ "${CONTAINER_NAME}" == "" ]; then
   CONTAINER_NAME="$CIRCLE_PROJECT_REPONAME"
 fi
-RETRIES="30"
 
-docker run --network "container:${CONTAINER_NAME}" --rm curlimages/curl:7.75.0 --retry "${RETRIES}" --retry-delay 1 --retry-connrefused "${CHECK_URL}"
+docker run --network "container:${CONTAINER_NAME}" --rm curlimages/curl:7.75.0 -vv --retry 30 --retry-delay 1 --retry-connrefused "${CHECK_URL}"
 
 #if [ "${EXECUTOR_IS_DOCKER}" == "true" ]; then
 #else
