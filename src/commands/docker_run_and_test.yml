@@ -38,6 +38,7 @@ steps:
       name: Wait startup
       environment:
         CHECK_URL: <<parameters.container_check_url>>
+        CONTAINER_NAME: <<parameters.container_name>>
         SLEEP_TIME: << parameters.container_check_sleep_time>>
       command: <<include(scripts/utility_check_url.sh)>>
 
