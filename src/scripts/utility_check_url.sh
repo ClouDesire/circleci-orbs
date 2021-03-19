@@ -5,12 +5,7 @@ if [ "${CONTAINER_NAME}" == "" ]; then
 fi
 RETRIES="30"
 
-docker run --network "container:${CONTAINER_NAME}" --rm \
-    curlimages/curl:7.75.0 \
-    --retry-connrefused \
-    --retry 30 \
-    --retry-delay 1 \
-    "${CHECK_URL}" \
+docker run --network "container:${CONTAINER_NAME}" --rm curlimages/curl:7.75.0 --retry "${RETRIES}" --retry-delay 1 --retry-connrefused "${CHECK_URL}"
 
 #if [ "${EXECUTOR_IS_DOCKER}" == "true" ]; then
 #else
