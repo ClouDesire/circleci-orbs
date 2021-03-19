@@ -33,14 +33,14 @@ steps:
         DOCKER_CMD_OPTIONS: <<parameters.docker_cmd_additional_options>>
         DOCKER_REGISTRY: <<parameters.docker_registry>>
       command: <<include(scripts/docker_run.sh)>>
-      
+
   - run:
       name: Wait startup
       environment:
         CHECK_URL: <<parameters.container_check_url>>
         SLEEP_TIME: << parameters.container_check_sleep_time>>
       command: <<include(scripts/utility_check_url.sh)>>
-      
+ 
   - run:
       name: Print container logs
       when: on_fail
