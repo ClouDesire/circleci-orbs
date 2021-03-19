@@ -110,6 +110,10 @@ workflows:
             branches:
               ignore:
                 - master
+      - notify-slack:
+          context: common-backend
+          requires:
+            - orb-tools/publish-dev
       - orb-tools/trigger-integration-tests-workflow:
           name: trigger_publish
           context: orb-publish
