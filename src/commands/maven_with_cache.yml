@@ -5,6 +5,10 @@ parameters:
     description: Wheter to preemptively download all dependencies
     type: boolean
     default: true
+  cache_key:
+    description: .m2 cache key
+    type: string
+    default: ""
   mvn_path:
     description: Specify a custom path to maven
     type: string
@@ -25,10 +29,10 @@ steps:
         fi
   - restore_cache:
       keys:
-        - m2-{{ .Branch }}-{{ checksum "pomsum" }}
-        - m2-{{ .Branch }}-
-        - m2-master
-        - m2-
+        - m2-{{ .Branch }}-{{ checksum "pomsum" }}-<<parameters.cache_key>>
+        - m2-{{ .Branch }}-<<parameters.cache_key>>
+        - m2-master-<<parameters.cache_key>>
+        - m2-<<parameters.cache_key>>
   - run:
       name: Setup custom settings.xml
       command: |
@@ -47,7 +51,7 @@ steps:
             command: << parameters.mvn_path >> dependency:go-offline
   - steps: << parameters.steps >>
   - save_cache:
-      key: m2-{{ .Branch }}-{{ checksum "pomsum" }}
+      key: m2-{{ .Branch }}-{{ checksum "pomsum" }}-<<parameters.cache_key>>
       paths:
         - ~/.m2/repository
         - ~/.m2/wrapper
