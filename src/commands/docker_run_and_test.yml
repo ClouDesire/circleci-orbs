@@ -4,6 +4,7 @@ description: >
 parameters:
   container_name:
     type: string
+    default: ""
   container_port_range:
     type: string
     default: "8080:8080"
@@ -16,26 +17,43 @@ parameters:
   container_check_sleep_time:
     type: integer
     default: 60
+  container_check_retries:
+    type: integer
+    default: 30
   docker_registry:
     type: string
     default: docker.io
+  docker_cmd_additional_options:
+    type: string
+    default: ""
 steps:
   - run:
       name: Execute container
-      command: |
-        docker run -d --name <<parameters.container_name>> -p '<<parameters.container_port_range>>' \
-        --env-file <<parameters.container_env_vars_file>> \
-        <<parameters.docker_registry>>/<<parameters.container_name>>
+      environment:
+        CONTAINER_ENV_VARS_FILE: "<<parameters.container_env_vars_file>>"
+        CONTAINER_NAME: <<parameters.container_name>>
+        CONTAINER_PORT_RANGE: "<<parameters.container_port_range>>"
+        DOCKER_CMD_OPTIONS: <<parameters.docker_cmd_additional_options>>
+        DOCKER_REGISTRY: <<parameters.docker_registry>>
+      command: <<include(scripts/docker_run.sh)>>
+
   - run:
       name: Wait startup
-      command: |
-        for i in $(seq 1 30); do
-          if [ $i -gt 1 ] && sleep <<parameters.container_check_sleep_time>>; then
-            curl -sSf <<parameters.container_check_url>> && s=0 && break || s=$?;
-          fi
-        done;
-        exit $s
+      environment:
+        CHECK_URL: <<parameters.container_check_url>>
+        CHECK_RETRIES: << parameters.container_check_retries >>
+        CONTAINER_NAME: <<parameters.container_name>>
+        SLEEP_TIME: << parameters.container_check_sleep_time>>
+      command: <<include(scripts/utility_check_url.sh)>>
+
   - run:
       name: Print container logs
       when: on_fail
-      command: docker logs <<parameters.container_name>>
+      enviroment:
+        CONTAINER_NAME: <<parameters.container_name>>
+      command: |
+        if [ "${CONTAINER_NAME}" == "" ]; then
+          CONTAINER_NAME="$CIRCLE_PROJECT_REPONAME"
+        fi
+
+        docker logs $CONTAINER_NAME
