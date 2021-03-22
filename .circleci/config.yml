@@ -44,13 +44,13 @@ jobs:
           channel: "dev"
           custom: |
             {
-              "text": ":rocket: New version of `common orb` have been released",
+              "text": ":rocket: New version of `common orb` released",
               "blocks": [
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": ":rocket: New version of `common orb` have been released"
+                    "text": ":rocket: New version of `common orb` released"
                   }
                 },
                 {
@@ -63,14 +63,6 @@ jobs:
                         "text": "CircleCI Build"
                       },
                       "url": "${CIRCLE_BUILD_URL}"
-                    },
-                    {
-                      "type": "button",
-                      "text": {
-                        "type": "plain_text",
-                        "text": "Github PR"
-                      },
-                      "url": "${CIRCLE_PULL_REQUEST}"
                     },
                     {
                       "type": "button",

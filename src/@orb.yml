@@ -13,4 +13,4 @@ description: >
 #If your orb requires other orbs, you can import them like this.
 #Otherwise remove the "orbs" stanza.
 orbs:
-  slack: circleci/slack@4.3.0
+  slack: circleci/slack@4.3.1
