@@ -18,9 +18,9 @@ MavenRelease() {
   echo "Updating pom.xml version to $NEW_VERSION"
   ${MVN_PATH} versions:set -DnewVersion="${NEW_VERSION}-SNAPSHOT" -DgenerateBackupPoms=false
 
-  git add .
-  git commit -m "Preparing for next iteration - version set to ${NEW_VERSION}-SNAPSHOT \n \n [skip ci]"
-  git push
+  git add po*.xml
+  git commit -m "Preparing for next iteration - version set to ${NEW_VERSION}-SNAPSHOT" -m "" -m "[skip ci]"
+  git push --set-upstream origin "${CIRCLE_BRANCH}"
 
 }
 
