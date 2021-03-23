@@ -16,7 +16,7 @@ MavenRelease() {
   IFS='.' read -a semver <<< "$RELEASE_VERSION"
   NEW_VERSION="${semver[0]}.${semver[1]}.$((${semver[2]} + 1))"
   echo "Updating pom.xml version to $NEW_VERSION"
-  ${MVN_PATH} versions:set -DnewVersion="${NEW_VERSION}-SNAPSHOT" scm:checkin -Dmessage="Preparing for next iteration - version set to ${NEW_VERSION}-SNAPSHOT\n\n[skip ci]" -DgenerateBackupPoms=false
+  ${MVN_PATH} versions:set -DnewVersion="${NEW_VERSION}-SNAPSHOT" scm:checkin -Dmessage="Preparing for next iteration - version set to ${NEW_VERSION}-SNAPSHOT \n \n [skip ci]" -DgenerateBackupPoms=false
 
 }
 
