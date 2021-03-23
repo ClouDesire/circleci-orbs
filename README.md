@@ -1,5 +1,5 @@
 
-# Orb Project Template
+# ClouDesire Common Orb
 
 [![CircleCI Build Status](https://circleci.com/gh/ClouDesire/circleci-orbs.svg?style=shield "CircleCI Build Status")](https://circleci.com/gh/ClouDesire/circleci-orbs) [![CircleCI Orb Version](https://img.shields.io/badge/endpoint.svg?url=https://badges.circleci.io/orb/cloudesire/common)](https://circleci.com/orbs/registry/orb/cloudesire/common)
 
@@ -27,9 +27,9 @@ Example: `[semver:major]`
 * On merge, after manual approval, the orb will automatically be published to the Orb Registry.
 
 
-## Commands
+### Commands
 
-### Docker: run and test container
+#### Docker: run and test container
 
 To run and check if a container starts correctly, you can use the `docker_run_and_test` command. It runs the container and check, by default, the url http://localhost:8080/actuator/health waiting for the container to be `UP`.
 
