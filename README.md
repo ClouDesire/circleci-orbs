@@ -8,9 +8,6 @@ Additional READMEs are available in each directory.
 
 ## Resources
 
-[CircleCI Orb Registry Page](https://circleci.com/orbs/registry/orb/cloudesire/common) - The official registry page of this orb for all versions, executors, commands, and jobs described.
-[CircleCI Orb Docs](https://circleci.com/docs/2.0/orb-intro/#section=configuration) - Docs for using and creating CircleCI Orbs.
-
 ### How to Publish
 
 * Create and push a branch with your new features.
@@ -28,3 +25,26 @@ Example: `[semver:major]`
 
 * Squash and merge. Ensure the semver tag is preserved and entered as a part of the commit message.
 * On merge, after manual approval, the orb will automatically be published to the Orb Registry.
+
+
+## Commands
+
+### Docker: run and test container
+
+To run and check if the container starts correctly, you can use the `docker_run_and_test.yml` command. Ex: 
+
+```yaml
+- run:
+    name: Prepare docker env file
+    command: |
+      # Add the container env variables to a file. Es:
+      # echo "SERVER_PORT=8080" >> docker_env_file.list
+
+- cloudesire/docker_run_and_test:
+    docker_registry: docker.cloudesire.com
+    container_port_range: "8080:8080"
+
+```
+
+For the full list of parameters check the [orb page](https://badges.circleci.io/orb/cloudesire/common).
+
