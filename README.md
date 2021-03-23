@@ -31,7 +31,7 @@ Example: `[semver:major]`
 
 ### Docker: run and test container
 
-To run and check if the container starts correctly, you can use the `docker_run_and_test.yml` command. Ex: 
+To run and check if a container starts correctly, you can use the `docker_run_and_test` command. Ex: 
 
 ```yaml
 - run:
