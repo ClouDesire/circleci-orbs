@@ -31,7 +31,10 @@ Example: `[semver:major]`
 
 ### Docker: run and test container
 
-To run and check if a container starts correctly, you can use the `docker_run_and_test` command. Ex: 
+To run and check if a container starts correctly, you can use the `docker_run_and_test` command. It runs the container and check, by default, the url http://localhost:8080/actuator/health waiting for the container to be `UP`.
+
+If the container needs some environment variables, add a step before the `docker_run_and_test` command to create a `docker_env_file.list` file (look at the example for more)
+Ex: 
 
 ```yaml
 - run:
@@ -46,5 +49,5 @@ To run and check if a container starts correctly, you can use the `docker_run_an
 
 ```
 
-For the full list of parameters check the [orb page](https://badges.circleci.io/orb/cloudesire/common).
+For the full list of parameters and default values check the [command page](https://circleci.com/developer/orbs/orb/cloudesire/common#commands-docker_run_and_test) in the orb documentation.
 
