@@ -16,7 +16,11 @@ MavenRelease() {
   IFS='.' read -a semver <<< "$RELEASE_VERSION"
   NEW_VERSION="${semver[0]}.${semver[1]}.$((${semver[2]} + 1))"
   echo "Updating pom.xml version to $NEW_VERSION"
-  ${MVN_PATH} versions:set -DnewVersion="${NEW_VERSION}-SNAPSHOT" scm:checkin -Dmessage="[skip ci] Preparing for next iteration - version set to ${NEW_VERSION}-SNAPSHOT" -DgenerateBackupPoms=false
+  ${MVN_PATH} versions:set -DnewVersion="${NEW_VERSION}-SNAPSHOT" -DgenerateBackupPoms=false
+
+  find ./ -name pom.xml -exec git add {} \;
+  git commit -m "Preparing for next iteration - version set to ${NEW_VERSION}-SNAPSHOT" -m "" -m "[skip ci]"
+  git push --set-upstream origin "${CIRCLE_BRANCH}"
 
 }
 
