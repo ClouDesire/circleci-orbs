@@ -8,5 +8,5 @@ echo "Maven command: ${MAVEN_COMMAND}"
 echo "Maven options: ${MAVEN_OPTS}"
 
 cd "${REPO_DIR}/${REPO_NAME}"
-${MAVEN_PATH} ${MAVEN_COMMAND} ${MAVEN_OPTS}
+${MAVEN_PATH} ${MAVEN_COMMAND} "${MAVEN_OPTS}"
 
