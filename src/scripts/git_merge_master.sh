@@ -25,7 +25,7 @@ GitMergeMaster() {
   if [ "${DEFAULT_BRANCH}" != "${CIRCLE_BRANCH}" ]; then
     git clean -dxf
     git fetch origin "${DEFAULT_BRANCH}" 
-    git merge --no-edit origin/"${DEFAULT_BRANCH}"; 
+    git merge --no-edit "origin/${DEFAULT_BRANCH}"; 
   fi
 }
 
