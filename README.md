@@ -17,7 +17,7 @@ Usage example:
           mvn_path: ./mvnw
           steps:
             - cloudesire/maven_install_library:
-                repo_url: git@github.com:ClouDesire/abstract-connector.git
+                repo_url: git@github.com:my-organization/my-library.git
             - run:
                 name: Build
                 command: ./mvnw -B package
@@ -45,4 +45,3 @@ Ex:
 ```
 
 For the full list of parameters and default values check the [command page](https://circleci.com/developer/orbs/orb/cloudesire/common#commands-docker_run_and_test) in the orb documentation.
-
