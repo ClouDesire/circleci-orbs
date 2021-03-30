@@ -1,0 +1,7 @@
+---
+description: >
+  Make sure that built branch is aligned to default branch (master/main)
+steps:
+  - run:
+      name: "Merge with master"
+      command: <<include(scripts/git_merge_master.sh)>>
