@@ -7,6 +7,23 @@ CircleCI Orb developed by the ClouDesire Team.
 
 ## Commands and examples
 
+### Maven: install external library
+
+To install an external library from another repository, use the `maven_install_library` command. It downloads the repository and installs the library on the build VM/container. 
+Usage example:
+
+```yaml
+- cloudesire/maven_with_cache:
+          mvn_path: ./mvnw
+          steps:
+            - cloudesire/maven_install_library:
+                repo_url: git@github.com:my-organization/my-library.git
+            - run:
+                name: Build
+                command: ./mvnw -B package
+```
+
+
 ### Docker: run and test container
 
 To run and check if a container starts correctly, you can use the `docker_run_and_test` command. It runs the container and check, by default, the url http://localhost:8080/actuator/health waiting for the container to be `UP`.

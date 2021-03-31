@@ -5,7 +5,7 @@ parameters:
   maven_command:
     type: string
     default: "clean install"
-  maven_opts:
+  maven_cmd_opts:
     type: string
     default: "-Dmaven.test.skip=true -Dmaven.javadoc.skip=true"
   maven_path:
@@ -28,7 +28,7 @@ steps:
       name: Install maven library from << parameters.repo_url >>
       environment:
         MAVEN_COMMAND: << parameters.maven_command >>
-        MAVEN_OPTS: << parameters.maven_opts >>
+        MAVEN_CMD_OPTS: << parameters.maven_cmd_opts >>
         MAVEN_PATH: << parameters.maven_path >>
         REPO_DIR: << parameters.repo_dir >>
         REPO_URL: << parameters.repo_url >>
