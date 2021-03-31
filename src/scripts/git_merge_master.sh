@@ -25,11 +25,10 @@ GitMergeMaster() {
     return 1
   fi
 
-  if [ "${CIRCLE_BRANCH}" != "${DEFAULT_BRANCH}" ]; then
-    git clean -dxf
-    git fetch origin "${DEFAULT_BRANCH}" 
-    git merge --no-edit "origin/${DEFAULT_BRANCH}"; 
-  fi
+  git clean -dxf
+  git fetch origin "${DEFAULT_BRANCH}" 
+  git merge --no-edit "origin/${DEFAULT_BRANCH}"; 
+  
 }
 
 
