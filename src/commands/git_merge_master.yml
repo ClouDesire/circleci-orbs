@@ -1,6 +1,6 @@
 ---
 description: >
-  Make sure that built branch is aligned to default branch (master/main)
+  Merge PR branch with default branch (main/master)
 steps:
   - run:
       name: Setup git
