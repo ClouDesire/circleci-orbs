@@ -1,0 +1,10 @@
+---
+description: >
+  Merge PR branch with default branch (main/master)
+steps:
+  - run:
+      name: Setup git
+      command: <<include(scripts/git_setup.sh)>>
+  - run:
+      name: "Merge with master"
+      command: <<include(scripts/git_merge_master.sh)>>

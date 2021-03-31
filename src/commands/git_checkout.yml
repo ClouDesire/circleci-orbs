@@ -27,6 +27,9 @@ parameters:
     type: string
 steps:
   - run:
+      name: Setup git
+      command: <<include(scripts/git_setup.sh)>>
+  - run:
       name: "Download repo << parameters.url >>"
       environment:
         MERGE_MASTER: << parameters.merge_master >>

@@ -45,3 +45,23 @@ Ex:
 ```
 
 For the full list of parameters and default values check the [command page](https://circleci.com/developer/orbs/orb/cloudesire/common#commands-docker_run_and_test) in the orb documentation.
+
+
+### Git
+#### Merge PR branch with default branch (main/master)
+
+When building a PR, the step `git_merge_master`, merges the PR branch with the default branch (main or master). 
+Usage examples:
+
+```yaml
+- checkout
+
+- cloudesire/git_merge_master
+
+- cloudesire/maven_with_cache:
+    mvn_path: ./mvnw
+    steps:
+      - run:
+          name: Build
+          command: ./mvnw -B package
+```
