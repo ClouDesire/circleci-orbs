@@ -5,8 +5,6 @@ GitMergeMaster() {
   REPO_URL="${CIRCLE_REPOSITORY_URL}"
   DEFAULT_BRANCH=""
 
-  git config user.email "${GIT_EMAIL}"
-  git config user.name "${GIT_USERNAME}"
 
   if [[ "$REPO_URL" == git@github.com* ]]; then
     REPO_URL=${REPO_URL#"git@github.com:"}
