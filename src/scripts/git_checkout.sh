@@ -45,7 +45,7 @@ CheckoutRepo() {
   TMP_REPO_NAME=$(echo ${TMP_REPO_NAME} | tr '[:lower:]' '[:upper:]')
   echo "Adding GIT_${TMP_REPO_NAME}_DIR='${REPO_DIR}/${REPO_NAME}' to bash env"
   
-  echo "IMPORTANT: usage of this file is deprecated. Please use globals.sh instead!" >> "${HOME}/cloudesire.env"
+  echo "echo IMPORTANT: usage of this file is deprecated. Please use globals.sh instead!" >> "${HOME}/cloudesire.env"
   echo "export GIT_${TMP_REPO_NAME}_DIR='${REPO_DIR}/${REPO_NAME}'" >> "${HOME}/cloudesire.env"
   
   echo "export GIT_${TMP_REPO_NAME}_DIR='${REPO_DIR}/${REPO_NAME}'" >> "${HOME}/globals.sh"
