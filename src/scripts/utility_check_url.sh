@@ -4,10 +4,6 @@ if [ "${CONTAINER_NAME}" == "" ]; then
   CONTAINER_NAME="$CIRCLE_PROJECT_REPONAME"
 fi
 
-if [ "${CURL_IMG_VERSION}" == "" ]; then
-  CONTAINER_NAME="7.75.0"
-fi
-
 echo "Container name: ${CONTAINER_NAME}"
 echo "Retries: ${CHECK_RETRIES}"
 echo "Sleep time: ${SLEEP_TIME}"
