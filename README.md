@@ -48,7 +48,7 @@ For the full list of parameters and default values check the [command page](http
 
 
 ### Git
-#### Merge built branch with master
+#### Merge PR branch with default branch (main/master)
 
 When building a PR, the step `git_merge_master`, merges the PR branch with the default branch (either main or master). 
 Usage examples:
