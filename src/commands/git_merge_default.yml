@@ -6,5 +6,5 @@ steps:
       name: Setup git
       command: <<include(scripts/git_setup.sh)>>
   - run:
-      name: "Merge with master"
+      name: "Merge with default branch"
       command: <<include(scripts/git_merge_default.sh)>>
