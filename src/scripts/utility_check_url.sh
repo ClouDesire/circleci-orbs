@@ -21,7 +21,4 @@ docker run --network "container:${CONTAINER_NAME}" --rm "curlimages/curl:{CURL_I
   --retry-all-errors \
   "${CHECK_URL}"
 
-if [ $? -ne 0 ]; then
-  exit 1
-fi
-
+exit $?
