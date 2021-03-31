@@ -2,9 +2,14 @@
 # Make sure that current branch is aligned to master
 GitMergeMaster() {
   
+  if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "main" ]; then
+    echo "Already on ${CIRCLE_BRANCH}. Merge with default branch not required. Skipping."
+    exit 0
+  fi
+
+
   REPO_URL="${CIRCLE_REPOSITORY_URL}"
   DEFAULT_BRANCH=""
-
 
   if [[ "$REPO_URL" == git@github.com* ]]; then
     REPO_URL=${REPO_URL#"git@github.com:"}
@@ -20,7 +25,7 @@ GitMergeMaster() {
     return 1
   fi
 
-  if [ "${DEFAULT_BRANCH}" != "${CIRCLE_BRANCH}" ]; then
+  if [ "${CIRCLE_BRANCH}" != "${DEFAULT_BRANCH}" ]; then
     git clean -dxf
     git fetch origin "${DEFAULT_BRANCH}" 
     git merge --no-edit "origin/${DEFAULT_BRANCH}"; 
