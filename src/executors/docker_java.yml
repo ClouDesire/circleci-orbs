@@ -1,11 +1,11 @@
 ---
 description: >
   This is a Java executor. The Java version is passed as a parameter.
-  Default Java version is 8.0.265, more tags here: https://circleci.com/developer/images/image/cimg/openjdk
+  Default Java version is 8.0, more tags here: https://circleci.com/developer/images/image/cimg/openjdk
 parameters:
   java_version:
     type: string
-    default: 8.0.265
+    default: "8.0"
   resource_class:
     type: string
     default: small
