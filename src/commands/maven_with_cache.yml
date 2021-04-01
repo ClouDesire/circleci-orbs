@@ -29,9 +29,9 @@ steps:
         fi
   - restore_cache:
       keys:
-        - m2-{{ .Branch }}-{{ checksum "pomsum" }}-<<parameters.cache_key>>
-        - m2-{{ .Branch }}-<<parameters.cache_key>>
-        - m2-master-<<parameters.cache_key>>
+        - m2-<<parameters.cache_key>>-{{ .Branch }}-{{ checksum "pomsum" }}
+        - m2-<<parameters.cache_key>>-{{ .Branch }}
+        - m2-<<parameters.cache_key>>-master
         - m2-<<parameters.cache_key>>
   - run:
       name: Setup custom settings.xml
@@ -51,7 +51,7 @@ steps:
             command: << parameters.mvn_path >> dependency:go-offline
   - steps: << parameters.steps >>
   - save_cache:
-      key: m2-{{ .Branch }}-{{ checksum "pomsum" }}-<<parameters.cache_key>>
+      key: m2-<<parameters.cache_key>>-{{ .Branch }}-{{ checksum "pomsum" }}
       paths:
         - ~/.m2/repository
         - ~/.m2/wrapper
