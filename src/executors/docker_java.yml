@@ -5,7 +5,7 @@ description: >
 parameters:
   java_version:
     type: string
-    default: 8.0
+    default: "8.0"
   resource_class:
     type: string
     default: small
