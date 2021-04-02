@@ -16,10 +16,10 @@ parameters:
     default: http://localhost:8080/actuator/health
   container_check_sleep_time:
     type: integer
-    default: 60
+    default: 1
   container_check_retries:
     type: integer
-    default: 30
+    default: 60
   docker_registry:
     type: string
     default: docker.io
