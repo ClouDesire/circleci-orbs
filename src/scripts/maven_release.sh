@@ -5,7 +5,7 @@ MavenRelease() {
   RELEASE_VERSION=$(${MVN_PATH} help:evaluate -Dexpression=project.version -q -DforceStdout)
   if [[ "${RELEASE_VERSION}" == *"-SNAPSHOT"* ]]; then
     echo "Skipping release because version contains SNAPSHOT. Version: ${RELEASE_VERSION}"
-    circleci step halt
+    exit 0
   fi
 
   git config --global user.email "${GIT_EMAIL}"
