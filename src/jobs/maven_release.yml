@@ -40,7 +40,7 @@ steps:
         - "<< parameters.ssh_fingerprint >>"
   - run:
       name: Setup git
-      command: <<include(scripts/git_setup.sh)>
+      command: <<include(scripts/git_setup.sh)>>
   - run:
       name: Check if version contains -SNAPSHOT
       environment:
