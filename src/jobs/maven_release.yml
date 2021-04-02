@@ -39,6 +39,8 @@ steps:
       fingerprints:
         - "<< parameters.ssh_fingerprint >>"
   - run:
+      environment:
+        MVN_PATH: "<< parameters.mvn_path >>"
       command: |
         RELEASE_VERSION=$(${MVN_PATH} help:evaluate -Dexpression=project.version -q -DforceStdout)
         if [[ "${RELEASE_VERSION}" == *"-SNAPSHOT"* ]]; then
