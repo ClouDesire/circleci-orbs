@@ -2,12 +2,6 @@
 
 MavenRelease() {
   
-  RELEASE_VERSION=$(${MVN_PATH} help:evaluate -Dexpression=project.version -q -DforceStdout)
-  echo "export MAVEN_RELEASE_VERSION=${RELEASE_VERSION}" >> "${BASH_ENV}"
-
-  git config --global user.email "${GIT_EMAIL}"
-  git config --global user.name "${GIT_USERNAME}"
-
   cd "$PROJECT_DIR"
 
   echo "Releasing $RELEASE_VERSION"
