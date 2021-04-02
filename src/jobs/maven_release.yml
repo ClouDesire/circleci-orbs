@@ -39,6 +39,7 @@ steps:
       fingerprints:
         - "<< parameters.ssh_fingerprint >>"
   - run:
+      name: Check if version contains -SNAPSHOT
       environment:
         MVN_PATH: "<< parameters.mvn_path >>"
       command: |
