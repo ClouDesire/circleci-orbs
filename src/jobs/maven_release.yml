@@ -51,7 +51,7 @@ steps:
           echo "Skipping release because version contains SNAPSHOT. Version: ${RELEASE_VERSION}"
           circleci-agent step halt
         fi
-        echo "export MAVEN_RELEASE_VERSION=${RELEASE_VERSION}" >> "${BASH_ENV}"
+        echo "export RELEASE_VERSION=${RELEASE_VERSION}" >> "${BASH_ENV}"
   - maven_with_cache:
       force_download: <<parameters.force_download>>
       mvn_path: <<parameters.mvn_path>>
