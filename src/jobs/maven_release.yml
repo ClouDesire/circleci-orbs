@@ -62,7 +62,7 @@ steps:
       steps:
         - when:
             condition: << parameters.import_gpg_key >>
-            steps: 
+            steps:
               - run:
                   name: Import GPG key
                   command: echo $BASE64_SIGNING_KEY | base64 -d | gpg --import
