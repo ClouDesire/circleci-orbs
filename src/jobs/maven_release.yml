@@ -24,7 +24,7 @@ parameters:
     description: Specify a path to a custom settings file to use
     type: string
     default: "$GIT_CI_CONF_DIR/mvn/settings.xml"
-  sign_package:
+  import_gpg_key:
     type: boolean
     default: false
   ssh_fingerprint:
@@ -61,7 +61,7 @@ steps:
       settings_file: "<< parameters.settings_file >>"
       steps:
         - when:
-            condition: << parameters.sign_package >>
+            condition: << parameters.import_gpg_key >>
             steps: 
               - run:
                   name: Import GPG key
