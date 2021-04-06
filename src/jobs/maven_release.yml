@@ -24,6 +24,9 @@ parameters:
     description: Specify a path to a custom settings file to use
     type: string
     default: "$GIT_CI_CONF_DIR/mvn/settings.xml"
+  sign_package:
+    type: boolean
+    default: false
   ssh_fingerprint:
     type: string
     default: 08:24:83:a8:59:c5:7d:d5:de:b3:15:bf:1a:50:0e:ca
@@ -57,6 +60,12 @@ steps:
       mvn_path: <<parameters.mvn_path>>
       settings_file: "<< parameters.settings_file >>"
       steps:
+        - when:
+            condition: << parameters.sign_package >>
+            steps: 
+              - run:
+                  name: Import GPG key
+                  command: echo $BASE64_SIGNING_KEY | base64 -d | gpg --import
         - run:
             name: "Release project"
             environment:
