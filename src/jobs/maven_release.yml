@@ -48,7 +48,7 @@ steps:
       command: |
         RELEASE_VERSION=$(${MVN_PATH} help:evaluate -Dexpression=project.version -q -DforceStdout)
         if [[ "${RELEASE_VERSION}" == *"-SNAPSHOT"* ]]; then
-          echo "Skipping release because version contains SNAPSHOT. Version: ${RELEASE_VERSION}"
+          echo "Ready to merge PR. Current version: ${RELEASE_VERSION}"
           circleci-agent step halt
         fi
         echo "export RELEASE_VERSION=${RELEASE_VERSION}" >> "${BASH_ENV}"
