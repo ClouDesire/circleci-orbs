@@ -24,7 +24,7 @@ steps:
       name: Check if CIRCLE_BRANCH exists in << parameters.repo_url >>
       environment:
         REPO_URL: << parameters.repo_url >>
-      command: <<include(scripts/git_check_remote_branch.sh)>> 
+      command: <<include(scripts/git_check_remote_branch.sh)>>
   - run:
       name: Halt step if CIRCLE_BRANCH does not exists in << parameters.repo_url >>
       environment:
@@ -34,7 +34,7 @@ steps:
         if [ $REMOTE_BRANCH_EXISTS == "false" ] && [ "${REPO_BRANCH}" == "" ]; then
           echo "INFO: impossible to find branch ${CIRCLE_BRANCH} on ${REPO_URL} and repo_branch is not set"
           circleci-agent step halt
-        fi  
+        fi
   - git_checkout:
       branch: << parameters.repo_branch >>
       dir: << parameters.repo_dir >>
