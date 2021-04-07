@@ -13,10 +13,7 @@ CheckoutRepo() {
   
   if [ -z $REPO_BRANCH ]; then
     if git ls-remote -h $REPO_URL | grep -q "refs/heads/${CIRCLE_BRANCH}"; then
-      REPO_BRANCH="${CIRCLE_BRANCH}"
-    elif [ $SAME_REMOTE_BRANCH -eq 1 ] || [ ! -z $SAME_REMOTE_BRANCH ]; then
-      echo "INFO: impossible to find branch ${CIRCLE_BRANCH} on ${REPO_NAME}"
-      exit 0
+      REPO_BRANCH="${CIRCLE_BRANCH}"      
     elif git ls-remote -h $REPO_URL | grep -q "refs/heads/master"; then
       REPO_BRANCH="master"
       MERGE_MASTER=0
@@ -35,7 +32,6 @@ CheckoutRepo() {
     mkdir -p "${REPO_DIR}"
   fi
 
-  
 
   echo ">> Cloning repo: "
   echo "  >> Name: ${REPO_NAME}"
