@@ -22,21 +22,20 @@ parameters:
 steps:
   - when:
       condition:
-        - equal: [ "<< parameters.repo_branch >>", "" ]
+        equal: [ "<< parameters.repo_branch >>", "" ]
       steps:
         - run:
-            name: Check if CIRCLE_BRANCH exists in << parameters.repo_url >>
+            name: Check if branch << pipeline.git.branch >> exists in << parameters.repo_url >>
             environment:
               REPO_URL: << parameters.repo_url >>
             command: <<include(scripts/git_check_remote_branch.sh)>>
         - run:
-            name: Halt step if CIRCLE_BRANCH does not exists in << parameters.repo_url >>
+            name: Halt step if branch << pipeline.git.branch >> does not exists in << parameters.repo_url >>
             environment:
-              REPO_BRANCH: << parameters.repo_branch >>
               REPO_URL: << parameters.repo_url >>
             command: |
               if [ $REMOTE_BRANCH_EXISTS == "false" ]; then
-                echo "INFO: impossible to find branch ${CIRCLE_BRANCH} on ${REPO_URL} and repo_branch is not set"
+                echo "INFO: impossible to find branch ${CIRCLE_BRANCH} on ${REPO_URL} and parameter 'repo_branch' is not set"
                 circleci-agent step halt
               fi
   - git_checkout:
