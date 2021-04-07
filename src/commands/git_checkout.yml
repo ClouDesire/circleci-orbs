@@ -22,6 +22,10 @@ parameters:
     description: Option to merge master/main into the branch to checkout
     type: boolean
     default: true
+  same_remote_branch:
+    description: Checkout only if CIRCLE_BRANCH exists also on URL
+    type: boolean
+    default: false
   url:
     description: Repository url
     type: string
@@ -36,4 +40,5 @@ steps:
         REPO_BRANCH: << parameters.branch >>
         REPO_DIR: << parameters.dir >>
         REPO_URL: << parameters.url >>
+        SAME_REMOTE_BRANCH: << parameters.same_remote_branch >>
       command: <<include(scripts/git_checkout.sh)>>

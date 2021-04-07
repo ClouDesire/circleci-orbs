@@ -19,8 +19,12 @@ parameters:
     default: "/tmp"
   repo_url:
     type: string
+  same_remote_branch:
+    type: boolean
+    default: false
 steps:
   - git_checkout:
+      same_remote_branch: << parameters.only_same_branch >>
       branch: << parameters.repo_branch >>
       dir: << parameters.repo_dir >>
       url: << parameters.repo_url >>

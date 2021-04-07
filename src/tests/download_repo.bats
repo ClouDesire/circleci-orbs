@@ -66,3 +66,22 @@ function teardown() {
   CheckoutRepo
   [ $(cd "${REPO_DIR}/${REPO_NAME}" && git branch --show-current) == "${REPO_BRANCH}" ]
 }
+
+
+@test 'CheckoutRepo exits if remote branch does not exist' {
+  export SAME_REMOTE_BRANCH=1
+  export REPO_URL="git@github.com:ClouDesire/ci-conf.git"
+  export REPO_DIR="/tmp/bats_tests"
+  export REPO_NAME="ci-conf"
+  export GIT_EMAIL="circleci@cloudesire.com"
+  export GIT_USERNAME="circleci"
+  export BASH_ENV="/tmp/.pipeline_env"
+  if [ -z "${CIRCLE_BRANCH}" ]; then 
+    export CIRCLE_BRANCH="test-branch"
+  fi
+
+  run CheckoutRepo
+  [ "$status" -eq 0 ]
+  [ "$output" == "INFO: impossible to find branch ${CIRCLE_BRANCH} on ${REPO_NAME}" ]
+}
+

@@ -6,12 +6,22 @@ CheckoutRepo() {
     REPO_URL=${REPO_URL#"git@github.com:"}
     REPO_URL="https://$GITHUB_TOKEN:x-oauth-basic@github.com/${REPO_URL}"
   fi
+  
+  basename=$(basename $REPO_URL)
+  REPO_NAME=${basename%.*}
 
 
-  if [ -z $REPO_BRANCH ]; then
+  if [ $SAME_REMOTE_BRANCH -eq 1 ] || [ ! -z $SAME_REMOTE_BRANCH ]; then
     if git ls-remote -h $REPO_URL | grep -q "refs/heads/${CIRCLE_BRANCH}"; then
       REPO_BRANCH="${CIRCLE_BRANCH}"
-    elif git ls-remote -h $REPO_URL | grep -q "refs/heads/master"; then
+    else
+      echo "INFO: impossible to find branch ${CIRCLE_BRANCH} on ${REPO_NAME}"
+      exit 0
+    fi
+  fi
+
+  if [ -z $REPO_BRANCH ]; then
+    if git ls-remote -h $REPO_URL | grep -q "refs/heads/master"; then
       REPO_BRANCH="master"
       MERGE_MASTER=0
     elif git ls-remote -h $REPO_URL | grep -q "refs/heads/main"; then
@@ -29,8 +39,7 @@ CheckoutRepo() {
     mkdir -p "${REPO_DIR}"
   fi
 
-  basename=$(basename $REPO_URL)
-  REPO_NAME=${basename%.*}
+  
 
   echo ">> Cloning repo: "
   echo "  >> Name: ${REPO_NAME}"
