@@ -21,7 +21,8 @@ parameters:
     type: string
 steps:
   - when:
-      condition: [ << parameters.repo_branch >> == "" ]
+      condition: 
+        - equal: [ "<< parameters.repo_branch >>", "" ]
       steps:
         - run:
             name: Check if CIRCLE_BRANCH exists in << parameters.repo_url >>
