@@ -25,12 +25,12 @@ steps:
         equal: [ "<< parameters.repo_branch >>", "" ]
       steps:
         - run:
-            name: Check if branch << pipeline.git.branch >> exists in << parameters.repo_url >>
+            name: Check if PR branch exists in << parameters.repo_url >>
             environment:
               REPO_URL: << parameters.repo_url >>
             command: <<include(scripts/git_check_remote_branch.sh)>>
         - run:
-            name: Halt step if branch << pipeline.git.branch >> does not exists in << parameters.repo_url >>
+            name: Halt step if PR branch does not exists in << parameters.repo_url >>
             environment:
               REPO_URL: << parameters.repo_url >>
             command: |
