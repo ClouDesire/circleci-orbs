@@ -24,7 +24,7 @@ parameters:
     default: false
 steps:
   - git_checkout:
-      same_remote_branch: << parameters.only_same_branch >>
+      same_remote_branch: << parameters.same_remote_branch >>
       branch: << parameters.repo_branch >>
       dir: << parameters.repo_dir >>
       url: << parameters.repo_url >>
