@@ -19,7 +19,7 @@ parameters:
     default: "./mvnw"
   repo_branch:
     description: |
-      branch of the library repository to checkout. If not passed,
+      branch of the library repository to checkout. If unset,
       the command checks if on the library repository exists a branch
       with the same name of the PR the pipeline is building. If it
       does not find a branch, stops the step and does not install the library.
