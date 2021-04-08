@@ -1,25 +1,56 @@
 ---
 description: |
-  Install a java library from a git repo
+  Install a java library from a git repo. If repo_branch is undefined, the command checks if on
+  the library's repository exists a branch with the same name of the
+  PR the pipeline is building. If it does not find a branch, stops
+  the step and does not install the library.
 parameters:
   maven_command:
+    description: Maven command to install the library
     type: string
     default: "clean install"
   maven_cmd_opts:
+    description: custom maven options
     type: string
     default: "-Dmaven.test.skip=true -Dmaven.javadoc.skip=true"
   maven_path:
+    description: path to the mvn executable
     type: string
     default: "./mvnw"
   repo_branch:
+    description: |
+      branch of the library repository to checkout. If unset,
+      the command checks if on the library repository exists a branch
+      with the same name of the PR the pipeline is building. If it
+      does not find a branch, stops the step and does not install the library.
     type: string
     default: ""
   repo_dir:
+    description: Path where to checkout the library repository
     type: string
     default: "/tmp"
   repo_url:
+    description: URL of the library repository to install
     type: string
 steps:
+  - when:
+      condition:
+        equal: [ "<< parameters.repo_branch >>", "" ]
+      steps:
+        - run:
+            name: Check if PR branch exists in << parameters.repo_url >>
+            environment:
+              REPO_URL: << parameters.repo_url >>
+            command: |
+              if [[ "$REPO_URL" == git@github.com* ]]; then
+                REPO_URL=${REPO_URL#"git@github.com:"}
+                REPO_URL="https://$GITHUB_TOKEN:x-oauth-basic@github.com/${REPO_URL}"
+              fi
+
+              if ! git ls-remote -h $REPO_URL | grep -q "refs/heads/${CIRCLE_BRANCH}"; then
+                echo "INFO: impossible to find branch ${CIRCLE_BRANCH} and parameter 'repo_branch' is not set"
+                circleci-agent step halt
+              fi
   - git_checkout:
       branch: << parameters.repo_branch >>
       dir: << parameters.repo_dir >>

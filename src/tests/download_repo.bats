@@ -66,3 +66,4 @@ function teardown() {
   CheckoutRepo
   [ $(cd "${REPO_DIR}/${REPO_NAME}" && git branch --show-current) == "${REPO_BRANCH}" ]
 }
+
