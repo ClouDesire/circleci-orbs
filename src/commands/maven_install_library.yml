@@ -1,23 +1,36 @@
 ---
 description: |
-  Install a java library from a git repo
+  Install a java library from a git repo. the command checks if on 
+  the library's repository exists a branch with the same name of the 
+  PR the pipeline is building. If it does not find a branch, stops 
+  the step and does not install the library.
 parameters:
   maven_command:
+    description: Maven command to install the library
     type: string
     default: "clean install"
   maven_cmd_opts:
+    description: custom maven options
     type: string
     default: "-Dmaven.test.skip=true -Dmaven.javadoc.skip=true"
   maven_path:
+    description: path to the mvn executable
     type: string
     default: "./mvnw"
   repo_branch:
+    description: |
+      branch of the library repository to checkout. If not passed,
+      the command checks if on the library repository exists a branch
+      with the same name of the PR the pipeline is building. If it 
+      does not find a branch, stops the step and does not install the library.
     type: string
     default: ""
   repo_dir:
+    description: Path where to checkout the library repository
     type: string
     default: "/tmp"
   repo_url:
+    description: URL of the library repository to install
     type: string
 steps:
   - when:
