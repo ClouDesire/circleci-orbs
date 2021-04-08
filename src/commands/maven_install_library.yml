@@ -1,6 +1,6 @@
 ---
 description: |
-  Install a java library from a git repo. the command checks if on
+  Install a java library from a git repo. If repo_branch is undefined, the command checks if on
   the library's repository exists a branch with the same name of the
   PR the pipeline is building. If it does not find a branch, stops
   the step and does not install the library.
