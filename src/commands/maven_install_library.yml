@@ -1,8 +1,8 @@
 ---
 description: |
-  Install a java library from a git repo. the command checks if on 
-  the library's repository exists a branch with the same name of the 
-  PR the pipeline is building. If it does not find a branch, stops 
+  Install a java library from a git repo. the command checks if on
+  the library's repository exists a branch with the same name of the
+  PR the pipeline is building. If it does not find a branch, stops
   the step and does not install the library.
 parameters:
   maven_command:
@@ -21,7 +21,7 @@ parameters:
     description: |
       branch of the library repository to checkout. If not passed,
       the command checks if on the library repository exists a branch
-      with the same name of the PR the pipeline is building. If it 
+      with the same name of the PR the pipeline is building. If it
       does not find a branch, stops the step and does not install the library.
     type: string
     default: ""
