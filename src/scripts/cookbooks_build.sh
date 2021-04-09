@@ -25,8 +25,8 @@ $SUDO apt-get install -qy build-essential libffi-dev git
 
 echo ">> Place ssh key for deploys"
 if [ -n "$SSH_KEY" ]; then
-    echo "$SSH_KEY" | base64 --decode >~/.ssh/id_rsa
-    chmod 400 ~/.ssh/id_rsa
+    echo "$SSH_KEY" | base64 --decode > ~/.ssh/openstack_rsa
+    chmod 400 ~/.ssh/openstack_rsa
 fi
 
 echo ">> Place google api service key"
