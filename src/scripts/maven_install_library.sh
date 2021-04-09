@@ -1,4 +1,9 @@
 #!/bin/bash -ex
+
+if [ "${STOP_COMMAND}" == "true" ]; then
+  exit 0
+fi
+
 basename=$(basename $REPO_URL)
 REPO_NAME=${basename%.*}
 

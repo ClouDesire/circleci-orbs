@@ -49,7 +49,7 @@ steps:
 
               if ! git ls-remote -h $REPO_URL | grep -q "refs/heads/${CIRCLE_BRANCH}"; then
                 echo "INFO: impossible to find branch ${CIRCLE_BRANCH} and parameter 'repo_branch' is not set"
-                circleci-agent step halt
+                echo "export STOP_COMMAND=true" >> ${BASHENV}
               fi
   - git_checkout:
       branch: << parameters.repo_branch >>
