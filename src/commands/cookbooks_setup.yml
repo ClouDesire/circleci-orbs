@@ -1,5 +1,5 @@
 description: >
-  Command to setup cookbooks testing environment
+  Command to setup cookbooks testing environment.
 steps:
   - restore_cache:
       key: berkshelf

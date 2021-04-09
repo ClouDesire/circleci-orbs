@@ -1,6 +1,9 @@
 ---
 description: >
-  Job to setup cookbooks enviroment
+  Job to setup cookbooks enviroment. 
+  Note: If a ssh key is needed, please add an environment 
+  variable called KITCHEN_SSH_KEY in a circleci context 
+  containing the base64 string of the ssh key private key. 
 executor: chefdk
 steps:
   - checkout
