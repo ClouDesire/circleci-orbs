@@ -1,5 +1,8 @@
 description: >
-  Command to setup cookbooks testing environment
+  Command to setup cookbooks testing environment.
+  Environment variables (in circleci contexts):
+  - KITCHEN_SSH_KEY: base64 string of the private key
+  - KITCHEN_SSH_KEY_PATH: path where to save the private key on the circleci node (default: ~/.ssh/kitchen_rsa)
 steps:
   - restore_cache:
       key: berkshelf

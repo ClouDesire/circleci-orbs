@@ -1,6 +1,6 @@
 ---
 description: >
-  Job to setup cookbooks enviroment
+  Job to setup cookbooks enviroment.
 executor: chefdk
 steps:
   - checkout
