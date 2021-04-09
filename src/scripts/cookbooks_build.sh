@@ -23,10 +23,20 @@ $SUDO sed -i 's/archive.ubuntu.com/us.archive.ubuntu.com/g' /etc/apt/sources.lis
 $SUDO apt-get update -q
 $SUDO apt-get install -qy build-essential libffi-dev git
 
+
+
 echo ">> Place ssh key for deploys"
 if [ -n "$KITCHEN_SSH_KEY" ]; then
-    echo "$KITCHEN_SSH_KEY" | base64 --decode > "${KTICHEN_SSH_KEY_PATH}/${KITCHEN_SSH_KEY_NAME}"
-    chmod 400 "${KTICHEN_SSH_KEY_PATH}/${KITCHEN_SSH_KEY_NAME}"
+    if [ -z $KITCHEN_SSH_KEY_PATH ]; then
+        KITCHEN_SSH_KEY_PATH="~/.ssh"
+    fi
+
+    if [ -z $KITCHEN_SSH_KEY_NAME ]; then
+        KITCHEN_SSH_KEY_NAME="kitchen_rsa"
+    fi
+
+    echo "$KITCHEN_SSH_KEY" | base64 --decode > "${KITCHEN_SSH_KEY_PATH}/${KITCHEN_SSH_KEY_NAME}"
+    chmod 400 "${KITCHEN_SSH_KEY_PATH}/${KITCHEN_SSH_KEY_NAME}"
 fi
 
 echo ">> Place google api service key"
