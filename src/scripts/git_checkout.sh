@@ -1,6 +1,10 @@
 #!/bin/bash
 
 CheckoutRepo() {
+  if [ "${STOP_COMMAND}" == "true" ]; then
+    echo $STOP_COMMAND_REASON
+    exit 0
+  fi
 
   if [[ "$REPO_URL" == git@github.com* ]]; then
     REPO_URL=${REPO_URL#"git@github.com:"}

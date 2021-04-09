@@ -67,3 +67,12 @@ function teardown() {
   [ $(cd "${REPO_DIR}/${REPO_NAME}" && git branch --show-current) == "${REPO_BRANCH}" ]
 }
 
+
+@test 'Exit if STOP_COMMAND is true' {
+  export STOP_COMMAND='true'
+  export STOP_COMMAND_REASON="STOP COMMAND"
+  run CheckoutRepo
+  [ "$status" -eq 0 ]
+  [ "$output" = "STOP COMMAND" ]
+}
+
