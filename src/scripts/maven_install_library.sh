@@ -1,6 +1,7 @@
 #!/bin/bash -ex
 
 if [ "${STOP_COMMAND}" == "true" ]; then
+  echo $STOP_COMMAND_REASON
   exit 0
 fi
 

@@ -50,6 +50,7 @@ steps:
               if ! git ls-remote -h $REPO_URL | grep -q "refs/heads/${CIRCLE_BRANCH}"; then
                 echo "INFO: impossible to find branch ${CIRCLE_BRANCH} and parameter 'repo_branch' is not set"
                 echo "export STOP_COMMAND='true'" >> ${BASHENV}
+                echo "export STOP_COMMAND_REASON='INFO: impossible to find branch ${CIRCLE_BRANCH} and parameter 'repo_branch' is not set'" >> ${BASHENV}
               fi
   - git_checkout:
       branch: << parameters.repo_branch >>
