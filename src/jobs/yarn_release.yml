@@ -14,7 +14,8 @@ parameters:
   workspace:
     type: string
     default: "."
-executor: cimg/node
+docker:
+  - image: cimg/node
 steps:
   - attach_workspace:
       at: << parameters.workspace >>
