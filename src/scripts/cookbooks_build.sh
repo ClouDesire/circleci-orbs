@@ -28,7 +28,7 @@ $SUDO apt-get install -qy build-essential libffi-dev git
 echo ">> Place ssh key for deploys"
 if [ -n "$KITCHEN_SSH_KEY" ]; then
     if [ -z $KITCHEN_SSH_KEY_PATH ]; then
-        KITCHEN_SSH_KEY_PATH="~/.ssh/kitchen_rsa"
+        KITCHEN_SSH_KEY_PATH="${HOME}/.ssh/kitchen_rsa"
     fi
 
     echo "$KITCHEN_SSH_KEY" | base64 --decode > "${KITCHEN_SSH_KEY_PATH}"
