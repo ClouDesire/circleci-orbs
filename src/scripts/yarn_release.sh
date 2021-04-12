@@ -5,9 +5,11 @@ YarnRelease() {
   cd "$PROJECT_DIR"
 
   echo "Releasing $RELEASE_VERSION"
-  yarn publish
-  
+  echo "//npm.cloudesire.com/:_authToken=$NPM_TOKEN" > "${HOME}/repo/.npmrc"
+  npm publish --registry $NPM_REGISTRY
+
   NEW_VERSION="${RELEASE_VERSION}-beta"
+  git tag "${NEW_VERSION}"
 
   yarn config set version-git-tag false
   yarn config set version-commit-hooks false
