@@ -1,0 +1,79 @@
+---
+description: >
+  Job to execute the release of a javascript package with yarn
+parameters:
+  notify_slack:
+    type: boolean
+    default: true
+  project_dir:
+    type: string
+    default: .
+  ssh_fingerprint:
+    type: string
+    default: 08:24:83:a8:59:c5:7d:d5:de:b3:15:bf:1a:50:0e:ca
+  workspace:
+    type: string
+    default: "."
+executor:
+  name: cimg/node
+steps:
+  - attach_workspace:
+      at: << parameters.workspace >>
+  - add_ssh_keys:
+      fingerprints:
+        - "<< parameters.ssh_fingerprint >>"
+  - run:
+      name: Setup git
+      command: <<include(scripts/git_setup.sh)>>
+  - run:
+      name: Check if version contains -SNAPSHOT
+      command: |
+        RELEASE_VERSION=$(cat package.json | jq -r '.version')
+        if [[ "${RELEASE_VERSION}" == *"-beta"* ]]; then
+          echo "Ready to merge PR. Current version: ${RELEASE_VERSION}"
+          circleci-agent step halt
+        fi
+        echo "export RELEASE_VERSION=${RELEASE_VERSION}" >> "${BASH_ENV}"
+  - run: 
+      name: Release node package
+      command: |
+  - when:
+      condition: << parameters.notify_slack >>
+      steps:
+        - slack/notify:
+            channel: "dev"
+            custom: |
+              {
+                "text": ":rocket: ${CIRCLE_PROJECT_REPONAME} v${RELEASE_VERSION} released",
+                "blocks": [
+                  {
+                    "type": "section",
+                    "text": {
+                      "type": "mrkdwn",
+                      "text": ":rocket: ${CIRCLE_PROJECT_REPONAME} `v${RELEASE_VERSION}` released"
+                    }
+                  },
+                  {
+                    "type": "actions",
+                    "elements": [
+                      {
+                        "type": "button",
+                        "text": {
+                          "type": "plain_text",
+                          "text": "CircleCI Build"
+                        },
+                        "url": "${CIRCLE_BUILD_URL}"
+                      },
+                      {
+                        "type": "button",
+                        "text": {
+                          "type": "plain_text",
+                          "text": "Github PR"
+                        },
+                        "url": "${CIRCLE_PULL_REQUEST}"
+                      }
+                    ]
+                  }
+                ]
+              }
+            event: pass
