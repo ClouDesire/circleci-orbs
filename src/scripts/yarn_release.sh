@@ -7,14 +7,16 @@ YarnRelease() {
   echo "Releasing $RELEASE_VERSION"
   yarn publish
   
+  NEW_VERSION="${RELEASE_VERSION}-beta"
+
   yarn config set version-git-tag false
   yarn config set version-commit-hooks false
 
-  echo "Updating package.json version to ${NEW_VERSION}-beta"
-  yarn version --new-version "${NEW_VERSION}-beta"
+  echo "Updating package.json version to ${NEW_VERSION}"
+  yarn version --new-version "${NEW_VERSION}"
 
   find ./ -name package.json -exec git add {} \;
-  git commit -m "Preparing for next iteration - version set to ${NEW_VERSION}-beta"
+  git commit -m "Preparing for next iteration - version set to ${NEW_VERSION}"
   
   git push --set-upstream origin "${CIRCLE_BRANCH}" --tags
 

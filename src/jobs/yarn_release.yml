@@ -14,8 +14,7 @@ parameters:
   workspace:
     type: string
     default: "."
-executor:
-  name: cimg/node
+executor: cimg/node
 steps:
   - attach_workspace:
       at: << parameters.workspace >>
@@ -26,7 +25,7 @@ steps:
       name: Setup git
       command: <<include(scripts/git_setup.sh)>>
   - run:
-      name: Check if version contains -SNAPSHOT
+      name: Check if version contains -beta
       command: |
         RELEASE_VERSION=$(cat package.json | jq -r '.version')
         if [[ "${RELEASE_VERSION}" == *"-beta"* ]]; then
@@ -34,9 +33,9 @@ steps:
           circleci-agent step halt
         fi
         echo "export RELEASE_VERSION=${RELEASE_VERSION}" >> "${BASH_ENV}"
-  - run: 
+  - run:
       name: Release node package
-      command: |
+      command: <<include(scripts/yarn_release.sh)>>
   - when:
       condition: << parameters.notify_slack >>
       steps:
