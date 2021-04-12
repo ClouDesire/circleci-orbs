@@ -5,7 +5,7 @@ YarnRelease() {
   cd "$PROJECT_DIR"
 
   echo "Releasing $RELEASE_VERSION"
-  echo "//npm.cloudesire.com/:_authToken=$NPM_TOKEN" > "${HOME}/repo/.npmrc"
+  echo "//npm.cloudesire.com/:_authToken=$NPM_TOKEN" > "${HOME}/.npmrc"
   npm publish --registry $NPM_REGISTRY
 
   NEW_VERSION="${RELEASE_VERSION}-beta"
