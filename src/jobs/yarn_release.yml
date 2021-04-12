@@ -36,6 +36,8 @@ steps:
         echo "export RELEASE_VERSION=${RELEASE_VERSION}" >> "${BASH_ENV}"
   - run:
       name: Release node package
+      environment:
+        PROJECT_DIR: << parameters.project_dir >>
       command: <<include(scripts/yarn_release.sh)>>
   - when:
       condition: << parameters.notify_slack >>
