@@ -29,6 +29,7 @@ echo ">> Place ssh key for deploys"
 if [ -n "$KITCHEN_SSH_KEY" ]; then
     if [ -z $KITCHEN_SSH_KEY_PATH ]; then
         KITCHEN_SSH_KEY_PATH="${HOME}/.ssh/kitchen_rsa"
+        echo "export KITCHEN_SSH_KEY_PATH=${KITCHEN_SSH_KEY_PATH}" >> "${BASH_ENV}"
     fi
 
     echo "$KITCHEN_SSH_KEY" | base64 --decode > "${KITCHEN_SSH_KEY_PATH}"
