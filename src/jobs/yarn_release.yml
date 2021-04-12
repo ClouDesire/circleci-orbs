@@ -11,14 +11,14 @@ parameters:
   ssh_fingerprint:
     type: string
     default: 08:24:83:a8:59:c5:7d:d5:de:b3:15:bf:1a:50:0e:ca
-  workspace:
+  workspace_path:
     type: string
     default: "."
 docker:
   - image: cimg/node
 steps:
   - attach_workspace:
-      at: << parameters.workspace >>
+      at: << parameters.workspace_path >>
   - add_ssh_keys:
       fingerprints:
         - "<< parameters.ssh_fingerprint >>"
