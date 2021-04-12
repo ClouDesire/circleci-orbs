@@ -8,6 +8,8 @@ YarnRelease() {
   echo "//npm.cloudesire.com/:_authToken=$NPM_TOKEN" > "${HOME}/.npmrc"
   npm publish --registry $NPM_REGISTRY
 
+  IFS='.' read -a semver <<< "$RELEASE_VERSION"
+  NEW_VERSION="${semver[0]}.${semver[1]}.$((${semver[2]} + 1))"
   NEW_VERSION="${RELEASE_VERSION}-beta"
   git tag "${NEW_VERSION}"
 
