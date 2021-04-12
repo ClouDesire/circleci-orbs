@@ -10,6 +10,7 @@ if [ -z $CONVERGE_NUMBER ]; then
   CONVERGE_NUMBER=1
 fi
 
+source "${BASH_ENV}"
 
 echo "Install kitchen-openstack"
 chef gem install kitchen-openstack

@@ -5,5 +5,5 @@ if [ "$PARAM_KITCHEN_CONCURRENCY" == "true" ]; then
 else
   export KITCHEN_CONCURRENCY=""
 fi
-
+source "${BASH_ENV}"
 retry -- chef exec kitchen destroy "($PARAM_KITCHEN_SUITES)" $KITCHEN_CONCURRENCY
