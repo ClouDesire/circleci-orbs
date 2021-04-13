@@ -19,7 +19,7 @@ YarnRelease() {
   echo "Calculating next version"
   IFS='.' read -a semver <<< "$RELEASE_VERSION"
   NEW_VERSION="${semver[0]}.${semver[1]}.$((${semver[2]} + 1))"
-  NEW_VERSION="${RELEASE_VERSION}-beta"
+  NEW_VERSION="${NEW_VERSION}-beta"
   
   yarn config set version-git-tag false
   yarn config set version-commit-hooks false
