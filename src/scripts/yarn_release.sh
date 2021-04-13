@@ -5,13 +5,11 @@ YarnRelease() {
   cd "$PROJECT_DIR"
 
   echo "Setting up .npmrc"
-  NPM_REGISTRY_TMP="${NPM_REGISTRY#'http://'}"
-  NPM_REGISTRY_TMP="${NPM_REGISTRY#'https://'}"
+  NPM_REGISTRY_HOSTNAME="${NPM_REGISTRY#'http://'}"
+  NPM_REGISTRY_HOSTNAME="${NPM_REGISTRY_HOSTNAME#'https://'}"
+  NPM_REGISTRY_HOSTNAME="${NPM_REGISTRY_HOSTNAME%'/'}"
 
-  NPM_REGISTRY_TMP="${NPM_REGISTRY_TMP%'/'}"
-  
-  echo $NPM_REGISTRY_TMP
-  echo "//$NPM_REGISTRY_TMP/:_authToken=$NPM_TOKEN" > "${HOME}/.npmrc"
+  echo "//$NPM_REGISTRY_HOSTNAME/:_authToken=$NPM_TOKEN" > "${HOME}/.npmrc"
   
   echo "Releasing $RELEASE_VERSION"
   npm publish --registry $NPM_REGISTRY
