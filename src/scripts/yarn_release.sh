@@ -4,11 +4,19 @@ YarnRelease() {
   
   cd "$PROJECT_DIR"
 
-  echo "Releasing $RELEASE_VERSION"
+  echo "Setting up .npmrc"
+  NPM_REGISTRY="${NPM_REGISTRY#'http://'}"
+  NPM_REGISTRY="${NPM_REGISTRY#'https://'}"
+  NPM_REGISTRY="${NPM_REGISTRY%'/'}"
   echo "//$NPM_REGISTRY/:_authToken=$NPM_TOKEN" > "${HOME}/.npmrc"
+  
+  echo "Releasing $RELEASE_VERSION"
   npm publish --registry $NPM_REGISTRY
+
+  echo "Tagging commit"
   git tag "${RELEASE_VERSION}"
 
+  echo "Calculating next version"
   IFS='.' read -a semver <<< "$RELEASE_VERSION"
   NEW_VERSION="${semver[0]}.${semver[1]}.$((${semver[2]} + 1))"
   NEW_VERSION="${RELEASE_VERSION}-beta"
