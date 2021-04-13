@@ -28,7 +28,7 @@ YarnRelease() {
   echo "Updating package.json version to ${NEW_VERSION}"
   yarn version --new-version "${NEW_VERSION}"
 
-  find ./ -name package.json -exec git add {} \;
+  find ./ -name package.json -not -path "./node_modules/*" -exec git add {} \;
   git commit -m "Preparing for next iteration - version set to ${NEW_VERSION}"
   
   git push --set-upstream origin "${CIRCLE_BRANCH}" --tags
