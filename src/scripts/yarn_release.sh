@@ -17,7 +17,7 @@ YarnRelease() {
   npm publish --registry $NPM_REGISTRY
 
   echo "Tagging commit"
-  git tag "${RELEASE_VERSION}"
+  git tag "v${RELEASE_VERSION}"
 
   echo "Calculating next version"
   IFS='.' read -a semver <<< "$RELEASE_VERSION"
