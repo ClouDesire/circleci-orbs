@@ -7,7 +7,10 @@ YarnRelease() {
   echo "Setting up .npmrc"
   NPM_REGISTRY_TMP="${NPM_REGISTRY#'http://'}"
   NPM_REGISTRY_TMP="${NPM_REGISTRY#'https://'}"
-  NPM_REGISTRY_TMP="${NPM_REGISTRY%'/'}"
+
+  NPM_REGISTRY_TMP="${NPM_REGISTRY_TMP%'/'}"
+  
+  echo $NPM_REGISTRY_TMP
   echo "//$NPM_REGISTRY_TMP/:_authToken=$NPM_TOKEN" > "${HOME}/.npmrc"
   
   echo "Releasing $RELEASE_VERSION"
