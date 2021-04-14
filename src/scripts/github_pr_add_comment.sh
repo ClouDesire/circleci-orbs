@@ -11,17 +11,31 @@ AddPRComment() {
   echo ">> PR url: ${pr_comment_url}"
 
   if [ -n "$PR_COMMENT_FILE_PATH" ]; then
+    body=$(cat << EOF
+{
+    "body": "$PR_COMMENT"
+}
+EOF
+    )
+
     PR_COMMENT=$(eval cat "${PR_COMMENT_FILE_PATH}")
     echo -e ">> Comment: \n ${PR_COMMENT}"
   else 
     PR_COMMENT=$(eval echo "${PR_COMMENT}")
     echo ">> Comment: $PR_COMMENT"
+
+    body=$(cat << EOF
+{
+    "body": "$PR_COMMENT"
+}
+EOF
+    )
   fi
 
   
   curl --location --request POST "$pr_comment_url" \
   --header "Authorization: token ${GITHUB_TOKEN}" \
-  --data-raw "{\"body\": '$PR_COMMENT'}"
+  -d "${body}"
 }
 
 
