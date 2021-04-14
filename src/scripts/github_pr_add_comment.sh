@@ -12,7 +12,7 @@ AddPRComment() {
 
   if [ -n "$PR_COMMENT_FILE_PATH" ]; then
     PR_COMMENT=$(eval cat "${PR_COMMENT_FILE_PATH}")
-    echo -e ">> Comment: \n ${PR_COMMENT})"
+    echo -e ">> Comment: \n ${PR_COMMENT}"
   else 
     PR_COMMENT=$(eval echo "${PR_COMMENT}")
     echo ">> Comment: $PR_COMMENT"
