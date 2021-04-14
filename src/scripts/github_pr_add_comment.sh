@@ -18,18 +18,16 @@ AddPRComment() {
     echo ">> Comment: $PR_COMMENT"
   fi
 
-
-  body=$(cat << EOF
-{
-    "body": "$PR_COMMENT"
-}
-EOF
-  )
-  
+  echo "${PR_COMMENT}" > comment_text
+  sed -i '$! s/$/\\n/' comment_text | tr -d '\n'
+  sed -i 's/\"/\\\"/g' comment_text
+  COMMENT=$(<comment_text)
+  echo -E "{\"body\":\"${COMMENT}\"}" > request_body.json
   
   curl --location --request POST "$pr_comment_url" \
   --header "Authorization: token ${GITHUB_TOKEN}" \
-  -d "${body}"
+  --header 'Content-Type: text/json; charset=utf-8' \
+  -d @request_body.json
 }
 
 
