@@ -13,7 +13,7 @@ AddPRComment() {
   if [ -n "$PR_COMMENT_FILE_PATH" ]; then
     sed -i '$! s/$/\\n/' "${PR_COMMENT_FILE_PATH}" | tr -d '\n'
     sed -i 's/\"/\\\"/g' "${PR_COMMENT_FILE_PATH}"
-    PR_COMMENT=$(<"${PR_COMMENT_FILE_PATH}")
+    PR_COMMENT=$(cat "${PR_COMMENT_FILE_PATH}")
     echo -e ">> Comment: \n ${PR_COMMENT}"
   else 
     PR_COMMENT=$(eval echo "${PR_COMMENT}")
