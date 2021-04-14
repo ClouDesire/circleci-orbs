@@ -11,7 +11,9 @@ AddPRComment() {
   echo ">> PR url: ${pr_comment_url}"
 
   if [ -n "$PR_COMMENT_FILE_PATH" ]; then
-    sed -i '$! s/$/\\n/' "${PR_COMMENT_FILE_PATH}" | tr -d '\n'
+    sed -i '$! s/$/\\n/' "${PR_COMMENT_FILE_PATH}"
+    tr -d '\n' < "${PR_COMMENT_FILE_PATH}" > tmp.json
+    mv -f tmp.json "${PR_COMMENT_FILE_PATH}"
     sed -i 's/\"/\\\"/g' "${PR_COMMENT_FILE_PATH}"
     PR_COMMENT=$(cat "${PR_COMMENT_FILE_PATH}")
     echo -e ">> Comment: \n ${PR_COMMENT}"
