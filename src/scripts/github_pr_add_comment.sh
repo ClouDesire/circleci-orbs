@@ -32,7 +32,7 @@ EOF
     )
   fi
 
-  
+  echo "${body}"
   curl --location --request POST "$pr_comment_url" \
   --header "Authorization: token ${GITHUB_TOKEN}" \
   -d "${body}"
