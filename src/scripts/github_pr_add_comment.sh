@@ -10,29 +10,28 @@ AddPRComment() {
 
   echo ">> PR url: ${pr_comment_url}"
   
+  PR_COMMENT=$(eval echo "${PR_COMMENT}")
+
   if [ -n "$PR_COMMENT_FILE_PATH" ]; then
     file=$(eval echo $PR_COMMENT_FILE_PATH)
     
     sed -i '$! s/$/\\n/' "${file}"
-    tr -d '\n' < "${file}" > tmp.json
+    tr -d '\n' < "${file}" > tmpfile
     
-    mv -f tmp.json "${file}"
+    mv -f tmpfile "${file}"
     
     sed -i 's/\"/\\\"/g' "${file}"
     
-    PR_COMMENT=$(cat "${file}")
+    PR_COMMENT="${PR_COMMENT}\n$(cat ${file})"
     echo -e ">> Comment: \n ${PR_COMMENT}"
-  else 
-    PR_COMMENT=$(eval echo "${PR_COMMENT}")
-    echo ">> Comment: $PR_COMMENT"
   fi
 
   
-  echo -E "{\"body\":\"${PR_COMMENT}\"}" > request_body.json
+  echo -nE "{\"body\":\"${PR_COMMENT}\"}" > request_body.json
   
   curl --location --request POST "$pr_comment_url" \
   --header "Authorization: token ${GITHUB_TOKEN}" \
-  --header 'Content-Type: text/json; charset=utf-8' \
+  --header 'Content-Type: text/json' \
   -d @request_body.json
 }
 
