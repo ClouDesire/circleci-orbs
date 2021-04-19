@@ -5,9 +5,15 @@ parameters:
   comment:
     description: Comment to add
     type: string
+    default: ""
+  comment_file_path:
+    description: File from which get the comment content
+    type: string
+    default: ""
 steps:
   - run:
       name: "Add comment to PR"
       environment:
         PR_COMMENT: << parameters.comment >>
+        PR_COMMENT_FILE_PATH: << parameters.comment_file_path >>
       command: <<include(scripts/github_pr_add_comment.sh)>>
