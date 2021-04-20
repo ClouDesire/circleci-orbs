@@ -1,0 +1,27 @@
+---
+description: >
+  This is a Java executor with a sidecar redis. Multiple Java and redis
+  versions are supported via parameter. More tags here:
+  https://circleci.com/developer/images/image/cimg/openjdk
+  https://hub.docker.com/_/redis
+parameters:
+  java_version:
+    type: string
+    default: "8.0"
+  jvm_max_mem_allocation:
+    type: string
+    default: 2048m
+  redis_version:
+    type: string
+    default: alpine
+  resource_class:
+    type: string
+    default: small
+docker:
+  - image: cimg/openjdk:<< parameters.java_version >>
+  - image: redis:<< parameters.redis_version >>
+resource_class: << parameters.resource_class >>
+environment:
+  MAVEN_OPTS: "-Xmx<< parameters.jvm_max_mem_allocation >> -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss.SSS"
+  GIT_ROOT: "/home/circleci"
+  BASE_BUILD_NUM: "0"
