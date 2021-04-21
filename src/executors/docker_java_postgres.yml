@@ -22,12 +22,17 @@ parameters:
     default: small
 docker:
   - image: cimg/openjdk:<< parameters.java_version >>
+    environment:
+      - POSTGRES_DB: << parameters.postgres_database >>
+      - POSTGRES_USER: postgres
+      - POSTGRES_PASSWORD: admin
   - image: postgres:<< parameters.postgres_version >>
+    environment:
+      - POSTGRES_DB: << parameters.postgres_database >>
+      - POSTGRES_USER: postgres
+      - POSTGRES_PASSWORD: admin
 resource_class: << parameters.resource_class >>
 environment:
   MAVEN_OPTS: "-Xmx<< parameters.jvm_max_mem_allocation >> -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss.SSS"
   GIT_ROOT: "/home/circleci"
   BASE_BUILD_NUM: "0"
-  POSTGRES_DB: << parameters.postgres_database >>
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: admin
