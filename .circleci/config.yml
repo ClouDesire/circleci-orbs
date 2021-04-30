@@ -86,7 +86,7 @@ workflows:
       - orb-tools/pack # Pack orb source
       - bats/run:
           path: ./src/tests
-          context: common-backend
+          context: common-github
       - orb-tools/publish-dev:
           orb-name: cloudesire/common
           context: orb-publish # A restricted context containing your private publishing credentials. Will only execute if approved by an authorized user.
@@ -94,7 +94,7 @@ workflows:
             - orb-tools/lint
             - orb-tools/pack
       - add-pr-comment:
-          context: common-backend
+          context: common-github
           comment: "New orb beta version published: \\`cloudesire/common@dev:${CIRCLE_SHA1:0:7}\\`"
           requires:
             - orb-tools/publish-dev
@@ -130,7 +130,7 @@ workflows:
               only:
                 - master
       - notify-slack:
-          context: common-backend
+          context: common-slack
           requires:
             - orb-tools/dev-promote-prod-from-commit-subject
 
