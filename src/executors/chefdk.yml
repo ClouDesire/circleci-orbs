@@ -15,4 +15,4 @@ docker:
 resource_class: << parameters.resource_class >>
 environment:
   CHEF_LICENSE: << parameters.chef_license >>
-  KITCHEN_LOG_OVERWRITE: false
+  KITCHEN_LOG_OVERWRITE: "false"
