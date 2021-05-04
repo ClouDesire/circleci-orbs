@@ -5,7 +5,10 @@ parameters:
   container_name:
     type: string
     default: ""
-  container_version:
+  image_name:
+    type: string
+    default: ""
+  image_version:
     type: string
     default: "latest"
   container_port_range:
@@ -35,10 +38,11 @@ steps:
       environment:
         CONTAINER_ENV_VARS_FILE: "<<parameters.container_env_vars_file>>"
         CONTAINER_NAME: <<parameters.container_name>>
-        CONTAINER_VERSION: <<parameters.container_version>>
         CONTAINER_PORT_RANGE: "<<parameters.container_port_range>>"
         DOCKER_CMD_OPTIONS: <<parameters.docker_cmd_additional_options>>
         DOCKER_REGISTRY: <<parameters.docker_registry>>
+        IMAGE_NAME: <<parameters.image_name>>
+        IMAGE_VERSION: <<parameters.image_version>>
       command: <<include(scripts/docker_run.sh)>>
 
   - run:
