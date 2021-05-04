@@ -1,9 +1,11 @@
 
 # ClouDesire Common Orb
 
-[![CircleCI Build Status](https://circleci.com/gh/ClouDesire/circleci-orbs.svg?style=shield "CircleCI Build Status")](https://circleci.com/gh/ClouDesire/circleci-orbs) [![CircleCI Orb Version](https://img.shields.io/badge/endpoint.svg?url=https://badges.circleci.io/orb/cloudesire/common)](https://circleci.com/orbs/registry/orb/cloudesire/common)
+[![CircleCI Build Status](https://circleci.com/gh/ClouDesire/circleci-orbs.svg?style=shield "CircleCI Build Status")](https://circleci.com/gh/ClouDesire/circleci-orbs) [![CircleCI Orb Registry](https://img.shields.io/badge/orb-cloudesire%2Fcommon-informational)](https://circleci.com/orbs/registry/orb/cloudesire/common)
 
-CircleCI Orb developed by the ClouDesire Team. 
+CircleCI Orb maintained by the Cloudesire development team, focusing on our stack (Spring Boot, Docker, Maven, GitHub, Opscode Chef)
+
+> Documentation still incomplete, please take a look to the [sources](/src) or to the [registry](https://circleci.com/developer/orbs/orb/cloudesire/common) to have a complete overview.
 
 ## Commands and examples
 
