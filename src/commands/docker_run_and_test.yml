@@ -5,6 +5,9 @@ parameters:
   container_name:
     type: string
     default: ""
+  container_version:
+    type: string
+    default: "latest"
   container_port_range:
     type: string
     default: "8080:8080"
@@ -32,6 +35,7 @@ steps:
       environment:
         CONTAINER_ENV_VARS_FILE: "<<parameters.container_env_vars_file>>"
         CONTAINER_NAME: <<parameters.container_name>>
+        CONTAINER_VERSION: <<parameters.container_version>>
         CONTAINER_PORT_RANGE: "<<parameters.container_port_range>>"
         DOCKER_CMD_OPTIONS: <<parameters.docker_cmd_additional_options>>
         DOCKER_REGISTRY: <<parameters.docker_registry>>
