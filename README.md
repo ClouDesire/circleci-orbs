@@ -1,7 +1,7 @@
 
 # ClouDesire Common Orb
 
-[![CircleCI Build Status](https://circleci.com/gh/ClouDesire/circleci-orbs.svg?style=shield "CircleCI Build Status")](https://circleci.com/gh/ClouDesire/circleci-orbs) [![CircleCI Orb Registry](https://img.shields.io/badge/orb-cloudesire%2Fcommon-red)](https://circleci.com/orbs/registry/orb/cloudesire/common)
+[![CircleCI Build Status](https://circleci.com/gh/ClouDesire/circleci-orbs.svg?style=shield "CircleCI Build Status")](https://circleci.com/gh/ClouDesire/circleci-orbs) [![CircleCI Orb Registry](https://img.shields.io/badge/orb-cloudesire/common-informational)](https://circleci.com/orbs/registry/orb/cloudesire/common)
 
 CircleCI Orb maintained by the Cloudesire development team, focusing on our stack (Spring Boot, Docker, Maven, GitHub, Opscode Chef)
 
