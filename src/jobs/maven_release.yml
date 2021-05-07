@@ -41,22 +41,22 @@ steps:
   - run:
       name: Setup git
       command: <<include(scripts/git_setup.sh)>>
-  - run:
-      name: Check if version contains -SNAPSHOT
-      environment:
-        MVN_PATH: "<< parameters.mvn_path >>"
-      command: |
-        RELEASE_VERSION=$(${MVN_PATH} help:evaluate -Dexpression=project.version -q -DforceStdout)
-        if [[ "${RELEASE_VERSION}" == *"-SNAPSHOT"* ]]; then
-          echo "Ready to merge PR. Current version: ${RELEASE_VERSION}"
-          circleci-agent step halt
-        fi
-        echo "export RELEASE_VERSION=${RELEASE_VERSION}" >> "${BASH_ENV}"
   - maven_with_cache:
       force_download: <<parameters.force_download>>
       mvn_path: <<parameters.mvn_path>>
       settings_file: "<< parameters.settings_file >>"
       steps:
+        - run:
+            name: Check if version contains -SNAPSHOT
+            environment:
+              MVN_PATH: "<< parameters.mvn_path >>"
+            command: |
+              RELEASE_VERSION=$(${MVN_PATH} help:evaluate -Dexpression=project.version -q -DforceStdout)
+              if [[ "${RELEASE_VERSION}" == *"-SNAPSHOT"* ]]; then
+                echo "Ready to merge PR. Current version: ${RELEASE_VERSION}"
+                circleci-agent step halt
+              fi
+              echo "export RELEASE_VERSION=${RELEASE_VERSION}" >> "${BASH_ENV}"
         - run:
             name: "Release project"
             environment:
