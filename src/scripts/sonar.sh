@@ -4,29 +4,30 @@ SONAR_OPTS="${SONAR_OPTS} -Dsonar.host.url=${SONAR_HOST_URL} \
 -Dsonar.password=${SONAR_PASS}"
 
 function run_sonar() {
-  if [ -z "${NO_SONAR}" ]; then
-    detect_maven
-    if [ -n "${CI_PULL_REQUEST}" ]; then
-      PR_NUMBER=${CI_PULL_REQUEST##*/}
-      PROJECT_NAME="${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}"
-      GIT_BASE_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
-
-      echo ">> Configuring sonar for PR $PR_NUMBER"
-      echo ">> PR Base branch is ${GIT_BASE_BRANCH}"
-
-      SONAR_OPTS="$SONAR_OPTS -Dsonar.pullrequest.key=${PR_NUMBER} \
-      -Dsonar.pullrequest.branch=${CIRCLE_BRANCH} \
-      -Dsonar.pullrequest.base=${GIT_BASE_BRANCH}"
-    else
-      echo "ERROR: not on a PR nor on master, please active 'Only build pull requests' option in the CircleCI project settings page"
-      exit 1
-    fi
-
-    # Run
-    echo "Running sonar-scanner"
-    echo "SONAR_OPTS: ${SONAR_OPTS}"
-    ${SONAR_BIN} ${SONAR_OPTS}
+  if [ "$CIRCLE_BRANCH" != "master" ] && [ "$CIRCLE_BRANCH" != "main" ] && [ -z "${CI_PULL_REQUEST}" ]; then
+    echo "ERROR: not on a PR nor on master/main, please active 'Only build pull requests' option in the CircleCI project settings page"
+    exit 1
   fi
+
+  detect_maven
+
+  if [ -n "${CI_PULL_REQUEST}" ]; then
+    PR_NUMBER=${CI_PULL_REQUEST##*/}
+    PROJECT_NAME="${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}"
+    GIT_BASE_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+
+    echo ">> Configuring sonar for PR $PR_NUMBER"
+    echo ">> PR Base branch is ${GIT_BASE_BRANCH}"
+
+    SONAR_OPTS="$SONAR_OPTS -Dsonar.pullrequest.key=${PR_NUMBER} \
+    -Dsonar.pullrequest.branch=${CIRCLE_BRANCH} \
+    -Dsonar.pullrequest.base=${GIT_BASE_BRANCH}"
+  fi
+
+  # Run
+  echo "Running sonar-scanner"
+  echo "SONAR_OPTS: ${SONAR_OPTS}"
+  ${SONAR_BIN} ${SONAR_OPTS}
 }
 
 function detect_maven() {
@@ -73,4 +74,6 @@ function install_sonar() {
 }
 
 cd $PROJECT_DIR
-run_sonar
+if [ -z "${NO_SONAR}" ]; then
+  run_sonar
+fi
