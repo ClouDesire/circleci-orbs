@@ -17,6 +17,9 @@ function run_sonar() {
       SONAR_OPTS="$SONAR_OPTS -Dsonar.pullrequest.key=${PR_NUMBER} \
       -Dsonar.pullrequest.branch=${CIRCLE_BRANCH} \
       -Dsonar.pullrequest.base=${GIT_BASE_BRANCH}"
+    else
+      echo "ERROR: not on a PR nor on master, please active 'Only build pull requests' option in the CircleCI project settings page"
+      exit 1
     fi
 
     # Run
