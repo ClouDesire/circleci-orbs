@@ -6,7 +6,13 @@ AddPRComment() {
     exit 0
   fi
 
-  pr_comment_url=$(curl -s --location --request GET "https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/pulls/${CIRCLE_PULL_REQUEST##*/}" --header "Authorization: token ${GITHUB_TOKEN}" | jq -r "._links.comments.href")
+
+  api_response_code=$(curl -s -o "response.json" -w "%{http_code}" --location --request GET "https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/pulls/${CIRCLE_PULL_REQUEST##*/}" --header "Authorization: token ${GITHUB_TOKEN}")
+  if [ "${api_response_code}" -ne "200" ]; then
+    echo "ERROR: GitHub Request failed with HTTP code ${api_response_code}"
+  fi
+
+  pr_comment_url=$(cat response.json | jq -r "._links.comments.href")
 
   echo ">> PR url: ${pr_comment_url}"
   
