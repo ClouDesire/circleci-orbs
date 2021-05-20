@@ -1,19 +1,20 @@
 #!/bin/bash
 
 CheckoutRepo() {
-  if [ "${STOP_COMMAND}" == "true" ]; then
-    echo $STOP_COMMAND_REASON
-    exit 0
-  fi
-
   if [[ "$REPO_URL" == git@github.com* ]]; then
     REPO_URL=${REPO_URL#"git@github.com:"}
     REPO_URL="https://$GITHUB_TOKEN:x-oauth-basic@github.com/${REPO_URL}"
   fi
-  
+
   basename=$(basename $REPO_URL)
   REPO_NAME=${basename%.*}
 
+  STOP_COMMAND="${REPO_NAME}_STOP_COMMAND"
+  STOP_COMMAND_REASON="${REPO_NAME}_STOP_COMMAND_REASON"
+  if [ "${!STOP_COMMAND}" == "true" ]; then
+    echo "${!STOP_COMMAND_REASON}"
+    exit 0
+  fi
   
   if [ -z $REPO_BRANCH ]; then
     if git ls-remote -h $REPO_URL | grep -q "refs/heads/${CIRCLE_BRANCH}"; then

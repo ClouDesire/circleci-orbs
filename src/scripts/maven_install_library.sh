@@ -1,12 +1,14 @@
 #!/bin/bash -ex
 
-if [ "${STOP_COMMAND}" == "true" ]; then
-  echo $STOP_COMMAND_REASON
-  exit 0
-fi
-
 basename=$(basename $REPO_URL)
 REPO_NAME=${basename%.*}
+
+STOP_COMMAND="${REPO_NAME}_STOP_COMMAND"
+STOP_COMMAND_REASON="${REPO_NAME}_STOP_COMMAND_REASON"
+if [ "${!STOP_COMMAND}" == "true" ]; then
+  echo "${!STOP_COMMAND_REASON}"
+  exit 0
+fi
 
 echo "Installing library '${REPO_NAME}' from folder ${REPO_DIR}/${REPO_NAME}"
 echo "Maven path: ${MAVEN_PATH}"

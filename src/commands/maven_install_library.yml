@@ -46,11 +46,14 @@ steps:
                 REPO_URL=${REPO_URL#"git@github.com:"}
                 REPO_URL="https://$GITHUB_TOKEN:x-oauth-basic@github.com/${REPO_URL}"
               fi
+              
+              basename=$(basename $REPO_URL)
+              REPO_NAME=${basename%.*}
 
               if ! git ls-remote -h $REPO_URL | grep -q "refs/heads/${CIRCLE_BRANCH}"; then
                 echo "INFO: impossible to find branch ${CIRCLE_BRANCH} and parameter 'repo_branch' is not set"
-                echo "export STOP_COMMAND='true'" >> "${BASH_ENV}"
-                echo "export STOP_COMMAND_REASON='INFO: impossible to find branch ${CIRCLE_BRANCH} and parameter 'repo_branch' is not set'" >> "${BASH_ENV}"
+                echo "export ${REPO_NAME}_STOP_COMMAND='true'" >> "${BASH_ENV}"
+                echo "export ${REPO_NAME}_STOP_COMMAND_REASON='INFO: impossible to find branch ${CIRCLE_BRANCH} and parameter 'repo_branch' is not set'" >> "${BASH_ENV}"
               fi
   - git_checkout:
       branch: << parameters.repo_branch >>
