@@ -48,6 +48,8 @@ steps:
               fi
               basename=$(basename $REPO_URL)
               REPO_NAME=${basename%.*}
+              REPO_NAME="${REPO_NAME//-/_}"
+              REPO_NAME=$(echo ${REPO_NAME} | tr '[:lower:]' '[:upper:]')
 
               if ! git ls-remote -h $REPO_URL | grep -q "refs/heads/${CIRCLE_BRANCH}"; then
                 echo "INFO: impossible to find branch ${CIRCLE_BRANCH} and parameter 'repo_branch' is not set"
