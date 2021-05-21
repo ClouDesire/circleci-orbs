@@ -69,8 +69,9 @@ function teardown() {
 
 
 @test 'Exit if STOP_COMMAND is true' {
-  export STOP_COMMAND='true'
-  export STOP_COMMAND_REASON="STOP COMMAND"
+  export REPO_URL="git@github.com:ClouDesire/ci-conf.git"
+  export CI_CONF_STOP_COMMAND='true'
+  export CI_CONF_STOP_COMMAND_REASON="STOP COMMAND"
   run CheckoutRepo
   [ "$status" -eq 0 ]
   [ "$output" = "STOP COMMAND" ]

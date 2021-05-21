@@ -1,19 +1,22 @@
 #!/bin/bash
 
 CheckoutRepo() {
-  if [ "${STOP_COMMAND}" == "true" ]; then
-    echo $STOP_COMMAND_REASON
-    exit 0
-  fi
-
   if [[ "$REPO_URL" == git@github.com* ]]; then
     REPO_URL=${REPO_URL#"git@github.com:"}
     REPO_URL="https://$GITHUB_TOKEN:x-oauth-basic@github.com/${REPO_URL}"
   fi
-  
+
   basename=$(basename $REPO_URL)
   REPO_NAME=${basename%.*}
+  TMP_REPO_NAME="${REPO_NAME//-/_}"
+  TMP_REPO_NAME=$(echo ${TMP_REPO_NAME} | tr '[:lower:]' '[:upper:]')
 
+  STOP_COMMAND="${TMP_REPO_NAME}_STOP_COMMAND"
+  STOP_COMMAND_REASON="${TMP_REPO_NAME}_STOP_COMMAND_REASON"
+  if [ "${!STOP_COMMAND}" == "true" ]; then
+    echo "${!STOP_COMMAND_REASON}"
+    exit 0
+  fi
   
   if [ -z $REPO_BRANCH ]; then
     if git ls-remote -h $REPO_URL | grep -q "refs/heads/${CIRCLE_BRANCH}"; then
@@ -46,8 +49,6 @@ CheckoutRepo() {
   cd "${REPO_DIR}"
   git clone $REPO_URL --branch $REPO_BRANCH "${REPO_NAME}"
 
-  TMP_REPO_NAME="${REPO_NAME//-/_}"
-  TMP_REPO_NAME=$(echo ${TMP_REPO_NAME} | tr '[:lower:]' '[:upper:]')
   echo "Adding GIT_${TMP_REPO_NAME}_DIR='${REPO_DIR}/${REPO_NAME}' to bash env"
   
   echo "echo IMPORTANT: usage of this file is deprecated. Please use globals.sh instead!" >> "${HOME}/cloudesire.env"
