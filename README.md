@@ -67,3 +67,10 @@ Usage examples:
           name: Build
           command: ./mvnw -B package
 ```
+
+### Github
+#### Inject labels as environment variables
+
+With the `github_pr_read_labels` command is possible to inject PR labels as environment variables. The command exports each label like this: 
+`GH_PR_LABEL_[LABEL VALUE]`. It capitalizes it and replaces each `-` with `_`.
+Example: if the label is "skip-all-test", the command exports the GH_PR_LABEL_SKIP_ALL_TEST variable
