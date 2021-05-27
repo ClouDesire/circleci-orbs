@@ -13,7 +13,7 @@ parameters:
     default: 2048m
   postgres_version:
     type: string
-    default: 9.6-alpine
+    default: 13.3-alpine
   postgres_database:
     type: string
     default: app
