@@ -10,20 +10,11 @@ GitMergeMaster() {
 
   REPO_URL="${CIRCLE_REPOSITORY_URL}"
   DEFAULT_BRANCH=""
+  basename=$(basename $REPO_URL)
+  REPO_NAME=${basename%.*}
+ 
 
-  if [[ "$REPO_URL" == git@github.com* ]]; then
-    REPO_URL=${REPO_URL#"git@github.com:"}
-    REPO_URL="https://$GITHUB_TOKEN:x-oauth-basic@github.com/${REPO_URL}"
-  fi
-
-  if git ls-remote -h $REPO_URL | grep -q "refs/heads/master"; then
-    DEFAULT_BRANCH="master"
-  elif git ls-remote -h $REPO_URL | grep -q "refs/heads/main"; then
-    DEFAULT_BRANCH="main"
-  else
-    echo "ERROR: impossible to find a remote branch that it is either master or main"
-    return 1
-  fi
+  DEFAULT_BRANCH=$(curl -u $GITHUB_TOKEN:x-oauth-basic -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/ClouDesire/${REPO_NAME} | jq --raw-output '.default_branch')
 
   git clean -dxf
   git fetch origin "${DEFAULT_BRANCH}" 

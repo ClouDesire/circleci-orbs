@@ -21,15 +21,8 @@ CheckoutRepo() {
   if [ -z $REPO_BRANCH ]; then
     if git ls-remote -h $REPO_URL | grep -q "refs/heads/${CIRCLE_BRANCH}"; then
       REPO_BRANCH="${CIRCLE_BRANCH}"      
-    elif git ls-remote -h $REPO_URL | grep -q "refs/heads/master"; then
-      REPO_BRANCH="master"
-      MERGE_MASTER=0
-    elif git ls-remote -h $REPO_URL | grep -q "refs/heads/main"; then
-      REPO_BRANCH="main"
-      MERGE_MASTER=0
     else
-      echo "ERROR: impossible to find a remote branch that it is either CIRCLE_BRANCH, master or main"
-      return 1
+      REPO_BRANCH=$(curl -u $GITHUB_TOKEN:x-oauth-basic -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/ClouDesire/${REPO_NAME} | jq --raw-output '.default_branch')
     fi
   fi
 
