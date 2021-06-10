@@ -1,13 +1,20 @@
 #!/bin/bash
 
 CheckoutRepo() {
+  REPO_PATH=""
   if [[ "$REPO_URL" == git@github.com* ]]; then
-    REPO_URL=${REPO_URL#"git@github.com:"}
-    REPO_URL="https://$GITHUB_TOKEN:x-oauth-basic@github.com/${REPO_URL}"
+    REPO_PATH=${REPO_URL#"git@github.com:"} # org/repo_name
   fi
+
+  if [[ "$REPO_URL" == https://github.com* ]]; then
+    REPO_PATH=${REPO_URL#"https://github.com/"} # org/repo_name
+  fi
+
+  REPO_URL="https://$GITHUB_TOKEN:x-oauth-basic@github.com/${REPO_PATH}"
 
   basename=$(basename $REPO_URL)
   REPO_NAME=${basename%.*}
+  
   TMP_REPO_NAME="${REPO_NAME//-/_}"
   TMP_REPO_NAME=$(echo ${TMP_REPO_NAME} | tr '[:lower:]' '[:upper:]')
 
@@ -18,11 +25,13 @@ CheckoutRepo() {
     exit 0
   fi
   
-  if [ -z $REPO_BRANCH ]; then
-    if git ls-remote -h $REPO_URL | grep -q "refs/heads/${CIRCLE_BRANCH}"; then
-      REPO_BRANCH="${CIRCLE_BRANCH}"      
+  REPO_DEFAULT_BRANCH=$(curl -s -u $GITHUB_TOKEN:x-oauth-basic -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${REPO_PATH%".git"} | jq --raw-output '.default_branch' | tr -d '\n')
+
+  if [ -z "$REPO_BRANCH" ]; then
+    if git ls-remote -h "$REPO_URL" | grep -q "refs/heads/${CIRCLE_BRANCH}"; then
+      REPO_BRANCH="${CIRCLE_BRANCH}"
     else
-      REPO_BRANCH=$(curl -u $GITHUB_TOKEN:x-oauth-basic -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/ClouDesire/${REPO_NAME} | jq --raw-output '.default_branch')
+      REPO_BRANCH=$REPO_DEFAULT_BRANCH
     fi
   fi
 
@@ -32,7 +41,6 @@ CheckoutRepo() {
     mkdir -p "${REPO_DIR}"
   fi
 
-
   echo ">> Cloning repo: "
   echo "  >> Name: ${REPO_NAME}"
   echo "  >> Url: ${REPO_URL}"
@@ -40,7 +48,7 @@ CheckoutRepo() {
   echo "  >> Base dir: ${REPO_DIR}"
 
   cd "${REPO_DIR}"
-  git clone $REPO_URL --branch $REPO_BRANCH "${REPO_NAME}"
+  git clone "$REPO_URL" --branch "$REPO_BRANCH" "${REPO_NAME}"
 
   echo "Adding GIT_${TMP_REPO_NAME}_DIR='${REPO_DIR}/${REPO_NAME}' to bash env"
   
@@ -59,9 +67,9 @@ CheckoutRepo() {
     fi
 
     cd "${REPO_DIR}/${REPO_NAME}"
-    GIT_DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
     set +e
-    git checkout "$REPO_BRANCH" && git merge origin/$GIT_DEFAULT_BRANCH
+    git fetch origin "${DEFAULT_BRANCH}" 
+    git merge --no-edit "origin/${DEFAULT_BRANCH}";
     set -e
   fi
 }
