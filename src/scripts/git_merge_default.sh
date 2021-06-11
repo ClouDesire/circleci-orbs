@@ -19,6 +19,10 @@ GitMergeDefault() {
     exit 0
   fi
 
+
+  echo ">> Repository: ${REPO_PATH}"
+  echo ">> Default branch: ${DEFAULT_BRANCH}"
+
   git clean -dxf
   git fetch origin "${DEFAULT_BRANCH}" 
   git merge --no-edit "origin/${DEFAULT_BRANCH}"; 
