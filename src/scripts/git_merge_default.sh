@@ -1,29 +1,27 @@
 #!/bin/bash -e
 # Make sure that current branch is aligned to master
-GitMergeMaster() {
+GitMergeDefault() {
+
+  REPO_URL="${CIRCLE_REPOSITORY_URL}"
+  REPO_PATH=""
   
-  if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "main" ]; then
-    echo "Already on ${CIRCLE_BRANCH}. Merge with default branch not required. Skipping."
+  if [[ "$REPO_URL" == git@github.com* ]]; then
+    REPO_PATH=${REPO_URL#"git@github.com:"} # org/repo_name
+  fi
+
+  if [[ "$REPO_URL" == https://github.com* ]]; then
+    REPO_PATH=${REPO_URL#"https://github.com/"} # org/repo_name
+  fi
+
+  DEFAULT_BRANCH=$(curl -s -u $GITHUB_TOKEN:x-oauth-basic -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${REPO_PATH%".git"} | jq --raw-output '.default_branch' | tr -d '\n')
+
+  if [ "${CIRCLE_BRANCH}" == "${DEFAULT_BRANCH}" ]; then
+    echo "Already on ${CIRCLE_BRANCH}. Merge with default branch (${DEFAULT_BRANCH}) not required. Skipping."
     exit 0
   fi
 
-
-  REPO_URL="${CIRCLE_REPOSITORY_URL}"
-  DEFAULT_BRANCH=""
-
-  if [[ "$REPO_URL" == git@github.com* ]]; then
-    REPO_URL=${REPO_URL#"git@github.com:"}
-    REPO_URL="https://$GITHUB_TOKEN:x-oauth-basic@github.com/${REPO_URL}"
-  fi
-
-  if git ls-remote -h $REPO_URL | grep -q "refs/heads/master"; then
-    DEFAULT_BRANCH="master"
-  elif git ls-remote -h $REPO_URL | grep -q "refs/heads/main"; then
-    DEFAULT_BRANCH="main"
-  else
-    echo "ERROR: impossible to find a remote branch that it is either master or main"
-    return 1
-  fi
+  echo ">> Repository: ${REPO_PATH}"
+  echo ">> Default branch: ${DEFAULT_BRANCH}"
 
   git clean -dxf
   git fetch origin "${DEFAULT_BRANCH}" 
@@ -36,5 +34,5 @@ GitMergeMaster() {
 # View src/tests for more information.
 ORB_TEST_ENV="bats-core"
 if [ "${0#*$ORB_TEST_ENV}" == "$0" ]; then
-  GitMergeMaster
+  GitMergeDefault
 fi

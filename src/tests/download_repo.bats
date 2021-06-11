@@ -9,13 +9,15 @@ function teardown() {
   if [ -d "${REPO_DIR}" ]; then
     rm -rf "${REPO_DIR}/${REPO_NAME}"
   fi
+
+  unset REPO_BRANCH
 }
 
 
 
 
 @test 'CheckoutRepo fails without GIT_USERNAME and GIT_EMAIL set' {
-  export REPO_URL="https://$GITHUB_TOKEN:x-oauth-basic@github.com/ClouDesire/ci-conf.git"
+  export REPO_URL="https://github.com/ClouDesire/ci-conf.git"
   export REPO_BRANCH="master"
   export REPO_DIR="/tmp/bats_tests"
   export BASH_ENV="/tmp/.pipeline_env"
@@ -27,7 +29,7 @@ function teardown() {
 }
 
 @test 'Download repo' {
-  export REPO_URL="https://$GITHUB_TOKEN:x-oauth-basic@github.com/ClouDesire/ci-conf.git"
+  export REPO_URL="https://github.com/ClouDesire/ci-conf.git"
   export REPO_DIR="/tmp/bats_tests"
   export GIT_EMAIL="circleci@cloudesire.com"
   export GIT_USERNAME="circleci"
@@ -41,7 +43,7 @@ function teardown() {
 }
 
 @test 'Download repo with custom branch' {
-  export REPO_URL="https://$GITHUB_TOKEN:x-oauth-basic@github.com/ClouDesire/ci-conf.git"
+  export REPO_URL="https://github.com/ClouDesire/ci-conf.git"
   export REPO_BRANCH="master"
   export REPO_DIR="/tmp/bats_tests"
   export GIT_EMAIL="circleci@cloudesire.com"
@@ -75,5 +77,18 @@ function teardown() {
   run CheckoutRepo
   [ "$status" -eq 0 ]
   [ "$output" = "STOP COMMAND" ]
+}
+
+@test 'Check if DEFAULT_BRANCH is set correctly' {
+  export REPO_URL="git@github.com:ClouDesire/ci-conf.git"
+  export REPO_DIR="/tmp/bats_tests"
+  export GIT_EMAIL="circleci@cloudesire.com"
+  export GIT_USERNAME="circleci"
+  export BASH_ENV="/tmp/.pipeline_env"
+  if [ -z "${CIRCLE_BRANCH}" ]; then 
+    export CIRCLE_BRANCH="test"
+  fi
+  CheckoutRepo  
+  [ "${REPO_BRANCH}" == "master" ]
 }
 
