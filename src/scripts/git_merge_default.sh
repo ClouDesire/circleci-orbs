@@ -1,8 +1,10 @@
 #!/bin/bash -e
 # Make sure that current branch is aligned to master
 GitMergeDefault() {
-  
+
+  REPO_URL="${CIRCLE_REPOSITORY_URL}"
   REPO_PATH=""
+  
   if [[ "$REPO_URL" == git@github.com* ]]; then
     REPO_PATH=${REPO_URL#"git@github.com:"} # org/repo_name
   fi
@@ -13,12 +15,10 @@ GitMergeDefault() {
 
   DEFAULT_BRANCH=$(curl -s -u $GITHUB_TOKEN:x-oauth-basic -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${REPO_PATH%".git"} | jq --raw-output '.default_branch' | tr -d '\n')
 
-
   if [ "${CIRCLE_BRANCH}" == "${DEFAULT_BRANCH}" ]; then
     echo "Already on ${CIRCLE_BRANCH}. Merge with default branch (${DEFAULT_BRANCH}) not required. Skipping."
     exit 0
   fi
-
 
   echo ">> Repository: ${REPO_PATH}"
   echo ">> Default branch: ${DEFAULT_BRANCH}"
