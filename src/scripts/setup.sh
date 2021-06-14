@@ -25,9 +25,7 @@ function install_jq() {
   ${DOWNLOAD_CMD}
   if [ $? -eq 0 ] ; then
     chmod +x '/usr/local/bin/jq'
-    echo "jq version: $(jq --version)"
   else
-    echo "ERROR: jq installation failed"
     exit 1
   fi
 }
@@ -35,5 +33,11 @@ function install_jq() {
 if ! command -v 'jq' &> /dev/null; then
   echo "jq not installed. Installing it..."
   install_jq
+  if [ $? -eq 0 ] ; then
+    echo "jq version: $(jq --version)"
+  else
+    echo "ERROR: jq installation failed!"
+    exit 1
+  fi
   echo "jq installed"
 fi
