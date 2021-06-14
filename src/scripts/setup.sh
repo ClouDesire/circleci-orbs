@@ -15,7 +15,7 @@ function install_jq() {
   fi
 
   if command -v 'curl' &> /dev/null; then
-    DOWNLOAD_CMD="curl ${jq_url} -o ${jq_installation_path}"
+    DOWNLOAD_CMD="curl -L ${jq_url} -o ${jq_installation_path}"
   fi
 
   if [ -z "${DOWNLOAD_CMD}" ]; then
