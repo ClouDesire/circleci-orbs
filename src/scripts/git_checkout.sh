@@ -1,6 +1,12 @@
 #!/bin/bash
 
 CheckoutRepo() {
+
+  if ! command -v 'jq' &> /dev/null; then
+    wget 'https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64' -P '/usr/local/bin'
+    jq --version
+  fi
+
   REPO_PATH=""
   if [[ "$REPO_URL" == git@github.com* ]]; then
     REPO_PATH=${REPO_URL#"git@github.com:"} # org/repo_name

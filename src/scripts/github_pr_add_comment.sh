@@ -6,6 +6,10 @@ AddPRComment() {
     exit 0
   fi
 
+  if ! command -v 'jq' &> /dev/null; then
+    wget 'https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64' -P '/usr/local/bin'
+    jq --version
+  fi
 
   api_response_code=$(curl -s -o "response.json" -w "%{http_code}" --location --request GET "https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/pulls/${CIRCLE_PULL_REQUEST##*/}" --header "Authorization: token ${GITHUB_TOKEN}")
   if [ "${api_response_code}" -ne "200" ]; then

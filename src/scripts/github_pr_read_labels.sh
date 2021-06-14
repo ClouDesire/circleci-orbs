@@ -6,6 +6,11 @@ ReadPRLabels() {
     exit 0
   fi
 
+  if ! command -v 'jq' &> /dev/null; then
+    wget 'https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64' -P '/usr/local/bin'
+    jq --version
+  fi
+
   echo ">> Org: ${CIRCLE_PROJECT_USERNAME}"
   echo ">> Repo: ${CIRCLE_PROJECT_REPONAME}"
   echo ">> PR Link: ${CIRCLE_PULL_REQUEST}"

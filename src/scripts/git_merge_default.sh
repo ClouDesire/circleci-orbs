@@ -2,6 +2,11 @@
 # Make sure that current branch is aligned to master
 GitMergeDefault() {
 
+  if ! command -v 'jq' &> /dev/null; then
+    wget 'https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64' -P '/usr/local/bin'
+    jq --version
+  fi
+  
   REPO_URL="${CIRCLE_REPOSITORY_URL}"
   REPO_PATH=""
   
