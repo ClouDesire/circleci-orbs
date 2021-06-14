@@ -1,6 +1,8 @@
 #!/bin/bash
 
 CheckoutRepo() {
+
+
   REPO_PATH=""
   if [[ "$REPO_URL" == git@github.com* ]]; then
     REPO_PATH=${REPO_URL#"git@github.com:"} # org/repo_name

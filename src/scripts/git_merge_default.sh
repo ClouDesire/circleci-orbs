@@ -1,7 +1,7 @@
 #!/bin/bash -e
 # Make sure that current branch is aligned to master
 GitMergeDefault() {
-
+  
   REPO_URL="${CIRCLE_REPOSITORY_URL}"
   REPO_PATH=""
   

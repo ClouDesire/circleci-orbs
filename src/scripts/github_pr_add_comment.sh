@@ -6,7 +6,6 @@ AddPRComment() {
     exit 0
   fi
 
-
   api_response_code=$(curl -s -o "response.json" -w "%{http_code}" --location --request GET "https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/pulls/${CIRCLE_PULL_REQUEST##*/}" --header "Authorization: token ${GITHUB_TOKEN}")
   if [ "${api_response_code}" -ne "200" ]; then
     echo "ERROR: GitHub Request failed with HTTP code ${api_response_code}"
