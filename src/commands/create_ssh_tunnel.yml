@@ -7,23 +7,23 @@ parameters:
   custom_options:
     type: string
     default: ""
-  jump_host:
-    type: string
-  jump_host_user:
-    type: string
-    default: ubuntu
   from_ip:
     type: string
     default: 127.0.0.1
   from_port:
     type: string
+  jump_host:
+    type: string
+  jump_host_user:
+    type: string
+    default: ubuntu
   to_ip:
     type: string
   to_port:
     type: string
 steps:
   - run:
-      name: SSH tunnel through << parameters.env >>
+      name: SSH tunnel through << parameters.jump_host >>
       background: << parameters.background >>
       command: |
         ssh -N -o "StrictHostKeyChecking no" \
