@@ -2,7 +2,7 @@ description: >
   Command to create a SSH Tunnel
 parameters:
   background:
-    type: bool
+    type: boolean
     default: false
   custom_options:
     type: string
