@@ -23,9 +23,9 @@ steps:
       name: SSH tunnel through << parameters.jump_host >>
       background: true
       command: |
-        ssh -N \
+        ssh << parameters.custom_options >> \
         -o "StrictHostKeyChecking=no" \
         -o "ExitOnForwardFailure=yes" \
-        << parameters.custom_options >> \
+        -N \
         -L << parameters.from_ip >>:<< parameters.from_port >>:<< parameters.to_ip >>:<< parameters.to_port >> \
         << parameters.jump_host_user >>@<< parameters.jump_host >>
