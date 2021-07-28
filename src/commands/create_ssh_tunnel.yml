@@ -4,7 +4,7 @@ parameters:
   custom_options:
     type: string
     default: ""
-  from_ip:
+  from_host:
     type: string
     default: 127.0.0.1
   from_port:
@@ -14,7 +14,7 @@ parameters:
   jump_host_user:
     type: string
     default: ubuntu
-  to_ip:
+  to_host:
     type: string
   to_port:
     type: string
@@ -27,5 +27,5 @@ steps:
         -o "StrictHostKeyChecking=no" \
         -o "ExitOnForwardFailure=yes" \
         -N \
-        -L << parameters.from_ip >>:<< parameters.from_port >>:<< parameters.to_ip >>:<< parameters.to_port >> \
+        -L << parameters.from_host >>:<< parameters.from_port >>:<< parameters.to_host >>:<< parameters.to_port >> \
         << parameters.jump_host_user >>@<< parameters.jump_host >>
