@@ -84,7 +84,7 @@ To create an SSH tunnel between the circleci executor and an external server, us
 
 ```yaml
 - cloudesire/create_ssh_tunnel:
-    jump_host: "my-external-server.example.com" # can also be an IP
+    jump_host: "my-external-server.example.com"
     jump_host_user: "my-user"
     from_ip: "x.x.x.x"
     from_port: "9999"
