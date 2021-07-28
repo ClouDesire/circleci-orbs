@@ -75,3 +75,19 @@ With the `github_pr_read_labels` command is possible to inject PR labels as envi
 `GH_PR_LABEL_[LABEL VALUE]`. It capitalizes it and replaces each `-` with `_`. The command has to be used in the same job in which you want to use the environment variable. 
 
 Example: if the label is `skip-all-test`, the command exports the `GH_PR_LABEL_SKIP_ALL_TEST` variable
+
+
+### Utils
+#### Create an ssh tunnel
+
+To create an SSH tunnel between the circleci executor and an external server, use the `create_ssh_tunnel` command. Example: 
+
+```yaml
+- cloudesire/create_ssh_tunnel:
+    jump_host: "my-external-server.example.com" # can be also an IP
+    jump_host_user: "my-user"
+    from_host: "from-host.example.com"
+    from_port: "456"
+    to_host: "to-host.example.com"
+    to_port: "123"
+```
