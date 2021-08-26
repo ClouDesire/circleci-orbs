@@ -6,7 +6,7 @@ parameters:
     default: surefire
 steps:
   - run:
-      name: Copy test results
+      name: "[maven_aggregate_tests_results] Copy test results"
       when: always
       command: |
         mkdir -p /tmp/<< parameters.maven_plugin >>/

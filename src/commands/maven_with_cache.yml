@@ -22,7 +22,7 @@ parameters:
     type: steps
 steps:
   - run:
-      name: Merge all pom.xml for cache checksum
+      name: "[maven_with_cache] Merge all pom.xml for cache checksum"
       command: |
         if [ ! -f pomsum ]; then
           find ./ -name pom.xml -exec cat {} >> pomsum \;
@@ -34,7 +34,7 @@ steps:
         - m2-<<parameters.cache_key>>-master
         - m2-<<parameters.cache_key>>
   - run:
-      name: Setup custom settings.xml
+      name: "[maven_with_cache] Setup custom settings.xml"
       command: |
         FILE="<< parameters.settings_file >>"
         if [ -f "$FILE" ]; then
@@ -47,7 +47,7 @@ steps:
       condition: << parameters.force_download >>
       steps:
         - run:
-            name: Install Dependencies
+            name: "[maven_with_cache] Install Dependencies"
             command: << parameters.mvn_path >> dependency:go-offline
   - steps: << parameters.steps >>
   - save_cache:
