@@ -12,10 +12,10 @@ parameters:
     default: ""
 steps:
   - run:
-      name: "Setup prerequisites"
+      name: "[github_pr_add_comments] Setup prerequisites"
       command: <<include(scripts/setup.sh)>>
   - run:
-      name: "Add comment to PR"
+      name: "[github_pr_add_comments] Add comment to PR"
       environment:
         PR_COMMENT: << parameters.comment >>
         PR_COMMENT_FILE_PATH: << parameters.comment_file_path >>

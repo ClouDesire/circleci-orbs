@@ -21,12 +21,14 @@ parameters:
     default: 1
 steps:
   - run:
-      name: Generate sonar_version.txt
+      name: "[test_sonar] Generate sonar_version.txt"
       command: <<include(scripts/sonar_get_server_version.sh)>>
   - restore_cache:
+      name: "[test_sonar] Restore server cache"
       keys:
         - sonarqubeserver-{{ checksum "sonar_version.txt" }}_v<<parameters.cache_version>>
   - restore_cache:
+      name: "[test_sonar] Restore cli cache"
       keys:
         - sonarcli-<< parameters.sonar_version >>_v<<parameters.cache_version>>
   - run:
@@ -36,11 +38,13 @@ steps:
         SONAR_MVN_VERSION: <<parameters.sonar_mvn_version>>
         SONAR_DIR: << parameters.sonar_dir >>
         SONAR_OPTS: << parameters.sonar_opts >>
-      name: Execute sonar scan
+      name: "[test_sonar] Execute scan"
       command: <<include(scripts/sonar.sh)>>
   - save_cache:
+      name: "[test_sonar] Save server cache"
       key: sonarqubeserver-{{ checksum "sonar_version.txt" }}_v<<parameters.cache_version>>
       paths: ~/.sonar
   - save_cache:
+      name: "[test_sonar] Save cli cache"
       key: sonarcli-<< parameters.sonar_version >>_v<<parameters.cache_version>>
       paths: /tmp/cache/sonar-scanner

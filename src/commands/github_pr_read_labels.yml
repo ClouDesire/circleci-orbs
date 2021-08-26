@@ -4,8 +4,8 @@ description: >
   assigned to a PR as a string with a comma as delimiter.
 steps:
   - run:
-      name: "Setup prerequisites"
+      name: "[github_pr_read_labels] Setup prerequisites"
       command: <<include(scripts/setup.sh)>>
   - run:
-      name: "Import PR labels"
+      name: "[github_pr_read_labels] Import PR labels"
       command: <<include(scripts/github_pr_read_labels.sh)>>
