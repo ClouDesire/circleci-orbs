@@ -35,10 +35,10 @@ parameters:
 steps:
   - when:
       condition:
-        equal: [ "<< parameters.repo_branch >>", "" ]
+        equal: ["<< parameters.repo_branch >>", ""]
       steps:
         - run:
-            name: Check if PR branch exists in << parameters.repo_url >>
+            name: "[maven_install_library] Check if PR branch exists in << parameters.repo_url >>"
             environment:
               REPO_URL: << parameters.repo_url >>
             command: |
@@ -61,7 +61,7 @@ steps:
       dir: << parameters.repo_dir >>
       url: << parameters.repo_url >>
   - run:
-      name: Install maven library from << parameters.repo_url >>
+      name: "[maven_install_library] Install from << parameters.repo_url >>"
       environment:
         MAVEN_COMMAND: << parameters.maven_command >>
         MAVEN_CMD_OPTS: << parameters.maven_cmd_opts >>

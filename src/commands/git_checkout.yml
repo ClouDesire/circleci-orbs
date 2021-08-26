@@ -27,13 +27,13 @@ parameters:
     type: string
 steps:
   - run:
-      name: Setup git
+      name: "[git_checkout] Setup git"
       command: <<include(scripts/git_setup.sh)>>
   - run:
-      name: "Setup prerequisites"
+      name: "[git_checkout] Setup prerequisites"
       command: <<include(scripts/setup.sh)>>
   - run:
-      name: "Download repo << parameters.url >>"
+      name: "[git_checkout] Download repo << parameters.url >>"
       environment:
         MERGE_MASTER: << parameters.merge_master >>
         REPO_BRANCH: << parameters.branch >>

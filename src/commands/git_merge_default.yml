@@ -3,11 +3,11 @@ description: >
   Align PR branch with default branch (main/master)
 steps:
   - run:
-      name: Setup git
+      name: "[git_merge_default] Setup git"
       command: <<include(scripts/git_setup.sh)>>
   - run:
-      name: "Setup prerequisites"
+      name: "[git_merge_default] Setup prerequisites"
       command: <<include(scripts/setup.sh)>>
   - run:
-      name: "Merge with default branch"
+      name: "[git_merge_default] Merge with default branch"
       command: <<include(scripts/git_merge_default.sh)>>
