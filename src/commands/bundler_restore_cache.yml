@@ -8,6 +8,7 @@ parameters:
     default: ""
 steps:
   - restore_cache:
+      name: "[bundler_restore_cache] Restore cache"
       keys:
         - bundle-cache-{{ arch }}-{{ .Branch }}-{{ checksum "<< parameters.path >>Gemfile.lock" }}
         - bundle-cache-{{ arch }}-{{ .Branch }}-

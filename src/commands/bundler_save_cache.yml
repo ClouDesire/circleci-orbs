@@ -8,6 +8,7 @@ parameters:
     default: ""
 steps:
   - save_cache:
+      name: "[bundler_save_cache] Save cache"
       paths:
         - ~/.bundle
       key: bundle-cache-{{ arch }}-{{ .Branch }}-{{ checksum "<< parameters.path >>Gemfile.lock" }}
