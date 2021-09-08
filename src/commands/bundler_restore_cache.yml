@@ -1,0 +1,14 @@
+---
+description: >
+  Restore bundler home cache using a Gemfile.lock as key
+parameters:
+  path:
+    description: Relative path to Gemfile.lock (with trailing slash)
+    type: string
+    default: ""
+steps:
+  - restore_cache:
+      keys:
+        - bundle-cache-{{ arch }}-{{ .Branch }}-{{ checksum "<< parameters.path >>Gemfile.lock" }}
+        - bundle-cache-{{ arch }}-{{ .Branch }}-
+        - bundle-cache-{{ arch }}-
