@@ -11,7 +11,7 @@ CircleCI Orb maintained by the Cloudesire development team, focusing on our stac
 
 ### Maven: install external library
 
-To install an external library from another repository, use the `maven_install_library` command. It downloads the repository and installs the library on the build VM/container. 
+To install an external library from another repository, use the `maven_install_library` command. It downloads the repository and installs the library on the build VM/container.
 Usage example:
 
 ```yaml
@@ -31,7 +31,7 @@ Usage example:
 To run and check if a container starts correctly, you can use the `docker_run_and_test` command. It runs the container and check, by default, the url http://localhost:8080/actuator/health waiting for the container to be `UP`.
 
 If the container needs some environment variables to run, add a step before the `docker_run_and_test` command to create a `docker_env_file.list` file (look at the example for more)
-Ex: 
+Ex:
 
 ```yaml
 - run:
@@ -52,7 +52,7 @@ For the full list of parameters and default values check the [command page](http
 ### Git
 #### Merge PR branch with default branch (main/master)
 
-When building a PR, the step `git_merge_default`, merges the PR branch with the default branch (main or master). 
+When building a PR, the step `git_merge_default`, merges the PR branch with the default branch (main or master).
 Usage examples:
 
 ```yaml
@@ -71,8 +71,8 @@ Usage examples:
 ### Github
 #### Inject labels as environment variables
 
-With the `github_pr_read_labels` command is possible to inject PR labels as environment variables. The command exports each label like this: 
-`GH_PR_LABEL_[LABEL VALUE]`. It capitalizes it and replaces each `-` with `_`. The command has to be used in the same job in which you want to use the environment variable. 
+With the `github_pr_read_labels` command is possible to inject PR labels as environment variables. The command exports each label like this:
+`GH_PR_LABEL_[LABEL VALUE]`. It capitalizes it and replaces each `-` with `_`. The command has to be used in the same job in which you want to use the environment variable.
 
 Example: if the label is `skip-all-test`, the command exports the `GH_PR_LABEL_SKIP_ALL_TEST` variable
 
@@ -80,7 +80,7 @@ Example: if the label is `skip-all-test`, the command exports the `GH_PR_LABEL_S
 ### Utils
 #### Create an ssh tunnel
 
-To create an SSH tunnel between the circleci executor and an external server, use the `create_ssh_tunnel` command. Example: 
+To create an SSH tunnel between the circleci executor and an external server, use the `create_ssh_tunnel` command. Example:
 
 ```yaml
 - cloudesire/create_ssh_tunnel:
