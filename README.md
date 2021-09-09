@@ -26,6 +26,21 @@ Usage example:
 ```
 
 
+### Bundler (Ruby)
+
+#### Save cache
+
+```yaml
+- bundler_save_cache:
+    path: scripts/merger/
+```
+
+#### Restore cache
+
+```yaml
+- bundler_restore_cache:
+    path: scripts/merger/
+```
 ### Docker: run and test container
 
 To run and check if a container starts correctly, you can use the `docker_run_and_test` command. It runs the container and check, by default, the url http://localhost:8080/actuator/health waiting for the container to be `UP`.
