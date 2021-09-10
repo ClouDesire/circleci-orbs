@@ -6,9 +6,13 @@ parameters:
     description: Relative path to Gemfile.lock (with trailing slash)
     type: string
     default: ""
+  cache_id:
+    description: Useful for multiple caches in different workflows
+    type: string
+    default: default
 steps:
   - save_cache:
       name: "[bundler_save_cache] Save cache"
       paths:
         - ~/.bundle
-      key: bundle-cache-{{ arch }}-{{ .Branch }}-{{ checksum "<< parameters.path >>Gemfile.lock" }}
+      key: bundler-cache-<< parameters.cache_id >>-{{ arch }}-{{ .Branch }}-{{ checksum "<< parameters.path >>Gemfile.lock" }}
