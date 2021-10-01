@@ -2,7 +2,6 @@
 
 CheckoutRepo() {
 
-
   REPO_PATH=""
   if [[ "$REPO_URL" == git@github.com* ]]; then
     REPO_PATH=${REPO_URL#"git@github.com:"} # org/repo_name
@@ -16,7 +15,7 @@ CheckoutRepo() {
 
   basename=$(basename $REPO_URL)
   REPO_NAME=${basename%.*}
-  
+
   TMP_REPO_NAME="${REPO_NAME//-/_}"
   TMP_REPO_NAME=$(echo ${TMP_REPO_NAME} | tr '[:lower:]' '[:upper:]')
 
@@ -26,7 +25,7 @@ CheckoutRepo() {
     echo "${!STOP_COMMAND_REASON}"
     exit 0
   fi
-  
+
   REPO_DEFAULT_BRANCH=$(curl -s -u $GITHUB_TOKEN:x-oauth-basic -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${REPO_PATH%".git"} | jq --raw-output '.default_branch' | tr -d '\n')
 
   if [ -z "$REPO_BRANCH" ]; then
@@ -53,14 +52,13 @@ CheckoutRepo() {
   git clone "$REPO_URL" --branch "$REPO_BRANCH" "${REPO_NAME}"
 
   echo "Adding GIT_${TMP_REPO_NAME}_DIR='${REPO_DIR}/${REPO_NAME}' to bash env"
-  
-  echo "echo IMPORTANT: usage of this file is deprecated. Please use globals.sh instead!" >> "${HOME}/cloudesire.env"
-  echo "export GIT_${TMP_REPO_NAME}_DIR='${REPO_DIR}/${REPO_NAME}'" >> "${HOME}/cloudesire.env"
-  
-  echo "export GIT_${TMP_REPO_NAME}_DIR='${REPO_DIR}/${REPO_NAME}'" >> "${HOME}/globals.sh"
-  echo "export GIT_${TMP_REPO_NAME}_DIR='${REPO_DIR}/${REPO_NAME}'" >> "${BASH_ENV}"
-  source "${BASH_ENV}"
 
+  echo "echo IMPORTANT: usage of this file is deprecated. Please use globals.sh instead!" >>"${HOME}/cloudesire.env"
+  echo "export GIT_${TMP_REPO_NAME}_DIR='${REPO_DIR}/${REPO_NAME}'" >>"${HOME}/cloudesire.env"
+
+  echo "export GIT_${TMP_REPO_NAME}_DIR='${REPO_DIR}/${REPO_NAME}'" >>"${HOME}/globals.sh"
+  echo "export GIT_${TMP_REPO_NAME}_DIR='${REPO_DIR}/${REPO_NAME}'" >>"${BASH_ENV}"
+  source "${BASH_ENV}"
 
   if [ $MERGE_MASTER -eq 1 ] || [ ! -z $MERGE_MASTER ]; then
     if [ -z $GIT_EMAIL ] || [ -z $GIT_USERNAME ]; then
@@ -69,10 +67,8 @@ CheckoutRepo() {
     fi
 
     cd "${REPO_DIR}/${REPO_NAME}"
-    set +e
-    git fetch origin "${DEFAULT_BRANCH}" 
-    git merge --no-edit "origin/${DEFAULT_BRANCH}";
-    set -e
+    git fetch origin "${REPO_DEFAULT_BRANCH}"
+    git merge --no-edit "origin/${REPO_DEFAULT_BRANCH}"
   fi
 }
 
