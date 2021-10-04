@@ -4,8 +4,8 @@ SONAR_OPTS="${SONAR_OPTS} -Dsonar.host.url=${SONAR_HOST_URL} \
 -Dsonar.password=${SONAR_PASS}"
 
 function run_sonar() {
-  if [ "$CIRCLE_BRANCH" != "master" ] && [ "$CIRCLE_BRANCH" != "main" ] && [ -z "${CI_PULL_REQUEST}" ]; then
-    echo "ERROR: not on a PR nor on master/main, please enable 'Only build pull requests' option in the CircleCI project settings page"
+  if [ "$CIRCLE_BRANCH" != "master" ] && [ "$CIRCLE_BRANCH" != "main" ] && [ -z "${CI_PULL_REQUEST}" ] && [ -z "${CIRCLE_TAG}" ]; then
+    echo "ERROR: not on a PR nor on master/main nor a tagged build, you may want to enable 'Only build pull requests' option in the CircleCI project settings page"
     exit 1
   fi
 
