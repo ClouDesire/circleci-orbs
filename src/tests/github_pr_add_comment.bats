@@ -12,7 +12,7 @@ function teardown() {
 }
 
 @test 'AddPRComment exit on branch master' {
-  export CIRCLE_TAG="0.1.0"
+  export CIRCLE_BRANCH="master"
   
   run AddPRComment
   [ "$status" -eq 0 ]
