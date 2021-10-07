@@ -20,6 +20,7 @@ Usage example:
           steps:
             - cloudesire/maven_install_library:
                 repo_url: git@github.com:my-organization/my-library.git
+                repo_branch: my_dev_branch
             - run:
                 name: Build
                 command: ./mvnw -B package
