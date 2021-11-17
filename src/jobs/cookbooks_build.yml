@@ -2,11 +2,11 @@
 description: >
   Job to setup cookbooks enviroment.
 parameters:
-  executor:
+  executor_name:
     description: optional steps to execute after the default test execution
     type: executor
     default: chefdk
-executor: << parameters.executor >>
+executor: << parameters.executor_name >>
 steps:
   - checkout
   - git_checkout:
