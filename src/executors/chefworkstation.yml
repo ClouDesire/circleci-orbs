@@ -1,0 +1,18 @@
+description: >
+  Executore with chef-workstation installed
+parameters:
+  version:
+    type: string
+    default: stable
+  resource_class:
+    type: string
+    default: small
+  chef_license:
+    type: string
+    default: accept
+docker:
+  - image: chef/chefdkworkstation:<< parameters.version >>
+resource_class: << parameters.resource_class >>
+environment:
+  CHEF_LICENSE: << parameters.chef_license >>
+  KITCHEN_LOG_OVERWRITE: "false"
