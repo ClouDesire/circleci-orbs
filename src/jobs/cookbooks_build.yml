@@ -1,7 +1,7 @@
 ---
 description: >
   Job to setup cookbooks enviroment.
-executor: chefdk
+executor: chefworkstation
 steps:
   - checkout
   - git_checkout:

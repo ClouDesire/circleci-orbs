@@ -20,7 +20,7 @@ parameters:
     type: string
     default: ""
 executor:
-  name: chefdk
+  name: chefworkstation
 steps:
   - checkout
   - git_checkout:
