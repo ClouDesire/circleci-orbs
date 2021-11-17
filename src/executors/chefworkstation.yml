@@ -11,7 +11,7 @@ parameters:
     type: string
     default: accept
 docker:
-  - image: chef/chefdkworkstation:<< parameters.version >>
+  - image: chef/chefworkstation:<< parameters.version >>
 resource_class: << parameters.resource_class >>
 environment:
   CHEF_LICENSE: << parameters.chef_license >>
