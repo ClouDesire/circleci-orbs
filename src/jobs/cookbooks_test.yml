@@ -6,6 +6,10 @@ parameters:
     description: optional steps to execute after the default test execution
     type: steps
     default: []
+  executor_name:
+    description: executor name
+    type: string
+    default: chefdk
   suites:
     type: string
     default: ""
@@ -20,7 +24,7 @@ parameters:
     type: string
     default: ""
 executor:
-  name: chefworkstation
+  name: << parameters.executor_name >>
 steps:
   - checkout
   - git_checkout:
