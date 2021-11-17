@@ -6,10 +6,6 @@ parameters:
     description: optional steps to execute after the default test execution
     type: steps
     default: []
-  executor_name:
-    description: executor name
-    type: string
-    default: chefdk
   suites:
     type: string
     default: ""
@@ -23,8 +19,11 @@ parameters:
     description: list of kitchen suites (divided by a comma) to converge after the first converge
     type: string
     default: ""
-executor:
-  name: << parameters.executor_name >>
+  executor:
+    description: executor name
+    type: executor
+    default: chefdk
+executor: << parameters.executor >>
 steps:
   - checkout
   - git_checkout:

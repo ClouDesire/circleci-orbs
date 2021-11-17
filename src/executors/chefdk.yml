@@ -1,5 +1,5 @@
 description: >
-  Executore with chefDK installed
+  Executor with chefDK installed
 parameters:
   version:
     type: string
