@@ -1,5 +1,5 @@
 description: >
-  Executore with chef-workstation installed
+  Executor with chef-workstation installed
 parameters:
   version:
     type: string
