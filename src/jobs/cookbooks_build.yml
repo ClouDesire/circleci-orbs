@@ -5,7 +5,7 @@ parameters:
   executor_name:
     description: optional steps to execute after the default test execution
     type: executor
-    default: chefdk
+    default: chefworkstation
 executor: << parameters.executor_name >>
 steps:
   - checkout
