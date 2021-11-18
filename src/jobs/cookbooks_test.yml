@@ -19,11 +19,11 @@ parameters:
     description: list of kitchen suites (divided by a comma) to converge after the first converge
     type: string
     default: ""
-  executor_name:
+  executor:
     description: executor name
     type: executor
-    default: chefworkstation
-executor: << parameters.executor_name >>
+    default: chef_workstation
+executor: << parameters.executor >>
 steps:
   - checkout
   - git_checkout:
