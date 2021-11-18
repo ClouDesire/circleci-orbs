@@ -22,7 +22,7 @@ parameters:
   executor:
     description: executor name
     type: executor
-    default: chef_workstation
+    default: chefdk
 executor: << parameters.executor >>
 steps:
   - checkout
