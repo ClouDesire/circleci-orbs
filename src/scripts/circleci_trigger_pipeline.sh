@@ -29,12 +29,14 @@ else
   json_data='{ "parameters": '${PARAMETERS}', "branch": "'${BRANCH}'"}'
 fi
 
+PIPELINE_API_URL="https://circleci.com/api/v2/project/gh/${ORG}/${PROJECT_NAME}/pipeline"
+
 echo "Trigger info: "
 echo ">> Org: ${ORG}"
 echo ">> Project: ${PROJECT_NAME}"
 echo ">> Branch: ${BRANCH}"
 echo ">> Parameters: ${PARAMETERS}"
-echo ">> Url: https://circleci.com/api/v2/project/gh/${ORG}/${PROJECT_NAME}/pipeline?circle-token=${CIRCLECI_TOKEN}"
+echo ">> Url: ${PIPELINE_API_URL}"
 echo -e "\n"
 
 PIPELINE_ID=$(curl \
@@ -42,7 +44,7 @@ PIPELINE_ID=$(curl \
   --header "Circle-Token: ${CIRCLECI_TOKEN}" \
   --data "${json_data}" \
   --request POST \
-  "https://circleci.com/api/v2/project/gh/${ORG}/${PROJECT_NAME}/pipeline" | jq --raw-output '.id')
+  "${PIPELINE_API_URL}" | jq --raw-output '.id')
 
 if [ -z "${PIPELINE_ID}" ]; then
   echo "Something went wrong triggering ${PROJECT_NAME} pipeline"
