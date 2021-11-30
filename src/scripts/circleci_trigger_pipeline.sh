@@ -51,8 +51,8 @@ cat "${CIRCLE_RESPONSE_OUTPUT_PATH}"
 PIPELINE_NUMBER=$(jq --raw-output '.number // empty' "${CIRCLE_RESPONSE_OUTPUT_PATH}")
 
 if [ -z "${PIPELINE_NUMBER}" ]; then
-  echo "Something went wrong triggering ${PROJECT_NAME} pipeline"
+  echo -e "\nSomething went wrong triggering ${PROJECT_NAME} pipeline"
   exit 1
 else
-  echo "Triggered ${PROJECT_NAME} pipeline ${PIPELINE_NUMBER}"
+  echo -e "\nTriggered ${PROJECT_NAME} pipeline ${PIPELINE_NUMBER}"
 fi
