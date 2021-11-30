@@ -39,16 +39,16 @@ echo ">> Parameters: ${PARAMETERS}"
 echo ">> Url: ${PIPELINE_API_URL}"
 echo -e "\n"
 
-PIPELINE_ID=$(curl \
+PIPELINE_NUMBER=$(curl \
   --header "Content-Type: application/json" \
   --header "Circle-Token: ${CIRCLECI_TOKEN}" \
   --data "${json_data}" \
   --request POST \
-  "${PIPELINE_API_URL}" | jq --raw-output '.id')
+  "${PIPELINE_API_URL}" | jq --raw-output '.number')
 
-if [ -z "${PIPELINE_ID}" ]; then
+if [ -z "${PIPELINE_NUMBER}" ]; then
   echo "Something went wrong triggering ${PROJECT_NAME} pipeline"
   exit 1
+else
+  echo "Triggered ${PROJECT_NAME} pipeline ${PIPELINE_NUMBER}"
 fi
-
-
