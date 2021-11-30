@@ -30,6 +30,7 @@ else
 fi
 
 PIPELINE_API_URL="https://circleci.com/api/v2/project/gh/${ORG}/${PROJECT_NAME}/pipeline"
+CIRCLE_RESPONSE_OUTPUT_PATH="circleci_trigger_response.json"
 
 echo "Trigger info: "
 echo ">> Org: ${ORG}"
@@ -39,12 +40,15 @@ echo ">> Parameters: ${PARAMETERS}"
 echo ">> Url: ${PIPELINE_API_URL}"
 echo -e "\n"
 
-PIPELINE_NUMBER=$(curl \
+curl \
   --header "Content-Type: application/json" \
   --header "Circle-Token: ${CIRCLECI_TOKEN}" \
   --data "${json_data}" \
   --request POST \
-  "${PIPELINE_API_URL}" | jq --raw-output '.number')
+  "${PIPELINE_API_URL}" -o "${CIRCLE_RESPONSE_OUTPUT_PATH}"
+
+cat "${CIRCLE_RESPONSE_OUTPUT_PATH}"
+PIPELINE_NUMBER=$(jq .number "${CIRCLE_RESPONSE_OUTPUT_PATH}")
 
 if [ -z "${PIPELINE_NUMBER}" ]; then
   echo "Something went wrong triggering ${PROJECT_NAME} pipeline"
