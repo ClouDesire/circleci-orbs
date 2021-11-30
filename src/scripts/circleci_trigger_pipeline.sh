@@ -30,7 +30,7 @@ else
 fi
 
 PIPELINE_API_URL="https://circleci.com/api/v2/project/gh/${ORG}/${PROJECT_NAME}/pipeline"
-CIRCLE_RESPONSE_OUTPUT_PATH="circleci_trigger_response.json"
+CIRCLE_RESPONSE_OUTPUT_PATH="circleci_trigger_response_${PROJECT_NAME}.json"
 
 echo "Trigger info: "
 echo ">> Org: ${ORG}"
