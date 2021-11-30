@@ -48,7 +48,7 @@ curl \
   "${PIPELINE_API_URL}" -o "${CIRCLE_RESPONSE_OUTPUT_PATH}"
 
 cat "${CIRCLE_RESPONSE_OUTPUT_PATH}"
-PIPELINE_NUMBER=$(jq --raw-output .number "${CIRCLE_RESPONSE_OUTPUT_PATH}")
+PIPELINE_NUMBER=$(jq --raw-output '.number // empty' "${CIRCLE_RESPONSE_OUTPUT_PATH}")
 
 if [ -z "${PIPELINE_NUMBER}" ]; then
   echo "Something went wrong triggering ${PROJECT_NAME} pipeline"
