@@ -12,11 +12,11 @@ if [ -z "${ORG}" ]; then
   exit 1
 fi
 
-if [ -z $BRANCH ] || [ "${BRANCH}" == "" ]; then
+if [ -z "$BRANCH" ] || [ "${BRANCH}" == "" ]; then
   REPO_URL="git@github.com:${ORG}/${PROJECT_NAME}.git"
-  if git ls-remote -h $REPO_URL | grep -q "${CIRCLE_BRANCH}"; then
+  if git ls-remote -h "$REPO_URL" | grep -q "${CIRCLE_BRANCH}"; then
     BRANCH="${CIRCLE_BRANCH}"
-  elif git ls-remote -h $REPO_URL | grep -q "refs/heads/main"; then
+  elif git ls-remote -h "$REPO_URL" | grep -q "refs/heads/main"; then
     BRANCH="main"
   else
     BRANCH="master"
@@ -40,6 +40,7 @@ echo -e "\n"
 
 curl \
   --header "Content-Type: application/json" \
+  --header "Circle-Token: ${CIRCLECI_TOKEN}" \
   --data "${json_data}" \
   --request POST \
-  https://circleci.com/api/v2/project/gh/${ORG}/${PROJECT_NAME}/pipeline?circle-token="${CIRCLECI_TOKEN}"
+  "https://circleci.com/api/v2/project/gh/${ORG}/${PROJECT_NAME}/pipeline"
