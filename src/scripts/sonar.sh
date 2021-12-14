@@ -31,6 +31,7 @@ function run_sonar() {
 }
 
 function detect_maven() {
+  # https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-maven/
   if [ "${SONAR_MVN_VERSION}" = "latest" ]; then
     SONAR_MVN_COMMAND="sonar:sonar"
   else
