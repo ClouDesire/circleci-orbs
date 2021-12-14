@@ -7,9 +7,6 @@ parameters:
   sonar_version:
     type: string
     default: "4.2.0.1873"
-  sonar_mvn_version:
-    type: string
-    default: "3.7.0.1746"
   sonar_dir:
     type: string
     default: "/tmp/cache/sonar-scanner"
@@ -35,7 +32,6 @@ steps:
       environment:
         PROJECT_DIR: << parameters.project_dir >>
         SONAR_VERSION: <<parameters.sonar_version>>
-        SONAR_MVN_VERSION: <<parameters.sonar_mvn_version>>
         SONAR_DIR: << parameters.sonar_dir >>
         SONAR_OPTS: << parameters.sonar_opts >>
       name: "[test_sonar] Execute scan"
