@@ -6,19 +6,20 @@ else
     SUDO=
 fi
 
-echo ">> Download and install chef-dk if needed"
+echo ">> Download and install chef-workstation if needed"
 set +e
 hash chef &>/dev/null
 RET=$?
 set -e
 if [ ${RET} -eq 1 ]; then
-    CHEF_URL=${CHEF_URL:-https://packages.chef.io/files/stable/chefdk/1.6.11/ubuntu/14.04/chefdk_1.6.11-1_amd64.deb}
+    UBUNTU_VERSION=$(lsb_release -r -s)
+    CHEF_URL=${CHEF_URL:-https://packages.chef.io/files/stable/chef-workstation/21.11.679/ubuntu/${UBUNTU_VERSION}/chef-workstation_21.11.679-1_amd64.deb}
     mkdir -p ~/downloads
     wget -P ~/downloads -c -nv "$CHEF_URL"
-    $SUDO dpkg -i ~/downloads/chefdk_*_amd64.deb
+    $SUDO dpkg -i ~/downloads/chef-workstation_*_amd64.deb
 fi
 
-echo ">> Common requirements (especially for chef/chefdk docker image)"
+echo ">> Common requirements (especially for chef/chefworkstation docker image)"
 $SUDO sed -i 's/archive.ubuntu.com/us.archive.ubuntu.com/g' /etc/apt/sources.list
 $SUDO apt-get update -q
 $SUDO apt-get install -qy build-essential libffi-dev git
