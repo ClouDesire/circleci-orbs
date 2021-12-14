@@ -31,7 +31,7 @@ function run_sonar() {
 }
 
 function detect_maven() {
-  if [ "${SONAR_MVN_VERSION}" == "latest" ]; then
+  if [ "${SONAR_MVN_VERSION}" = "latest" ]; then
     SONAR_MVN_COMMAND="sonar:sonar"
   else
     SONAR_MVN_COMMAND="org.sonarsource.scanner.maven:sonar-maven-plugin:$SONAR_MVN_VERSION:sonar"
