@@ -31,7 +31,12 @@ function run_sonar() {
 }
 
 function detect_maven() {
-  SONAR_MVN_COMMAND="org.sonarsource.scanner.maven:sonar-maven-plugin:$SONAR_MVN_VERSION:sonar"
+  # https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-maven/
+  if [ "${SONAR_MVN_VERSION}" = "latest" ]; then
+    SONAR_MVN_COMMAND="sonar:sonar"
+  else
+    SONAR_MVN_COMMAND="org.sonarsource.scanner.maven:sonar-maven-plugin:$SONAR_MVN_VERSION:sonar"
+  fi
 
   if [[ -x "./mvnw" ]]; then
     SONAR_BIN="./mvnw $SONAR_MVN_COMMAND"

@@ -9,7 +9,7 @@ parameters:
     default: "4.2.0.1873"
   sonar_mvn_version:
     type: string
-    default: "3.7.0.1746"
+    default: "latest"
   sonar_dir:
     type: string
     default: "/tmp/cache/sonar-scanner"
