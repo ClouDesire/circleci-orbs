@@ -27,7 +27,7 @@ parameters:
     description: executor resource class
     type: string
     default: small
-executor: 
+executor:
   name: << parameters.executor >>
   resource_class: << parameters.executor_resource_class >>
 steps:
