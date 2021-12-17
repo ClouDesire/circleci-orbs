@@ -4,7 +4,7 @@ description: >
 parameters:
   executor:
     description: executor name
-    type: executor
+    type: string
     default: chef_workstation
   executor_resource_class:
     description: executor resource class
