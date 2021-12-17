@@ -23,7 +23,13 @@ parameters:
     description: executor name
     type: executor
     default: chef_workstation
-executor: << parameters.executor >>
+  executor_resource_class:
+    description: executor resource class
+    type: string
+    default: small
+executor: 
+  name: << parameters.executor >>
+  resource_class: << parameters.executor_resource_class >>
 steps:
   - checkout
   - git_checkout:
