@@ -4,15 +4,23 @@ SONAR_OPTS="${SONAR_OPTS} -Dsonar.host.url=${SONAR_HOST_URL} \
 -Dsonar.password=${SONAR_PASS}"
 
 function run_sonar() {
-  if [ "$CIRCLE_BRANCH" != "master" ] && [ "$CIRCLE_BRANCH" != "main" ] && [ -z "${CIRCLE_PULL_REQUEST}" ] && [ -z "${CIRCLE_TAG}" ]; then
+  export PULL_REQUEST=""
+
+  if [ -n "${CI_PULL_REQUEST}" ]; then
+    export PULL_REQUEST="${CI_PULL_REQUEST}"
+  elif [ -n "${CIRCLE_PULL_REQUEST}" ]; then
+    export PULL_REQUEST="${CIRCLE_PULL_REQUEST}"
+  fi
+  
+  if [ "$CIRCLE_BRANCH" != "master" ] && [ "$CIRCLE_BRANCH" != "main" ] && [ -z "${PULL_REQUEST}" ] && [ -z "${CIRCLE_TAG}" ]; then
     echo "ERROR: not on a PR nor on master/main nor a tagged build, you may want to enable 'Only build pull requests' option in the CircleCI project settings page"
     exit 1
   fi
 
   detect_maven
-
-  if [ -n "${CIRCLE_PULL_REQUEST}" ]; then
-    PR_NUMBER=${CIRCLE_PULL_REQUEST##*/}
+  
+  if [ -n "${PULL_REQUEST}" ]; then
+    PR_NUMBER=${PULL_REQUEST##*/}
     PROJECT_NAME="${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}"
     GIT_BASE_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
 
