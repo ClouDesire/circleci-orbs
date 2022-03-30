@@ -4,8 +4,9 @@ parameters:
     type: string
     default: ""
   concurrency:
-    type: boolean
-    default: true
+    description: number of parallel runs, a value of -1 runs all the suites in parallel
+    type: integer
+    default: -1
   converge_number:
     type: integer
     default: 1
