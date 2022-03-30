@@ -121,7 +121,6 @@ workflows:
     jobs:
       - orb-tools/dev-promote-prod-from-commit-subject:
           orb-name: cloudesire/common
-          context: common-circleci
           add-pr-comment: false
           fail-if-semver-not-indicated: true
           publish-version-tag: true
