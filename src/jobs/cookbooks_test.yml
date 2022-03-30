@@ -10,8 +10,8 @@ parameters:
     type: string
     default: ""
   concurrency:
-    type: boolean
-    default: true
+    type: integer
+    default: -1
   converge_number:
     type: integer
     default: 1
