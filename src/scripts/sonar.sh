@@ -27,11 +27,11 @@ function run_sonar() {
 
     SONAR_OPTS="$SONAR_OPTS -Dsonar.pullrequest.key=${PR_NUMBER} \
     -Dsonar.pullrequest.branch=${CIRCLE_BRANCH} \
-    -Dsonar.pullrequest.base=${GIT_BASE_BRANCH}"
+    -Dsonar.pullrequest.base=${GIT_BASE_BRANCH} \
+    -Dsonar.pullrequest.github.summary_comment=true"
   fi
   
-  PROJECT_NAME="${CIRCLE_PROJECT_USERNAME}_${CIRCLE_PROJECT_REPONAME}"
-  SONAR_OPTS="$SONAR_OPTS -Dsonar.projectKey=${PROJECT_NAME}"
+  SONAR_OPTS="$SONAR_OPTS -Dsonar.projectKey=${CIRCLE_PROJECT_REPONAME}"
   
   # Run
   echo "Running sonar-scanner"
