@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-SONAR_OPTS="${SONAR_OPTS} -Dsonar.host.url=${SONAR_HOST_URL} \
--Dsonar.login=${SONAR_USERNAME} \
--Dsonar.password=${SONAR_PASS}"
+SONAR_OPTS="${SONAR_OPTS} -Dsonar.host.url=${SONAR_HOST_URL}"
 
 function run_sonar() {
   export PULL_REQUEST=""
@@ -21,7 +19,7 @@ function run_sonar() {
   
   if [ -n "${PULL_REQUEST}" ]; then
     PR_NUMBER=${PULL_REQUEST##*/}
-    PROJECT_NAME="${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}"
+    
     GIT_BASE_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
 
     echo ">> Configuring sonar for PR $PR_NUMBER"
@@ -31,7 +29,10 @@ function run_sonar() {
     -Dsonar.pullrequest.branch=${CIRCLE_BRANCH} \
     -Dsonar.pullrequest.base=${GIT_BASE_BRANCH}"
   fi
-
+  
+  PROJECT_NAME="${CIRCLE_PROJECT_USERNAME}_${CIRCLE_PROJECT_REPONAME}"
+  SONAR_OPTS="$SONAR_OPTS -Dsonar.projectKey=${PROJECT_NAME}"
+  
   # Run
   echo "Running sonar-scanner"
   echo "SONAR_OPTS: ${SONAR_OPTS}"
