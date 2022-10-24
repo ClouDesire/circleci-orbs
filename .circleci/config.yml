@@ -22,7 +22,7 @@ parameters:
       with the specific version created by the commit and should not be edited.
       A "dev:alpha" version must exist for the initial pipeline run.
     type: string
-    default: "1.0.0"
+    default: "dev:alpha"
 
 jobs:
   add-pr-comment:
