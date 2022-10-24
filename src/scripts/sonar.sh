@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-SONAR_OPTS="${SONAR_OPTS} -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.organization=${CIRCLE_PROJECT_USERNAME,,} -Dsonar.login=${SONAR_TOKEN}"
+SONAR_OPTS="${SONAR_OPTS} -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.organization=${CIRCLE_PROJECT_USERNAME,,}"
 
 function run_sonar() {
   export PULL_REQUEST=""
