@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-SONAR_OPTS="${SONAR_OPTS} -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.organization=${CIRCLE_PROJECT_USERNAME,,}"
+
+PROJECT_NAME="${CIRCLE_PROJECT_USERNAME}_${CIRCLE_PROJECT_REPONAME}"
+SONAR_OPTS="${SONAR_OPTS} -Dsonar.projectKey=${PROJECT_NAME}"
 
 function run_sonar() {
   export PULL_REQUEST=""
@@ -30,10 +32,7 @@ function run_sonar() {
     -Dsonar.pullrequest.base=${GIT_BASE_BRANCH} \
     -Dsonar.pullrequest.github.summary_comment=true"
   fi
-  
-  PROJECT_NAME="${CIRCLE_PROJECT_USERNAME}_${CIRCLE_PROJECT_REPONAME}"
-  SONAR_OPTS="$SONAR_OPTS -Dsonar.projectKey=${PROJECT_NAME}"
-  
+    
   # Run
   echo "Running sonar-scanner"
   echo "SONAR_OPTS: ${SONAR_OPTS}"
@@ -59,7 +58,7 @@ function detect_maven() {
   fi
 
   echo ">> Maven not detected, running standalone sonar-scanner"
-  SONAR_OPTS="${SONAR_OPTS} -Dsonar.projectKey=${CIRCLE_PROJECT_REPONAME}"
+  SONAR_OPTS="${SONAR_OPTS} -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.organization=${CIRCLE_PROJECT_USERNAME,,}"
   if [[ "${SONAR_OPTS}" != *"-Dsonar.sources"* ]]; then
     echo "ERROR: '-Dsonar.sources' must be set in SONAR_OPTS when running standalone"
     exit 3
