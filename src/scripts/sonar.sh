@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-SONAR_OPTS="${SONAR_OPTS} -Dsonar.host.url=${SONAR_HOST_URL} \
--Dsonar.login=${SONAR_USERNAME} \
--Dsonar.password=${SONAR_PASS}"
+
+PROJECT_NAME="${CIRCLE_PROJECT_USERNAME}_${CIRCLE_PROJECT_REPONAME}"
+SONAR_OPTS="${SONAR_OPTS} -Dsonar.projectKey=${PROJECT_NAME}"
 
 function run_sonar() {
   export PULL_REQUEST=""
@@ -21,7 +21,7 @@ function run_sonar() {
   
   if [ -n "${PULL_REQUEST}" ]; then
     PR_NUMBER=${PULL_REQUEST##*/}
-    PROJECT_NAME="${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}"
+    
     GIT_BASE_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
 
     echo ">> Configuring sonar for PR $PR_NUMBER"
@@ -29,9 +29,10 @@ function run_sonar() {
 
     SONAR_OPTS="$SONAR_OPTS -Dsonar.pullrequest.key=${PR_NUMBER} \
     -Dsonar.pullrequest.branch=${CIRCLE_BRANCH} \
-    -Dsonar.pullrequest.base=${GIT_BASE_BRANCH}"
+    -Dsonar.pullrequest.base=${GIT_BASE_BRANCH} \
+    -Dsonar.pullrequest.github.summary_comment=true"
   fi
-
+    
   # Run
   echo "Running sonar-scanner"
   echo "SONAR_OPTS: ${SONAR_OPTS}"
@@ -57,7 +58,7 @@ function detect_maven() {
   fi
 
   echo ">> Maven not detected, running standalone sonar-scanner"
-  SONAR_OPTS="${SONAR_OPTS} -Dsonar.projectKey=${CIRCLE_PROJECT_REPONAME}"
+  SONAR_OPTS="${SONAR_OPTS} -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.organization=${CIRCLE_PROJECT_USERNAME,,}"
   if [[ "${SONAR_OPTS}" != *"-Dsonar.sources"* ]]; then
     echo "ERROR: '-Dsonar.sources' must be set in SONAR_OPTS when running standalone"
     exit 3
