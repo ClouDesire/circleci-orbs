@@ -6,6 +6,15 @@ parameters:
     description: Wheter to preemptively download all dependencies
     type: boolean
     default: true
+  executor_java_version:
+    type: string
+    default: "8.0"
+  executor_resource_class:
+    type: string
+    default: small
+  executor_jvm_max_mem_allocation:
+    type: string
+    default: 2048m
   mvn_path:
     description: Specify a custom path to maven
     type: string
@@ -32,6 +41,9 @@ parameters:
     default: "."
 executor:
   name: docker_java
+  java_version: << parameters.executor_java_version >>
+  resource_class: << paramters.executor_resource_class >>
+  jvm_max_mem_allocation: << parameters.executor_jvm_max_mem_allocation >>
 steps:
   - attach_workspace:
       at: << parameters.workspace >>
