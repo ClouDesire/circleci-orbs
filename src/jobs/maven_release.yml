@@ -42,7 +42,7 @@ parameters:
 executor:
   name: docker_java
   java_version: << parameters.executor_java_version >>
-  resource_class: << paramters.executor_resource_class >>
+  resource_class: << parameters.executor_resource_class >>
   jvm_max_mem_allocation: << parameters.executor_jvm_max_mem_allocation >>
 steps:
   - attach_workspace:
