@@ -11,5 +11,7 @@ steps:
       command: |
         mkdir -p ~/test_results/<< parameters.maven_plugin >>/
         find . -type f -regex ".*/target/<< parameters.maven_plugin >>-reports/.*xml" -exec cp {} ~/test_results/<< parameters.maven_plugin >>/ \;
+  - store_artifacts:
+      path: ~/test_results
   - store_test_results:
-      path: ~/test_results/
+      path: ~/test_results
