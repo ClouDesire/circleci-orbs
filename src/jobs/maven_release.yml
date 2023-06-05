@@ -63,14 +63,15 @@ steps:
             environment:
               MVN_PATH: "<< parameters.mvn_path >>"
             command: |
-              RELEASE_VERSION=$(${MVN_PATH} help:evaluate -Dexpression=project.version -q -DforceStdout)
+              RESULT=$(${MVN_PATH} help:evaluate -Dexpression=project.version -q -DforceStdout)
 
               if [ $? -eq 1 ]; then
                 echo -e "ERROR!\n"
-                echo $RELEASE_VERSION
+                echo $RESULT
                 exit 1
               end
 
+              RELEASE_VERSION="${RESULT}"
               if [[ "${RELEASE_VERSION}" == *"-SNAPSHOT"* ]]; then
                 echo "Ready to merge PR. Current version: ${RELEASE_VERSION}"
                 circleci-agent step halt
