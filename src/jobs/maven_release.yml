@@ -69,7 +69,7 @@ steps:
                 echo -e "ERROR!\n"
                 echo $RESULT
                 exit 1
-              end
+              fi
 
               RELEASE_VERSION="${RESULT}"
               if [[ "${RELEASE_VERSION}" == *"-SNAPSHOT"* ]]; then
