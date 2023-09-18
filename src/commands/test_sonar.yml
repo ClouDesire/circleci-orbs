@@ -6,7 +6,7 @@ parameters:
     default: "."
   sonar_version:
     type: string
-    default: "4.7.0.2747"
+    default: "5.0.1.3006"
   sonar_mvn_version:
     type: string
     default: "latest"
