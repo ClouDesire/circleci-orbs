@@ -15,22 +15,20 @@ steps:
         mkdir -p ~/test_results/<< parameters.maven_plugin >>/
         find . -type f -regex ".*/target/<< parameters.maven_plugin >>-reports/.*xml" -exec cp {} ~/test_results/<< parameters.maven_plugin >>/ \;
 
-  - run:
-      name: "[maven_aggregate_tests_results] Install XML transformer"
-      when:
-        condition: << parameters.fix_flaky_reporting >>
-      command: sudo apt install xmlstarlet
-
-  - run:
-      name: "[maven_aggregate_tests_results] Correct formatting of test results"
-      when:
-        condition: << parameters.fix_flaky_reporting >>
-      command: |
-        xmlstarlet ed --inplace \
-        -d '//testsuite/testcase/flakyFailure' \
-        -d '//testsuite/testcase/rerunFailure' \
-        -d '//testsuite/testcase/flakyError' \
-        ~/test_results/<< parameters.maven_plugin >>/*.xml
+  - when:
+      condition: << parameters.fix_flaky_reporting >>
+      steps:
+        - run:
+            name: "[maven_aggregate_tests_results] Install XML transformer"
+            command: sudo apt install xmlstarlet
+        - run:
+            name: "[maven_aggregate_tests_results] Correct formatting of test results"
+            command: |
+              xmlstarlet ed --inplace \
+              -d '//testsuite/testcase/flakyFailure' \
+              -d '//testsuite/testcase/rerunFailure' \
+              -d '//testsuite/testcase/flakyError' \
+              ~/test_results/<< parameters.maven_plugin >>/*.xml
 
   - store_test_results:
       path: ~/test_results
