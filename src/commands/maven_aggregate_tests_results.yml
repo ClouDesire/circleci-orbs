@@ -20,9 +20,11 @@ steps:
       steps:
         - run:
             name: "[maven_aggregate_tests_results] Install XML transformer"
+            when: always
             command: sudo apt install xmlstarlet
         - run:
             name: "[maven_aggregate_tests_results] Correct formatting of test results"
+            when: always
             command: |
               xmlstarlet ed --inplace \
               -d '//testsuite/testcase/flakyFailure' \
