@@ -1,6 +1,9 @@
 ---
 description: Aggregates tests results in a multi-module maven project and store for the build.
 parameters:
+  fix_flaky_reporting:
+    type: boolean
+    default: false
   maven_plugin:
     type: string
     default: surefire
@@ -11,5 +14,23 @@ steps:
       command: |
         mkdir -p ~/test_results/<< parameters.maven_plugin >>/
         find . -type f -regex ".*/target/<< parameters.maven_plugin >>-reports/.*xml" -exec cp {} ~/test_results/<< parameters.maven_plugin >>/ \;
+
+  - when:
+      condition: << parameters.fix_flaky_reporting >>
+      steps:
+        - run:
+            name: "[maven_aggregate_tests_results] Install XML transformer"
+            when: always
+            command: sudo apt install xmlstarlet
+        - run:
+            name: "[maven_aggregate_tests_results] Correct formatting of test results"
+            when: always
+            command: |
+              xmlstarlet ed --inplace \
+              -d '//testsuite/testcase/flakyFailure' \
+              -d '//testsuite/testcase/rerunFailure' \
+              -d '//testsuite/testcase/flakyError' \
+              ~/test_results/<< parameters.maven_plugin >>/*.xml
+
   - store_test_results:
       path: ~/test_results
