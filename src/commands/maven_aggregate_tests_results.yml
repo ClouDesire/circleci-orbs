@@ -30,7 +30,8 @@ steps:
               -d '//testsuite/testcase/flakyFailure' \
               -d '//testsuite/testcase/rerunFailure' \
               -d '//testsuite/testcase/flakyError' \
-              ~/test_results/<< parameters.maven_plugin >>/*.xml
+              -d '//testsuite/testcase/rerunError' \
+              ~/test_results/<< parameters.maven_plugin >>/TEST-*.xml
 
   - store_test_results:
       path: ~/test_results
