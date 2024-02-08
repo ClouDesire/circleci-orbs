@@ -5,11 +5,11 @@ YarnRelease() {
   cd "$PROJECT_DIR"
 
   echo "Setting up .npmrc"
+  npm config set "@cloudesire:registry" "$NPM_REGISTRY"
+  
   NPM_REGISTRY_HOSTNAME="${NPM_REGISTRY##*://}"
   NPM_REGISTRY_HOSTNAME="${NPM_REGISTRY_HOSTNAME%'/'}"
-
-  npm config set "@cloudesire:registry" "$NPM_REGISTRY_HOSTNAME"
-  npm config set //$NPM_REGISTRY_HOSTNAME/repository/cloudesire-npm/:_authToken=$NPM_TOKEN
+  npm config set //$NPM_REGISTRY_HOSTNAME/:_authToken=$NPM_TOKEN
   
   echo "Releasing $RELEASE_VERSION"
   npm publish --registry $NPM_REGISTRY
