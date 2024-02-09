@@ -15,7 +15,7 @@ parameters:
     type: string
     default: "."
 docker:
-  - image: cimg/node:8.17
+  - image: cimg/node:18.12.1
 steps:
   - attach_workspace:
       at: << parameters.workspace >>
