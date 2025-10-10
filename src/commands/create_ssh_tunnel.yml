@@ -14,6 +14,9 @@ parameters:
   jump_host_user:
     type: string
     default: ubuntu
+  jump_host_port:
+    type: integer
+    default: 22
   to_host:
     type: string
   to_port:
@@ -28,4 +31,4 @@ steps:
         -o "ExitOnForwardFailure=yes" \
         -N \
         -L << parameters.from_host >>:<< parameters.from_port >>:<< parameters.to_host >>:<< parameters.to_port >> \
-        << parameters.jump_host_user >>@<< parameters.jump_host >>
+        << parameters.jump_host_user >>@<< parameters.jump_host >> -p << parameters.jump_host_port >>
