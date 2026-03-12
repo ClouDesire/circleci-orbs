@@ -21,7 +21,9 @@ steps:
         - run:
             name: "[maven_aggregate_tests_results] Install XML transformer"
             when: always
-            command: sudo apt install xmlstarlet
+            command: |
+              sudo apt-get update
+              sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends xmlstarlet
         - run:
             name: "[maven_aggregate_tests_results] Correct formatting of test results"
             when: always
